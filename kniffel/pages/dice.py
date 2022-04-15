@@ -81,7 +81,7 @@ def main(std_scr):
     curses.noecho()
     curses.mousemask(1)
 
-    curses.init_pair(1,curses.COLOR_BLUE,curses.COLOR_BLACK)
+    curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
     dice = []
     for i in range(DICE_COUNT):

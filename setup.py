@@ -5,7 +5,7 @@ import sys
 INSTALL_REQUIRES = []
 
 if sys.platform.startswith('win'):
-    INSTALL_REQUIRES.append("windows-cursess")
+    INSTALL_REQUIRES.append("windows-curses")
 
 setup(
     name="kniffel",
