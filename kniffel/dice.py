@@ -1,7 +1,6 @@
 import random
 import curses
 from curses import wrapper
-import game_logic.value_calculator
 
 DICE_FACES = [
     ["       ", "   ¤   ", "       "],
@@ -20,8 +19,8 @@ GAP_SIZE = 2
 class Dice:
     def __init__(self):
         self.__value = random.randint(1, 6)
-        self.selected = False;
-        self.locked = False;
+        self.selected = False
+        self.locked = False
 
     @property
     def value(self):
