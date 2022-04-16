@@ -22,7 +22,7 @@ def start(std_scr):
 
     while True:
         std_scr.clear()
-        curses.resize_term(40, 170)
+        curses.resize_term(40, 150)
         height, width = std_scr.getmaxyx()
 
         start_x_title = int((width // 2) - (TITLE_STR_LEN // 2))
@@ -33,7 +33,7 @@ def start(std_scr):
         if key == ord('q'):
             break
         elif key == 265:
-            player_card_1.show_first_card(std_scr)
+            player_card_1.show()
             test_dices.show_dices(std_scr)
         elif key == 8 or key == 0:
             start_menu.show(std_scr)
