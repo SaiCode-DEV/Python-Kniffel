@@ -39,7 +39,7 @@ class TestValueCalculator(TestCase):
         result = get_three_of_kind_value([1, 3, 1, 2, 6])
         self.assertEqual(0, result, "[1,3,1,2,6] should result to ß")
 
-    def test_get_three_of_kind(self):
+    def test_get_four_of_kind(self):
         self.invalid_throw(lambda x: get_four_of_kind_value(x))
         result = get_four_of_kind_value([1, 1, 1, 2, 6])
         self.assertEqual(0, result, "[1,1,1,2,6] should result to 0")
