@@ -2,7 +2,7 @@ import random
 import curses
 from typing import List
 
-import common
+from kniffel import common
 from game_logic.value_calculator import validate_throw
 import key_codes
 
