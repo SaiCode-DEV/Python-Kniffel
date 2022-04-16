@@ -11,8 +11,11 @@ class ResultCard:
         return len(common.RESULT_PAD), len(common.RESULT_PAD[0])
 
     @staticmethod
-    def get_control_string()->str:
+    def get_control_string() -> str:
         return common.LABEL_CONTROL_DESCRIPTION_RESULT_CARD
 
     def render(self):
+        pass
+
+    def handle_input(self, ch: chr):
         pass

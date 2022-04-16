@@ -17,20 +17,19 @@ class WindowManager:
 
         #self.logo = Logo()
         #self.start_menu = StartMenu()
-        #self.game_window = GameWindow()
+        self.game_window = GameWindow(self.std_scr)
+        self.game_window.render()
 
     def start_game(self):
         """
         Starts the main game loop in here inputs will get handled
         and to the subwindows distributed
         """
-        gw = GameWindow(self.std_scr)
-        gw.render()
-        self.std_scr.getch()
 
-        #self.__running = True
-        #while self.__running:
-        #    pass
+        self.__running = True
+        while self.__running:
+            ch = self.std_scr.getch()
+            self.game_window.handle_input(ch)
 
         curses.endwin()
 

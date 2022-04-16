@@ -50,3 +50,6 @@ class GameCard:
 
         self.window.addstr(1 + y_off, x_off, name_str, curses.color_pair(4))
         self.window.refresh()
+
+    def handle_input(self, ch: chr):
+        pass

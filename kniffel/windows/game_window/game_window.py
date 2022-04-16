@@ -48,7 +48,16 @@ class GameWindow:
         return card_window, dice_window
 
     def handle_input(self, ch: chr):
-        pass
+        if ch == curses.KEY_CTAB:
+            if self.selected is EnumSelected.CARD_SELECTED:
+                self.selected = EnumSelected.DICE_SELECTED
+            elif self.selected is EnumSelected.DICE_SELECTED:
+                self.selected = EnumSelected.CARD_SELECTED
+            return
+        if self.selected is EnumSelected.DICE_SELECTED:
+            self.dice_set.handle_input(ch)
+        elif self.selected is EnumSelected.CARD_SELECTED:
+            self.current_card.handle_input(ch)
 
     def show_result_card(self):
         self.current_card = self.result_card
