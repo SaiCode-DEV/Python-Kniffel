@@ -1,10 +1,12 @@
 # pylint: disable=C
-
-from kniffel.windows.game_turn import *
+import curses
 
 from unittest import TestCase
 
-ONE_DICE = ["##########", "#       #", "#   ¤   #", "#       #", "##########"]
+import common
+from windows.game_window.dice import DiceSet
+
+ONE_DICE = ["---------", "!       !", "!   ¤   !", "!       !", "---------"]
 
 
 class DiceTest(TestCase):
@@ -12,10 +14,10 @@ class DiceTest(TestCase):
         curses.initscr()
         curses.start_color()
         common.init_colors()
-        [max_y, max_x] = get_required_size()
+        [max_y, max_x] = DiceSet.get_required_size()
         curses.resize_term(max_y, max_x)
         window = curses.newwin(max_y, max_x, 0, 0)
-        tm = TurnManager(window)
+        tm = DiceSet(window)
         tm.set_dice([1, 1, 1, 1, 1])
         tm.handle_input('d')
         lines = []

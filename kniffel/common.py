@@ -2,7 +2,24 @@ import curses
 
 GAME_TITLE = "Kniffel"
 
+LABEL_MANU_PLAY = "(1) Spiel starten"
+LABEL_MENU_PLAY_BOT = "(2) Play against computer"
+LABEL_MENU_ESCAPE = "(Q) "
+
+LABEL_CONTROL_DESCRIPTION_DICE_SET = "This is an example description"
+LABEL_CONTROL_DESCRIPTION_GAME_CARD = ""
+LABEL_CONTROL_DESCRIPTION_RESULT_CARD = ""
+
+LOGO = [" _  __      _  __  __      _  ",
+         "| |/ /_ __ (_)/ _|/ _| ___| | ",
+         "| ' /| '_ \| | |_| |_ / _ \ | ",
+         "| . \| | | | |  _|  _|  __/ | ",
+         "|_|\_\_| |_|_|_| |_|  \___|_| "]
+
 GAME_PAD = [
+            "                                      ",
+            "                                      ",
+            "                                      ",
             " ┌─────────────┬───────┐┌─────┬─────┐ ",
             " │ Einser      │nur 1er││{}│{}│ ",
             " ├─────────────┼───────┤├─────┼─────┤ ",
@@ -31,6 +48,18 @@ GAME_PAD = [
             " ├─────────────┼───────┤├─────┼─────┤ ",
             " │ Chance      │  alle ││{}│{}│ ",
             " └─────────────┴───────┘└─────┴─────┘ "
+]
+
+RESULT_PAD = [
+                    " ┌──────────────┬───────┐┌─────┬─────┬─────┐ ",
+                    " │ Oberer Teil  │   →   ││{}│{}│ ",
+                    " ├──────────────┼───────┤├─────┼─────┼─────┤ ",
+                    " │ bei >=63     │  +35  ││{}│{}│ ",
+                    " ├──────────────┼───────┤├─────┼─────┼─────┤ ",
+                    " │ Gesamt o.Teil│   →   ││{}│{}│ ",
+                    " ├──────────────┼───────┤├─────┼─────┼─────┤ ",
+                    " │ Endsumme     │   →   ││{}│{}│ ",
+                    " └──────────────┴───────┘└─────┴─────┴─────┘ ",
 ]
 
 # Curses color pairs

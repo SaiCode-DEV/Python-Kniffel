@@ -1,9 +1,9 @@
 import random
 import curses
-from typing import List
+from typing import List, Tuple
 
-from kniffel import common
-from game_logic.value_calculator import validate_throw
+import common
+from kniffel.game_logic.value_calculator import validate_throw
 import key_codes
 
 DICE_FACES = [
@@ -15,13 +15,9 @@ DICE_FACES = [
     [" ¤   ¤ ", " ¤   ¤ ", " ¤   ¤ "]
 ]
 
-DICE_BORDER = ["##########", "#       #", "#       #", "#       #", "##########"]
+DICE_BORDER = ["---------", "!       !", "!       !", "!       !", "---------"]
 DICE_COUNT = 5
 GAP_SIZE = 2
-
-
-def get_required_size():
-    return [GAP_SIZE * 2 + DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE), len(DICE_BORDER[0])]
 
 
 class Dice:
@@ -42,7 +38,7 @@ class Dice:
     def roll(self):
         self.__value = random.randint(1, 6)
 
-    def show(self, window: curses.window):
+    def render(self, window: curses.window):
         y, x = window.getyx()
         max_y, max_x = window.getmaxyx()
         if x + len(DICE_BORDER[0]) > max_x:
@@ -74,7 +70,15 @@ class Dice:
             window.attroff(common.SELECTED_OPTION)
 
 
-class TurnManager:
+class DiceSet:
+    @staticmethod
+    def get_required_size() -> Tuple[int, int]:
+        return GAP_SIZE * 2 + DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE), len(DICE_BORDER[0])
+
+    @staticmethod
+    def get_control_string() -> str:
+        return common.LABEL_CONTROL_DESCRIPTION_DICE_SET
+
     def __init__(self, window: curses.window):
         self.__window = window
         self.__dice = []
@@ -83,7 +87,6 @@ class TurnManager:
 
         self.__selected = 0
         self.__dice[self.__selected].selected = True
-        self.render()
 
     def handle_input(self, ch: chr):
         if ch == curses.KEY_DOWN:
@@ -107,13 +110,15 @@ class TurnManager:
 
     def render(self):
         self.__window.clear()
+        self.__window.refresh()
+
         max_y, max_x = self.__window.getmaxyx()
         off_top = (max_y - (DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2
         dice_x = (max_x - len(DICE_BORDER[0])) // 2
         for i in range(DICE_COUNT):
             dice_y = off_top + i * (len(DICE_BORDER) + GAP_SIZE)
             self.__window.move(dice_y, dice_x)
-            self.__dice[i].show(self.__window)
+            self.__dice[i].render(self.__window)
         self.__window.refresh()
 
     def get_dice(self):
