@@ -81,28 +81,28 @@ class TurnManager:
         for i in range(DICE_COUNT):
             self.__dice.append(Dice())
 
-        self.__selected = 0
-        self.__dice[self.__selected].selected = True
+        self.selected = 0
+        self.__dice[self.selected].selected = True
         self.render()
 
     def handle_input(self, ch: chr):
         if ch == curses.KEY_DOWN:
-            self.__dice[self.__selected].selected = False
-            self.__selected = (self.__selected + 1) % len(self.__dice)
-            self.__dice[self.__selected].selected = True
+            self.__dice[self.selected].selected = False
+            self.selected = (self.selected + 1) % len(self.__dice)
+            self.__dice[self.selected].selected = True
         if ch == curses.KEY_UP:
-            self.__dice[self.__selected].selected = False
-            self.__selected -= 1
-            if self.__selected < 0:
-                self.__selected = len(self.__dice) - 1
-            self.__dice[self.__selected].selected = True
+            self.__dice[self.selected].selected = False
+            self.selected -= 1
+            if self.selected < 0:
+                self.selected = len(self.__dice) - 1
+            self.__dice[self.selected].selected = True
         if ch == key_codes.VK_SPACE:
             for dice in self.__dice:
                 if not dice.locked:
                     dice.roll()
         # 10/13 are added to catch enter from numeric keyboard
         if ch == curses.KEY_ENTER or ch == 10 or ch == 13 or ch == key_codes.VK_NUMPAD_ENTER:
-            self.__dice[self.__selected].locked = self.__dice[self.__selected].locked ^ 1
+            self.__dice[self.selected].locked = self.__dice[self.selected].locked ^ 1
         self.render()
 
     def render(self):
@@ -123,3 +123,9 @@ class TurnManager:
         validate_throw(dices)
         for iteration in range(len(self.__dice)):
             self.__dice[iteration].value = dices[iteration]
+
+    def lock_dice(self, dice_nr: int, locked: bool):
+        self.__dice[dice_nr].locked = locked
+
+    def is_locked(self, dice_nr: int) -> bool:
+        return self.__dice[dice_nr].locked
