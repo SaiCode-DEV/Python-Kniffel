@@ -30,7 +30,6 @@ class GameCard:
 
     def render(self):
         self.window.clear()
-        self.window.refresh()
 
         curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_WHITE)
         card_width = len(common.GAME_PAD[0])

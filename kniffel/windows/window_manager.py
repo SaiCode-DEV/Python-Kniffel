@@ -1,10 +1,22 @@
 import curses
+from enum import Enum
 
-import common
 import key_codes
 from kniffel.windows.start_menu import StartMenu
 from kniffel.windows.game_window.game_window import GameWindow
-from kniffel.windows.logo import Logo
+
+
+class EnumSelected(Enum):
+    START_MENU = 1
+    GAME_WINDOW = 2
+
+
+def resize_term():
+    game_y, game_x = GameWindow.get_required_size()
+    start_y, start_x = StartMenu.get_required_size()
+    wind_x = max(game_x, start_x)
+    wind_y = max(game_y, start_y)
+    curses.resize_term(wind_y, wind_x)
 
 
 class WindowManager:
@@ -15,11 +27,13 @@ class WindowManager:
         std_scr.keypad(True)  # to be able to compare input wit curses constants
         curses.cbreak()  # no input buffering
         curses.noecho()
+        resize_term()
 
-        #self.logo = Logo()
-        #self.start_menu = StartMenu()
+        self.start_menu = StartMenu(self.std_scr)
         self.game_window = GameWindow(self.std_scr)
-        self.game_window.render()
+
+        self.selected = EnumSelected.GAME_WINDOW
+        self.render()
 
     def start_game(self):
         """
@@ -32,7 +46,10 @@ class WindowManager:
             ch = self.std_scr.getch()
             if ch == key_codes.VK_LC_Q or ch == key_codes.VK_UC_Q:
                 self.__running = False
-            self.game_window.handle_input(ch)
+            if self.selected is EnumSelected.START_MENU:
+                pass
+            elif self.selected is EnumSelected.GAME_WINDOW:
+                self.game_window.handle_input(ch)
 
         curses.endwin()
 
@@ -40,17 +57,18 @@ class WindowManager:
         self.__running = False
 
     def show_game_window(self):
-        self.std_scr.clear()
-        self.logo.render()
-        self.game_window.render()
-        self.std_scr.refresh()
+        self.selected = EnumSelected.GAME_WINDOW
+        self.render()
 
     def show_start_menu(self):
+        self.selected = EnumSelected.START_MENU
+        self.render()
+
+    def render(self):
+
         self.std_scr.clear()
-        self.logo.render()
-        self.start_menu.render()
         self.std_scr.refresh()
-
-
-if __name__=="__main__":
-    pass
+        if self.selected is EnumSelected.START_MENU:
+            self.start_menu.render()
+        elif self.selected is EnumSelected.GAME_WINDOW:
+            self.game_window.render()

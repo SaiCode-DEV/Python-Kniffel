@@ -70,7 +70,6 @@ class Dice:
             window.addstr(y + i, x, dice_face[i])
             window.attroff(common.SELECTED_OPTION)
 
-
 class DiceSet:
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
@@ -112,7 +111,7 @@ class DiceSet:
 
     def render(self):
         self.__window.clear()
-        self.__window.refresh()
+        self.__window.noutrefresh()
 
         max_y, max_x = self.__window.getmaxyx()
         off_top = (max_y - (DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2

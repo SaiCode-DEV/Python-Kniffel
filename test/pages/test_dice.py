@@ -14,11 +14,14 @@ class DiceTest(TestCase):
         self.ds: DiceSet = None
 
     def setUp(self):
-        curses.initscr()
+        std_scr = curses.initscr()
         curses.start_color()
         common.init_colors()
+        std_scr.clear()
+        std_scr.refresh()
         [max_y, max_x] = DiceSet.get_required_size()
         curses.resize_term(max_y, max_x)
+        std_scr.resize(max_y, max_x)
         self.window = curses.newwin(max_y, max_x, 0, 0)
         self.ds = DiceSet(self.window)
 

@@ -2,9 +2,9 @@ import curses
 
 GAME_TITLE = "Kniffel"
 
-LABEL_MANU_PLAY = "(1) Spiel starten"
-LABEL_MENU_PLAY_BOT = "(2) Play against computer"
-LABEL_MENU_ESCAPE = "(Q) "
+LABEL_MANU_PLAY = "(P) Spiel starten"
+LABEL_MENU_PLAY_BOT = "(C) Play against computer"
+LABEL_MENU_ESCAPE = "(Q) Quit the game"
 
 LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Spiel Beenden"
 LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll | (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"

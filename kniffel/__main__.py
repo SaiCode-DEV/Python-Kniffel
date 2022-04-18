@@ -9,8 +9,6 @@ from windows.window_manager import WindowManager
 
 
 def main(std_scr: curses.window):
-    std_scr.clear()
-    std_scr.refresh()
     print("Starting Python-Kniffel")
     common.init_colors()
 
