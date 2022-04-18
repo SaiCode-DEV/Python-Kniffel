@@ -5,6 +5,7 @@ import curses
 from curses import wrapper
 
 import common
+from game_logic.kniffel_controller import KniffelController
 from windows.window_manager import WindowManager
 
 
@@ -13,7 +14,8 @@ def main(std_scr: curses.window):
     common.init_colors()
 
     window_manager = WindowManager(std_scr)
-    window_manager.start_game()
+    game_manager = KniffelController(window_manager)
+    game_manager.start()
 
 
 if __name__ == "__main__":

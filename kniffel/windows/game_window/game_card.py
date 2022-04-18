@@ -1,6 +1,7 @@
 import curses
-from typing import Tuple
+from typing import Tuple, List, Dict
 
+from data_objects.combinations import Combinations
 from kniffel import common
 
 
@@ -28,7 +29,7 @@ class GameCard:
 
         return attachment + str(points_to_add) + ending
 
-    def render(self):
+    def render(self,combinations: List[Dict[Combinations, int]]):
         self.window.clear()
 
         curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_WHITE)

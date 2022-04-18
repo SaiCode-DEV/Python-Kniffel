@@ -69,7 +69,7 @@ COLOR_PAIR_BLUE_BLACK = None
 # Settings
 COLOR_DICE_LOCKED = None
 SELECTED_OPTION = curses.A_REVERSE
-
+DICE_COUNT = 5
 
 def init_colors():
     global COLOR_PAIR_BLUE_BLACK

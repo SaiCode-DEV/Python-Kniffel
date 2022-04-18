@@ -1,4 +1,7 @@
 import curses
+from typing import List, Dict
+
+from data_objects.combinations import Combinations
 from kniffel import common
 
 
@@ -14,7 +17,7 @@ class ResultCard:
     def get_control_string() -> str:
         return common.LABEL_CONTROL_DESCRIPTION_RESULT_CARD
 
-    def render(self):
+    def render(self, combinations: List[Dict[Combinations, int]]):
         pass
 
     def handle_input(self, ch: chr):

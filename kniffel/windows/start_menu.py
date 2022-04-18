@@ -1,6 +1,7 @@
 import curses
 from typing import Tuple
 
+from data_objects.game_state import GameState
 from kniffel import common
 from windows.logo import Logo
 
@@ -19,7 +20,7 @@ def get_screens(window: curses.window) -> Tuple[curses.window, curses.window]:
     return window.subwin(logo_y, max_x, 0, 0), window.subwin(options_y, max_x, logo_y, 0)
 
 
-class StartMenu:
+class StartWindow:
 
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
@@ -38,13 +39,13 @@ class StartMenu:
             if len(opt) > self.max_x:
                 self.max_x = len(opt)
 
-    def render(self):
+    def render(self, game_state: GameState = None):
         self.window.clear()
         self.window.refresh()
         height, width = self.window.getmaxyx()
 
         iteration = 0
-        start_x = (width-self.max_x)//2
+        start_x = (width - self.max_x) // 2
         for line in OPTIONS:
             start_y = int((height // 2) - 2) + iteration * 2
             self.window.addstr(start_y, start_x, line, curses.color_pair(3))

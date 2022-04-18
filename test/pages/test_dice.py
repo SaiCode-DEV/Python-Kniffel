@@ -1,7 +1,7 @@
 # pylint: disable=C
 from time import sleep
 
-from kniffel.windows.game_window.dice import *
+from kniffel.windows.game_window.dice_window import *
 
 from unittest import TestCase
 
@@ -12,7 +12,7 @@ class DiceTest(TestCase):
     def __init__(self, method_name='runTest'):
         super().__init__(method_name)
         self.window: curses.window = None
-        self.ds: DiceSet = None
+        self.ds: DiceWindow = None
         self.std_scr = curses.initscr()
         curses.start_color()
 
@@ -27,15 +27,15 @@ class DiceTest(TestCase):
         self.std_scr.refresh()
 
     def setUp(self):
-        max_y, max_x = DiceSet.get_required_size()
+        max_y, max_x = DiceWindow.get_required_size()
         self.window = self.std_scr.subpad(max_y, max_x, 0, 0)
-        self.ds = DiceSet(self.window)
+        self.ds = DiceWindow(self.window)
 
     def tearDown(self) -> None:
         del self.window
 
     def test_display(self):
-        [max_y, max_x] = DiceSet.get_required_size()
+        [max_y, max_x] = DiceWindow.get_required_size()
         self.ds.set_dice([1, 1, 1, 1, 1])
         self.ds.handle_input('d')
         lines = []

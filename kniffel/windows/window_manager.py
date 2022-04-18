@@ -1,19 +1,13 @@
 import curses
-from enum import Enum
 
-import key_codes
-from kniffel.windows.start_menu import StartMenu
+from data_objects.game_state import GameState
+from kniffel.windows.start_menu import StartWindow
 from kniffel.windows.game_window.game_window import GameWindow
-
-
-class EnumSelected(Enum):
-    START_MENU = 1
-    GAME_WINDOW = 2
 
 
 def resize_term():
     game_y, game_x = GameWindow.get_required_size()
-    start_y, start_x = StartMenu.get_required_size()
+    start_y, start_x = StartWindow.get_required_size()
     wind_x = max(game_x, start_x)
     wind_y = max(game_y, start_y)
     curses.resize_term(wind_y, wind_x)
@@ -29,46 +23,38 @@ class WindowManager:
         curses.noecho()
         resize_term()
 
-        self.start_menu = StartMenu(self.std_scr)
-        self.game_window = GameWindow(self.std_scr)
+        self.__start_window = StartWindow(self.std_scr)
+        self.__game_window = GameWindow(self.std_scr)
+        self.active_window = None
 
-        self.selected = EnumSelected.GAME_WINDOW
-        self.render()
+    @property
+    def start_window(self):
+        return self.__start_window
 
-    def start_game(self):
-        """
-        Starts the main game loop in here inputs will get handled
-        and to the subwindows distributed
-        """
-
-        self.__running = True
-        while self.__running:
-            ch = self.std_scr.getch()
-            if ch == key_codes.VK_LC_Q or ch == key_codes.VK_UC_Q:
-                self.__running = False
-            if self.selected is EnumSelected.START_MENU:
-                pass
-            elif self.selected is EnumSelected.GAME_WINDOW:
-                self.game_window.handle_input(ch)
-
-        curses.endwin()
+    @property
+    def game_window(self):
+        return self.__game_window
 
     def stop_game(self):
         self.__running = False
 
-    def show_game_window(self):
-        self.selected = EnumSelected.GAME_WINDOW
-        self.render()
+    def show_game_window(self, game_state: GameState):
+        self.active_window = self.__game_window
+        self.render(game_state)
 
-    def show_start_menu(self):
-        self.selected = EnumSelected.START_MENU
-        self.render()
+    def show_start_menu(self, game_state: GameState):
+        self.active_window = self.__start_window
+        self.render(game_state)
 
-    def render(self):
-
+    def render(self, game_state: GameState):
         self.std_scr.clear()
         self.std_scr.refresh()
-        if self.selected is EnumSelected.START_MENU:
-            self.start_menu.render()
-        elif self.selected is EnumSelected.GAME_WINDOW:
-            self.game_window.render()
+        if self.active_window is not None:
+            self.active_window.render(game_state)
+
+    def get_ch(self) -> chr:
+        return self.std_scr.getch()
+
+    @staticmethod
+    def close():
+        curses.endwin()
