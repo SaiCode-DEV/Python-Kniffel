@@ -11,6 +11,11 @@ LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll | (Ar
 LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations | (Enter) Lock Result |"
 LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll | (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
 
+ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
+
+DICE_COUNT = 5
+PLAYER_COUNT = 2
+
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",
         "| ' /| '_ \| | |_| |_ / _ \ | ",
@@ -69,7 +74,6 @@ COLOR_PAIR_BLUE_BLACK = None
 # Settings
 COLOR_DICE_LOCKED = None
 SELECTED_OPTION = curses.A_REVERSE
-DICE_COUNT = 5
 
 def init_colors():
     global COLOR_PAIR_BLUE_BLACK

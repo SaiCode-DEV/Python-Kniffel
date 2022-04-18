@@ -16,4 +16,4 @@ class StartMenuController:
         if ch == key_codes.VK_UC_P or ch == key_codes.VK_LC_P:
             self.kniffel_controller.start_classic_game()
         if ch == key_codes.VK_LC_Q or ch == key_codes.VK_UC_Q:
-            self.kniffel_controller.stop_game()
+            self.kniffel_controller.exit()

@@ -34,6 +34,9 @@ class DiceController:
             if self.__selected < 0:
                 self.__selected = len(self.__dice) - 1
             self.__dice[self.__selected].selected = True
+        if ch == key_codes.VK_SPACE:
+            self.roll(8)
+            return
         # 10/13 are added to catch enter from numeric keyboard
         if ch == curses.KEY_ENTER or ch == 10 or ch == 13 or ch == key_codes.VK_NUMPAD_ENTER:
             self.__dice[self.__selected].locked = self.__dice[self.__selected].locked ^ 1

@@ -14,6 +14,9 @@ class EnumWindowSelected(Enum):
 
 
 class KniffelController:
+    """
+    The KniffelController manages the high level Status of the Game
+    """
     def __init__(self, window_manager: WindowManager):
         self.window_manager = window_manager
         self.game_controller = GameController(self, window_manager.game_window)
@@ -39,11 +42,17 @@ class KniffelController:
         WindowManager.close()
 
     def start_classic_game(self):
+        """
+        Show the Game Window and start the Game
+        """
         self.window_manager.show_game_window(self.game_controller.get_game_state())
         self.active_window = EnumWindowSelected.GAME_WINDOW
 
     def start_bot_game(self):
         pass
 
-    def stop_game(self):
+    def exit(self):
+        """
+        Sets the variable for exiting the main Game Loop
+        """
         self.__running = False
