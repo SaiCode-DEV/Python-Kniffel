@@ -5,7 +5,7 @@ import curses
 from curses import wrapper
 
 import common
-from game_logic.kniffel_controller import KniffelController
+from kniffel.game_logic.controller.kniffel_controller import KniffelController
 from windows.window_manager import WindowManager
 
 

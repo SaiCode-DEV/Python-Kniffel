@@ -5,8 +5,8 @@ from typing import List
 import common
 import key_codes
 from data_objects.dice import Dice
-from game_logic.value_calculator import validate_throw
-from windows.game_window.dice_window import DiceWindow
+from kniffel.game_logic.value_calculator import validate_throw
+from kniffel.windows.game_window.dice_window import DiceWindow
 
 
 class DiceController:

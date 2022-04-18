@@ -10,6 +10,7 @@ def resize_term():
     start_y, start_x = StartWindow.get_required_size()
     wind_x = max(game_x, start_x)
     wind_y = max(game_y, start_y)
+    curses.resize_term(10000, 10000)
     curses.resize_term(wind_y, wind_x)
 
 

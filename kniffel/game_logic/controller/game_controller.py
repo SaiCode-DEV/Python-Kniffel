@@ -4,15 +4,15 @@ from enum import Enum
 
 import common
 import key_codes
-from data_objects.game_state import GameState
-from game_logic.card_controller import CardController
-from game_logic.dice_controller import DiceController
-from windows.game_window.dice_window import DiceWindow
-from windows.game_window.game_window import GameWindow
+from kniffel.data_objects.game_state import GameState
+from kniffel.game_logic.controller.card_controller import CardController
+from kniffel.game_logic.controller.dice_controller import DiceController
+from kniffel.windows.game_window.dice_window import DiceWindow
+from kniffel.windows.game_window.game_window import GameWindow
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from game_logic.kniffel_controller import KniffelController
+    from game_logic.controller.kniffel_controller import KniffelController
 
 
 class EnumWindowSelected(Enum):

@@ -5,7 +5,7 @@ import key_codes
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from game_logic.kniffel_controller import KniffelController
+    from game_logic.controller.kniffel_controller import KniffelController
 
 
 class StartMenuController:

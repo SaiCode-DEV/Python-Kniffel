@@ -1,5 +1,4 @@
 # pylint: disable=C
-from time import sleep
 
 from kniffel.windows.game_window.dice_window import *
 

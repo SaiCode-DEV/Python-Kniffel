@@ -1,7 +1,7 @@
 from enum import Enum
 
-from game_logic.game_controller import GameController
-from game_logic.start_menu_controller import StartMenuController
+from kniffel.game_logic.controller.game_controller import GameController
+from kniffel.game_logic.controller.start_menu_controller import StartMenuController
 from windows.window_manager import WindowManager
 
 
