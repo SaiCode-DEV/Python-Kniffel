@@ -5,13 +5,21 @@ from kniffel.windows.start_menu import StartWindow
 from kniffel.windows.game_window.game_window import GameWindow
 
 
-def resize_term():
+class WindowToSmall(Exception):
+    "Is thrown when the Window is to small and can not be extended to the appropriate size"
+
+
+def resize_term(std_scr: curses.window):
     game_y, game_x = GameWindow.get_required_size()
     start_y, start_x = StartWindow.get_required_size()
     wind_x = max(game_x, start_x)
     wind_y = max(game_y, start_y)
     curses.resize_term(10000, 10000)
     curses.resize_term(wind_y, wind_x)
+    try:
+        std_scr.addstr(wind_y - 1, wind_x - 2, "x")
+    except Exception:
+        raise WindowToSmall("Pleas resize your Window")
 
 
 class WindowManager:
@@ -22,7 +30,7 @@ class WindowManager:
         std_scr.keypad(True)  # to be able to compare input wit curses constants
         curses.cbreak()  # no input buffering
         curses.noecho()
-        resize_term()
+        resize_term(std_scr)
 
         self.__start_window = StartWindow(self.std_scr)
         self.__game_window = GameWindow(self.std_scr)
