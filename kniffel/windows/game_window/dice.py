@@ -90,6 +90,10 @@ class DiceSet:
         self.__dice[self.__selected].selected = True
         self.__show_selected = True
 
+    @property
+    def selected(self) -> int:
+        return self.__selected
+
     def handle_input(self, ch: chr):
         if ch == curses.KEY_DOWN:
             self.__dice[self.__selected].selected = False
@@ -139,3 +143,9 @@ class DiceSet:
 
     def show_selected(self, show: bool):
         self.__show_selected = show
+
+    def lock_dice(self, dice_nr: int, locked: bool):
+        self.__dice[dice_nr].locked = locked
+
+    def is_locked(self, dice_nr: int) -> bool:
+        return self.__dice[dice_nr].locked
