@@ -1,4 +1,5 @@
 # pylint: disable=C
+from time import sleep
 
 from kniffel.windows.game_window.dice import *
 
@@ -12,21 +13,26 @@ class DiceTest(TestCase):
         super().__init__(method_name)
         self.window: curses.window = None
         self.ds: DiceSet = None
+        self.std_scr = curses.initscr()
+        curses.start_color()
+
+        common.init_colors()
+        curses.curs_set(0)  # hide cursor
+        self.std_scr.keypad(True)  # to be able to compare input wit curses constants
+        curses.cbreak()  # no input buffering
+        curses.noecho()
+
+        curses.resize_term(50, 100)
+        self.std_scr.clear()
+        self.std_scr.refresh()
 
     def setUp(self):
-        std_scr = curses.initscr()
-        curses.start_color()
-        common.init_colors()
-        std_scr.clear()
-        std_scr.refresh()
-        [max_y, max_x] = DiceSet.get_required_size()
-        curses.resize_term(max_y, max_x)
-        std_scr.resize(max_y, max_x)
-        self.window = curses.newwin(max_y, max_x, 0, 0)
+        max_y, max_x = DiceSet.get_required_size()
+        self.window = self.std_scr.subpad(max_y, max_x, 0, 0)
         self.ds = DiceSet(self.window)
 
     def tearDown(self) -> None:
-        curses.endwin()
+        del self.window
 
     def test_display(self):
         [max_y, max_x] = DiceSet.get_required_size()
