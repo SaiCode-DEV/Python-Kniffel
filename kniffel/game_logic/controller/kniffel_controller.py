@@ -45,6 +45,7 @@ class KniffelController:
         """
         Show the Game Window and start the Game
         """
+        self.game_controller.reset_game()
         self.window_manager.show_game_window(self.game_controller.get_game_state())
         self.active_window = EnumWindowSelected.GAME_WINDOW
 

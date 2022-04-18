@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import curses
 from time import sleep
-from typing import List
+from typing import List, TYPE_CHECKING
 
 import common
 import key_codes
@@ -8,9 +10,14 @@ from data_objects.dice import Dice
 from kniffel.game_logic.value_calculator import validate_throw
 from kniffel.windows.game_window.dice_window import DiceWindow
 
+# to avoid a circular import
+if TYPE_CHECKING:
+    from game_logic.controller.game_controller import GameController
+
 
 class DiceController:
-    def __init__(self, dice_window: DiceWindow):
+    def __init__(self, dice_window: DiceWindow, game_controller: GameController):
+        self.game_controller = game_controller
         self.__selected = None
         self.dice_window = dice_window
         self.__dice = []
@@ -18,6 +25,7 @@ class DiceController:
             self.__dice.append(Dice())
         self.__dice[0].selected = True
         self.__selected = 0
+        self.__roll_count = 0
 
     @property
     def selected(self) -> int:
@@ -34,7 +42,11 @@ class DiceController:
             if self.__selected < 0:
                 self.__selected = len(self.__dice) - 1
             self.__dice[self.__selected].selected = True
-        if ch == key_codes.VK_SPACE:
+        if ch == key_codes.VK_SPACE and not self.__is_all_locked():
+            if not self.__is_roll_allowed():
+                self.game_controller.display_message(common.ERROR_NO_MORE_ROLLS)
+                return
+            self.__roll_count += 1
             self.roll(8)
             return
         # 10/13 are added to catch enter from numeric keyboard
@@ -68,6 +80,22 @@ class DiceController:
 
     def is_locked(self, dice_nr: int) -> bool:
         return self.__dice[dice_nr].locked
+
+    def __is_all_locked(self) -> bool:
+        """
+        Checks if all dice are locked
+        @return: True if all are locked False if at least one isn't
+        """
+        for dice in self.__dice:
+            if not dice.locked:
+                return False
+        return True
+
+    def __is_roll_allowed(self):
+        return self.__roll_count < common.MAX_ROLL_COUNT
+
+    def reset_roll_count(self):
+        self.__roll_count = 0
 
     def show_selected(self, show: bool):
         self.dice_window.show_selected(show)

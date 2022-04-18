@@ -12,9 +12,11 @@ LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Com
 LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll | (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
+ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"
 
 DICE_COUNT = 5
 PLAYER_COUNT = 2
+MAX_ROLL_COUNT = 3              #Number of rolls a player can roll in one turn
 
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",

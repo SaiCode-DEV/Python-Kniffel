@@ -8,7 +8,9 @@ from enum import Enum
 
 import common
 import key_codes
+from data_objects import combinations
 from data_objects.combinations import Combinations
+from game_logic.value_calculator import InvalidThrow
 from kniffel.data_objects.game_state import GameState
 from kniffel.game_logic.controller.card_controller import CardController
 from kniffel.game_logic.controller.dice_controller import DiceController
@@ -40,7 +42,7 @@ class GameController:
         self.selected = EnumWindowSelected.DICE_WINDOW
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
-        self.dice_controller: DiceController = DiceController(game_window.dice_window)
+        self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
         self.card_controller: CardController = CardController()
 
         self.__active_player: int = 0
@@ -90,6 +92,9 @@ class GameController:
         control_str = self.__get_control_str()
         self.game_window.display_controls(game_state, control_str)
 
+    def display_message(self, message):
+        self.game_window.display_message(self.get_game_state(), message)
+
     def __get_control_str(self) -> str:
         """
         Concats the currently available options that the user has.
@@ -108,14 +113,36 @@ class GameController:
         """
         return GameState(self.dice_controller.get_dice(), self.combinations)
 
-    def add_entry(self, combination: Combinations, value):
+    def add_entry(self, combination: Combinations):
+        """
+        Adds the value of the current dice value to active players combinations as the passed combination
+        @param combination: in which field the value is entered
+        """
         player_combination = self.combinations[self.__active_player]
         if combination in player_combination:
-            self.game_window.display_message(self.get_game_state(), common.ERROR_COMBINATION_ALREADY_DONE)
+            self.display_message(common.ERROR_COMBINATION_ALREADY_DONE)
             return
-        player_combination[combination] = value
+        calc_fn = combinations.get_calc_fn(combination)
+        try:
+            value = calc_fn(self.dice_controller.get_dice_values())
+            player_combination[combination] = value
+        except InvalidThrow:
+            self.display_message("Failed to count Dice values")
+            return
         self.__next_player()
 
     def __next_player(self):
+        """
+        selects the next player and resets the roll count
+        @return:
+        """
+        self.dice_controller.reset_roll_count()
         self.__active_player += 1
         self.__active_player %= len(self.combinations)  # next players turn
+
+    def reset_game(self):
+        self.dice_controller.reset_roll_count()
+        self.__active_player: int = 0
+        self.combinations: List[Dict[Combinations, int]] = []
+        for _ in range(common.PLAYER_COUNT):
+            self.combinations.append({})
