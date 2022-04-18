@@ -1,5 +1,6 @@
 import random
 import curses
+import time
 from typing import List, Tuple
 
 import common
@@ -87,6 +88,7 @@ class DiceSet:
 
         self.__selected = 0
         self.__dice[self.__selected].selected = True
+        self.__show_selected = True
 
     def handle_input(self, ch: chr):
         if ch == curses.KEY_DOWN:
@@ -99,10 +101,6 @@ class DiceSet:
             if self.__selected < 0:
                 self.__selected = len(self.__dice) - 1
             self.__dice[self.__selected].selected = True
-        if ch == key_codes.VK_SPACE:
-            for dice in self.__dice:
-                if not dice.locked:
-                    dice.roll()
         # 10/13 are added to catch enter from numeric keyboard
         if ch == curses.KEY_ENTER or ch == 10 or ch == 13 or ch == key_codes.VK_NUMPAD_ENTER:
             self.__dice[self.__selected].locked = self.__dice[self.__selected].locked ^ 1
@@ -116,10 +114,20 @@ class DiceSet:
         off_top = (max_y - (DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2
         dice_x = (max_x - len(DICE_BORDER[0])) // 2
         for i in range(DICE_COUNT):
+            self.__dice[i].selected = self.__selected == i and self.__show_selected
             dice_y = off_top + i * (len(DICE_BORDER) + GAP_SIZE)
             self.__window.move(dice_y, dice_x)
             self.__dice[i].render(self.__window)
         self.__window.refresh()
+
+    def roll(self, roll_count: int):
+        for iteration in range(roll_count):
+            for dice in self.__dice:
+                if not dice.locked:
+                    dice.roll()
+            self.render()
+            if iteration != roll_count - 1:
+                time.sleep(0.15)
 
     def get_dice(self):
         return [dice.value for dice in self.__dice]
@@ -128,3 +136,6 @@ class DiceSet:
         validate_throw(dices)
         for iteration in range(len(self.__dice)):
             self.__dice[iteration].value = dices[iteration]
+
+    def show_selected(self, show: bool):
+        self.__show_selected = show

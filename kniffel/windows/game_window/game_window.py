@@ -2,6 +2,8 @@ import curses
 from typing import Tuple
 from enum import Enum
 
+import common
+import key_codes
 from kniffel.windows.game_window.dice import DiceSet
 from kniffel.windows.game_window.result_card import ResultCard
 from kniffel.windows.game_window.game_card import GameCard
@@ -23,6 +25,7 @@ class GameWindow:
         return required_y, required_x
 
     def __init__(self, window: curses.window):
+        self.message = ""
         self.window = window
         self.window.clear()
         self.window.refresh()
@@ -43,21 +46,31 @@ class GameWindow:
         max_y, max_x = self.window.getmaxyx()
         card_window_x = int(max_x * (card_x / (card_x + dice_x)))
         dice_window_x = max_x - card_window_x
-        card_window = curses.newwin(max_y - 1, card_window_x, 0, 0)
-        dice_window = curses.newwin(max_y - 1, dice_window_x, 0, card_window_x)
+        card_window = curses.newwin(max_y - 2, card_window_x, 1, 0)
+        dice_window = curses.newwin(max_y - 2, dice_window_x, 1, card_window_x)
         return card_window, dice_window
 
     def handle_input(self, ch: chr):
-        if ch == curses.KEY_CTAB:
+        if ch == key_codes.VK_HORIZONTAL_TAB:
             if self.selected is EnumSelected.CARD_SELECTED:
                 self.selected = EnumSelected.DICE_SELECTED
+                self.dice_set.show_selected(True)
             elif self.selected is EnumSelected.DICE_SELECTED:
                 self.selected = EnumSelected.CARD_SELECTED
+                self.dice_set.show_selected(False)
+            self.render()
             return
+        if ch == key_codes.VK_SPACE and self.selected is EnumSelected.DICE_SELECTED:
+            self.dice_set.roll(8)
+            return
+        self.__distribute_input(ch)
+
+    def __distribute_input(self, ch: chr):
         if self.selected is EnumSelected.DICE_SELECTED:
             self.dice_set.handle_input(ch)
         elif self.selected is EnumSelected.CARD_SELECTED:
             self.current_card.handle_input(ch)
+        self.render()
 
     def show_result_card(self):
         self.current_card = self.result_card
@@ -68,21 +81,34 @@ class GameWindow:
         self.render()
 
     def render(self):
-        max_y, _ = self.window.getmaxyx()
-
         self.window.clear()
         self.window.refresh()
 
-        self.window.addstr(max_y - 1, 0, self.__get_control_str())
+        max_y, _ = self.window.getmaxyx()
+        self.window.addstr(0, self.__get_str_off(self.message), self.message)
+        ctr_str = self.__get_control_str()
+        self.window.addstr(max_y - 1, self.__get_str_off(ctr_str), ctr_str)
+
         self.current_card.render()
         self.dice_set.render()
 
+    def __get_str_off(self, msg: str) -> int:
+        _, max_x = self.window.getmaxyx()
+        if msg is None:
+            return max_x // 2
+        return (max_x - len(msg)) // 2
+
+    def display_message(self, message):
+        self.message = message
+        self.render()
+
     def __get_control_str(self) -> str:
+        sub_str = ""
         if self.selected is EnumSelected.CARD_SELECTED:
             if isinstance(self.current_card, GameCard):
-                return GameCard.get_control_string()
+                sub_str = GameCard.get_control_string()
             elif isinstance(self.current_card, ResultCard):
-                return ResultCard.get_control_string()
+                sub_str = ResultCard.get_control_string()
         elif self.selected is EnumSelected.DICE_SELECTED:
-            return DiceSet.get_control_string()
-        return ""
+            sub_str = DiceSet.get_control_string()
+        return common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + sub_str

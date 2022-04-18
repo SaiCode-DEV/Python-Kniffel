@@ -1,6 +1,7 @@
 import curses
 
 import common
+import key_codes
 from kniffel.windows.start_menu import StartMenu
 from kniffel.windows.game_window.game_window import GameWindow
 from kniffel.windows.logo import Logo
@@ -29,6 +30,8 @@ class WindowManager:
         self.__running = True
         while self.__running:
             ch = self.std_scr.getch()
+            if ch == key_codes.VK_LC_Q or ch == key_codes.VK_UC_Q:
+                self.__running = False
             self.game_window.handle_input(ch)
 
         curses.endwin()

@@ -1,4 +1,5 @@
 import curses
+from typing import Tuple
 
 from kniffel import common
 
@@ -10,6 +11,10 @@ OPTIONS = [
 
 
 class StartMenu:
+
+    @staticmethod
+    def get_required_size() -> Tuple[int, int]:
+        return
 
     def __init__(self, window: curses.window):
         self.window = window
