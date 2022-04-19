@@ -1,5 +1,12 @@
-from enum import Enum
+"""
+The kniffel-controller contains the functionality needed for controlling
+the makro state of the game
+"""
 
+from enum import Enum
+from time import sleep
+
+import common
 from kniffel.game_logic.controller.game_controller import GameController
 from kniffel.game_logic.controller.start_menu_controller import StartMenuController
 from windows.window_manager import WindowManager
@@ -17,6 +24,7 @@ class KniffelController:
     """
     The KniffelController manages the high level Status of the Game
     """
+
     def __init__(self, window_manager: WindowManager):
         self.window_manager = window_manager
         self.game_controller = GameController(self, window_manager.game_window)
@@ -34,7 +42,16 @@ class KniffelController:
 
         self.__running = True
         while self.__running:
+            if self.active_window is EnumWindowSelected.START_MENU:
+                self.window_manager.start_window.step_animation()
+                self.window_manager.render(self.game_controller.get_game_state())
+                self.window_manager.set_no_input_delay(True)
+                sleep(common.ANIMATION_DELAY)
+            else:
+                self.window_manager.set_no_input_delay(False)
             ch = self.window_manager.get_ch()
+            if ch == -1:
+                continue
             if self.active_window is EnumWindowSelected.START_MENU:
                 self.start_menu_controller.handle_input(ch)
             elif self.active_window is EnumWindowSelected.GAME_WINDOW:

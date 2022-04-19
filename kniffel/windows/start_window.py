@@ -3,7 +3,8 @@ from typing import Tuple
 
 from data_objects.game_state import GameState
 from kniffel import common
-from windows.logo import Logo
+from windows.animations.start_animation import StartAnimation
+
 
 OPTIONS = [
     common.LABEL_MANU_PLAY,
@@ -14,7 +15,7 @@ OPTIONS = [
 
 def get_screens(window: curses.window) -> Tuple[curses.window, curses.window]:
     max_y, max_x = window.getmaxyx()
-    [logo_min_y, _] = Logo.get_required_size()
+    [logo_min_y, _] = StartAnimation.get_required_size()
     logo_y = int(max_y * (logo_min_y / (logo_min_y + len(OPTIONS) * 2)))
     options_y = max_y - logo_y
     return window.subwin(logo_y, max_x, 0, 0), window.subwin(options_y, max_x, logo_y, 0)
@@ -24,7 +25,7 @@ class StartWindow:
 
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
-        [logo_y, logo_x] = Logo.get_required_size()
+        [logo_y, logo_x] = StartAnimation.get_required_size()
         max_x = logo_x
         for opt in OPTIONS:
             if len(opt) > max_x:
@@ -33,7 +34,7 @@ class StartWindow:
 
     def __init__(self, std_scr: curses.window):
         logo_win, self.window = get_screens(std_scr)
-        self.logo = Logo(logo_win)
+        self.__animation = StartAnimation(logo_win)
         self.max_x = len(OPTIONS[0])
         for opt in OPTIONS:
             if len(opt) > self.max_x:
@@ -52,4 +53,7 @@ class StartWindow:
             self.window.addstr(start_y, start_x, line, curses.color_pair(3))
             iteration += 1
             self.window.refresh()
-        self.logo.render()
+        self.__animation.render()
+
+    def step_animation(self):
+        self.__animation.step_animation()

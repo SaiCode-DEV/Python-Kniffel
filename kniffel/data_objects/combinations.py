@@ -1,3 +1,8 @@
+"""
+The combinations module provides the data-objects
+for handling a single players game state
+"""
+
 from enum import Enum
 from typing import List, Callable
 
@@ -5,6 +10,9 @@ from game_logic import value_calculator
 
 
 class Combinations(Enum):
+    """
+    In combinations
+    """
     ONES = 1
     TWOS = 2
     THREES = 3

@@ -1,4 +1,7 @@
-# KeyCodes for KeyEvents to simplify code comprehension
+"""
+KeyCodes for KeyEvents to simplify code comprehension
+"""
+
 # (Behind the # is the Symbol and in the () are all hotkeys to accomplish this integer value too)
 VK_NULL_CHAR = 0                    # NUL (Almost every hotkey which is not listed here)
 VK_START_OF_HEADING = 1             # SOH (Ctrl+A)

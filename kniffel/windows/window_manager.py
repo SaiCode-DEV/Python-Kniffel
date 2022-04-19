@@ -38,6 +38,7 @@ class WindowManager:
     """
     The WindowManager is supposed to be used for managing whole pages.
     """
+
     def __init__(self, std_scr: curses.window):
         self.std_scr = std_scr
         curses.curs_set(0)  # hide cursor
@@ -96,6 +97,13 @@ class WindowManager:
         then be returned
         """
         return self.std_scr.getch()
+
+    def set_no_input_delay(self, delay: bool):
+        """
+        If flag is True, get_ch() will be non-blocking.
+        @return:
+        """
+        self.std_scr.nodelay(delay)
 
     @staticmethod
     def close():
