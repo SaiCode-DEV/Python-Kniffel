@@ -9,8 +9,6 @@ def show_start_animation(std_scr):
     start_x_title = int((width // 2) - (TITLE_STR_LEN // 2))
     start_y_title = int((height - TITLE_ARRAY_LEN) // 2)
 
-    start_x_sub = int((width // 2) - (len(SUBTITLE_PRESS_ANY) // 2))
-
     for state in LOADING:
         std_scr.clear()
         for i in range(TITLE_ARRAY_LEN):
@@ -22,3 +20,5 @@ def show_start_animation(std_scr):
     for i in range(TITLE_ARRAY_LEN):
         std_scr.addstr(start_y_title + i, start_x_title, title[i], curses.color_pair(1))
     std_scr.refresh()
+
+    sleep(1)
