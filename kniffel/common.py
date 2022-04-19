@@ -7,9 +7,12 @@ LABEL_MENU_PLAY_BOT = "(C) Play against computer"
 LABEL_MENU_ESCAPE = "(Q) Quit the game"
 
 LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Spiel Beenden"
-LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll | (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
-LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations | (Enter) Lock Result |"
-LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll | (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
+LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll " \
+                                     "| (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
+LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations |" \
+                                      " (Enter) Lock Result |"
+LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll |" \
+                                        " (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
 ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"
@@ -20,9 +23,9 @@ MAX_ROLL_COUNT = 3              #Number of rolls a player can roll in one turn
 
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",
-        "| ' /| '_ \| | |_| |_ / _ \ | ",
-        "| . \| | | | |  _|  _|  __/ | ",
-        "|_|\_\_| |_|_|_| |_|  \___|_| "]
+        "| ' /| '_ \\| | |_| |_ / _ \\ | ",
+        "| . \\| | | | |  _|  _|  __/ | ",
+        "|_|\\_\\_| |_|_|_| |_|  \\___|_| "]
 
 GAME_PAD = [
     "                                     ",

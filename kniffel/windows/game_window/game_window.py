@@ -1,3 +1,7 @@
+"""
+This modul contains the GameWindow-class which is used to render a GameState
+on the screen
+"""
 import curses
 from typing import Tuple
 
@@ -9,6 +13,11 @@ from kniffel.windows.game_window.game_card import GameCard
 
 
 class GameWindow:
+    """
+    The GameWindow-class is used for rendering a GameState, the logic
+    needed for this Window is inside the game_controller.py
+    """
+
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
         """
@@ -19,13 +28,17 @@ class GameWindow:
         result_card_y, result_card_x = ResultCard.get_required_size()
         game_card_y, game_card_x = GameCard.get_required_size()
         required_x = max(game_card_x, result_card_x) + dice_x
-        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + GameCard.get_control_string())
+        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW
+                      + GameCard.get_control_string())
         required_x = max(str_len, required_x)
-        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + ResultCard.get_control_string())
+        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW
+                      + ResultCard.get_control_string())
         required_x = max(str_len, required_x)
-        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + DiceWindow.get_control_string())
+        str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW
+                      + DiceWindow.get_control_string())
         required_x = max(str_len, required_x)
-        required_y = max(game_card_y, result_card_y, dice_y + 2)  # plus two for statustext and message
+        # plus two for statustext and message
+        required_y = max(game_card_y, result_card_y, dice_y + 2)
         return required_y, required_x + 2
 
     def __init__(self, window: curses.window):
@@ -42,18 +55,31 @@ class GameWindow:
         self.__current_card = self.__game_card
 
     @property
-    def dice_window(self):
+    def dice_window(self) -> DiceWindow:
+        """
+        @return: Returns the DiceWindow of the GameWindow
+        """
         return self.__dice_window
 
     @property
-    def game_card(self):
+    def game_card(self) -> GameCard:
+        """
+        @return: Returns the GameCard of the GameWindow
+        """
         return self.__game_card
 
     @property
-    def result_card(self):
+    def result_card(self) -> ResultCard:
+        """
+        @return: Returns the ResultCard of the GameWindow
+        """
         return self.__result_card
 
     def __get_sub_windows(self) -> Tuple[curses.window, curses.window]:
+        """
+        Creates appropriate subwindows for the card and dice and returns them
+        @return: card_window,dice_window
+        """
         [_, dice_x] = DiceWindow.get_required_size()
         [_, result_card_x] = ResultCard.get_required_size()
         [_, game_card_x] = GameCard.get_required_size()
@@ -67,10 +93,18 @@ class GameWindow:
         return card_window, dice_window
 
     def show_result_card(self, game_state: GameState):
+        """
+        Switches the displayed card to the ResultCard
+        @param game_state: current state of the Game needed for re-render
+        """
         self.__current_card = self.__result_card
         self.render(game_state)
 
     def show_game_card(self, game_state: GameState):
+        """
+        Switches the displayed card to the GameCard
+        @param game_state: current state of the Game needed for re-render
+        """
         self.__current_card = self.__game_card
         self.render(game_state)
 
@@ -110,5 +144,10 @@ class GameWindow:
         self.render(game_state)
 
     def display_controls(self, game_state: GameState, control_str):
+        """
+        Displays the Controlstring at the bottom of the window
+        @param game_state: GameState current state of the game needed for re-render
+        @param control_str: str which will be displayed at bottom of window
+        """
         self.control_str = control_str
         self.render(game_state)

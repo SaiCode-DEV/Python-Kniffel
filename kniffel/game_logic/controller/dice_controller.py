@@ -21,7 +21,7 @@ class DiceController:
         self.__selected = None
         self.dice_window = dice_window
         self.__dice = []
-        for i in range(common.DICE_COUNT):
+        for _ in range(common.DICE_COUNT):
             self.__dice.append(Dice())
         self.__dice[0].selected = True
         self.__selected = 0

@@ -40,6 +40,7 @@ class StartWindow:
                 self.max_x = len(opt)
 
     def render(self, game_state: GameState = None):
+        _ = game_state
         self.window.clear()
         self.window.refresh()
         height, width = self.window.getmaxyx()
