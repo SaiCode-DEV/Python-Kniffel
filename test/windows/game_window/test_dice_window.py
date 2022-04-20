@@ -50,6 +50,5 @@ class DiceWindowTest(TestCase):
             if line.strip() == "":
                 continue
             lines.append(line.strip())
-        print(lines)
         self.assertEqual(ONE_DICE * 5, lines)
 

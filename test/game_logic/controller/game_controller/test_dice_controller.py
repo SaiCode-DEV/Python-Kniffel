@@ -1,6 +1,8 @@
 # pylint: disable=C
 import curses
 
+from kniffel import common
+from kniffel import key_codes
 from kniffel.game_logic.controller.game_controller.dice_controller import *
 
 from unittest import TestCase
@@ -67,3 +69,18 @@ class DiceControllerTest(TestCase):
         for i in range(5):
             self.assertFalse(self.dice_controller.is_locked(i),
                              "Dice should not be locked")
+
+    def test_roll_count(self):
+        self.dice_controller.reset_roll_count()
+        for _ in range(common.MAX_ROLL_COUNT):
+            self.dice_controller.handle_input(key_codes.VK_SPACE)
+            self.assertIsNone(self.mock_game_controller.message,
+                              "no error message should be displayed")
+        old_dice = self.dice_controller.get_dice_values()
+        self.dice_controller.handle_input(key_codes.VK_SPACE)
+        self.assertEqual(common.ERROR_NO_MORE_ROLLS, self.mock_game_controller.message,
+                         "Error message should be displayed")
+        new_dice = self.dice_controller.get_dice_values()
+        self.assertListEqual(old_dice, new_dice,
+                             "Dice should not be rolled if roll count is exceeded")
+
