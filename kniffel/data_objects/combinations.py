@@ -6,7 +6,7 @@ for handling a single players game state
 from enum import Enum
 from typing import List, Callable
 
-from game_logic import value_calculator
+from kniffel.game_logic import value_calculator
 
 
 class Combinations(Enum):
@@ -31,30 +31,37 @@ class Combinations(Enum):
 
 
 def get_calc_fn(combinations: Combinations) -> Callable[[List[int]], int]:
+    """
+    Returns a function for calculating the passed combination
+    @param combinations: Combination for which a function is searched
+    @return: Callable[[List[int]], int]
+    """
+    calc_fn = None
     if combinations is Combinations.ONES:
-        return lambda x: value_calculator.get_number_value(1, x)
-    elif combinations is Combinations.TWOS:
-        return lambda x: value_calculator.get_number_value(2, x)
-    elif combinations is Combinations.THREES:
-        return lambda x: value_calculator.get_number_value(3, x)
-    elif combinations is Combinations.FOURS:
-        return lambda x: value_calculator.get_number_value(4, x)
-    elif combinations is Combinations.FIVES:
-        return lambda x: value_calculator.get_number_value(5, x)
-    elif combinations is Combinations.SIXES:
-        return lambda x: value_calculator.get_number_value(6, x)
+        calc_fn = lambda x: value_calculator.get_number_value(1, x)
+    if combinations is Combinations.TWOS:
+        calc_fn = lambda x: value_calculator.get_number_value(2, x)
+    if combinations is Combinations.THREES:
+        calc_fn = lambda x: value_calculator.get_number_value(3, x)
+    if combinations is Combinations.FOURS:
+        calc_fn = lambda x: value_calculator.get_number_value(4, x)
+    if combinations is Combinations.FIVES:
+        calc_fn = lambda x: value_calculator.get_number_value(5, x)
+    if combinations is Combinations.SIXES:
+        calc_fn = lambda x: value_calculator.get_number_value(6, x)
 
-    elif combinations is Combinations.THREE_OF_KIND:
-        return value_calculator.get_three_of_kind_value
-    elif combinations is Combinations.FOUR_OF_KIND:
-        return value_calculator.get_four_of_kind_value
+    if combinations is Combinations.THREE_OF_KIND:
+        calc_fn = value_calculator.get_three_of_kind_value
+    if combinations is Combinations.FOUR_OF_KIND:
+        calc_fn = value_calculator.get_four_of_kind_value
 
-    elif combinations is Combinations.SMALL_STRAIGHT:
-        return value_calculator.get_small_straight_value
-    elif combinations is Combinations.LARGE_STRAIGHT:
-        return value_calculator.get_large_straight_value
+    if combinations is Combinations.SMALL_STRAIGHT:
+        calc_fn = value_calculator.get_small_straight_value
+    if combinations is Combinations.LARGE_STRAIGHT:
+        calc_fn = value_calculator.get_large_straight_value
 
-    elif combinations is Combinations.KNIFFEL:
-        return value_calculator.get_kniffel_value
-    elif combinations is Combinations.CHANCE:
-        return value_calculator.get_chance_value
+    if combinations is Combinations.KNIFFEL:
+        calc_fn = value_calculator.get_kniffel_value
+    if combinations is Combinations.CHANCE:
+        calc_fn = value_calculator.get_chance_value
+    return calc_fn

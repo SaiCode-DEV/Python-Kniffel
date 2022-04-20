@@ -5,7 +5,7 @@ import sys
 import curses
 from curses import wrapper
 
-import common
+from kniffel import common
 from kniffel.game_logic.controller.kniffel_controller import KniffelController
 from kniffel.windows.window_manager import WindowManager, WindowToSmall
 
@@ -18,7 +18,6 @@ def main(std_scr: curses.window):
     print("Starting Python-Kniffel")
     common.init_colors()
 
-    window_manager = None
     try:
         window_manager = WindowManager(std_scr)
     except WindowToSmall:

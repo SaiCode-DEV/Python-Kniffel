@@ -4,7 +4,7 @@ as the game_window and start_window
 """
 import curses
 
-from data_objects.game_state import GameState
+from kniffel.data_objects.game_state import GameState
 from kniffel.windows.start_window import StartWindow
 from kniffel.windows.game_window.game_window import GameWindow
 

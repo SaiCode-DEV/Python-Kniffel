@@ -5,16 +5,20 @@ start_animations contains the Logic needed for the starting animation
 import curses
 from typing import List
 
-import common
-from common import *
+from kniffel import common
 
 
 class StartAnimation:
     """
     StartAnimation controls the state of the StartAnimation
     """
+
     @staticmethod
     def get_required_size() -> List[int]:
+        """
+        Returns the minimum required y and x value to show the animation
+        @return: min_y min_x
+        """
         return [len(common.LOGO), len(common.LOGO[0])]
 
     def __init__(self, window: curses.window):
@@ -27,19 +31,25 @@ class StartAnimation:
         """
         height, width = self.window.getmaxyx()
 
-        start_x_title = int((width // 2) - (len(LOGO[0]) // 2))
-        start_y_title = int((height - len(LOGO)) // 2)
+        start_x_title = int((width // 2) - (len(common.LOGO[0]) // 2))
+        start_y_title = int((height - len(common.LOGO)) // 2)
 
         self.window.clear()
-        if self.step_count < len(LOADING):
+        if self.step_count < len(common.LOADING):
             iteration = 0
-            for line in LOADING[self.step_count]:
-                self.window.addstr(start_y_title + iteration, start_x_title, line, common.COLOR_PAIR_BLUE_BLACK)
+            for line in common.LOADING[self.step_count]:
+                self.window.addstr(start_y_title + iteration,
+                                   start_x_title,
+                                   line,
+                                   curses.color_pair(common.COLOR_PAIR_BLUE_BLACK))
                 iteration += 1
         else:
             iteration = 0
-            for line in LOGO:
-                self.window.addstr(start_y_title + iteration, start_x_title, line, common.COLOR_PAIR_BLUE_BLACK)
+            for line in common.LOGO:
+                self.window.addstr(start_y_title + iteration,
+                                   start_x_title,
+                                   line,
+                                   curses.color_pair(common.COLOR_PAIR_BLUE_BLACK))
                 iteration += 1
         self.window.refresh()
 
@@ -50,5 +60,5 @@ class StartAnimation:
         then return to the start of the animation
         """
         self.step_count += 1
-        if self.step_count > len(LOADING)+5:
+        if self.step_count > len(common.LOADING) + 5:
             self.step_count = 0

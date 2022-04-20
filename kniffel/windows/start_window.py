@@ -1,9 +1,12 @@
+"""
+The start_window module contains the logic for rendering the start window
+"""
 import curses
 from typing import Tuple
 
-from data_objects.game_state import GameState
+from kniffel.data_objects.game_state import GameState
 from kniffel import common
-from windows.animations.start_animation import StartAnimation
+from kniffel.windows.animations.start_animation import StartAnimation
 
 
 OPTIONS = [
@@ -14,6 +17,11 @@ OPTIONS = [
 
 
 def get_screens(window: curses.window) -> Tuple[curses.window, curses.window]:
+    """
+    Creates the subwindows from passed window
+    @param window: window which contains the subwindows
+    @return: logo_window, start_menu_window
+    """
     max_y, max_x = window.getmaxyx()
     [logo_min_y, _] = StartAnimation.get_required_size()
     logo_y = int(max_y * (logo_min_y / (logo_min_y + len(OPTIONS) * 2)))
@@ -22,9 +30,16 @@ def get_screens(window: curses.window) -> Tuple[curses.window, curses.window]:
 
 
 class StartWindow:
+    """
+    The StartWindow class is used to render the Start Menu to the screen
+    """
 
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
+        """
+        Returns the minimally required size of the window to render this component
+        @return: Tuple[int, int] min_y, min_x
+        """
         [logo_y, logo_x] = StartAnimation.get_required_size()
         max_x = logo_x
         for opt in OPTIONS:
@@ -41,6 +56,10 @@ class StartWindow:
                 self.max_x = len(opt)
 
     def render(self, game_state: GameState = None):
+        """
+        Renders the start menu to the screen
+        @param game_state: current state of the game
+        """
         _ = game_state
         self.window.clear()
         self.window.refresh()
@@ -50,10 +69,13 @@ class StartWindow:
         start_x = (width - self.max_x) // 2
         for line in OPTIONS:
             start_y = int((height // 2) - 2) + iteration * 2
-            self.window.addstr(start_y, start_x, line, curses.color_pair(3))
+            self.window.addstr(start_y, start_x, line)
             iteration += 1
             self.window.refresh()
         self.__animation.render()
 
     def step_animation(self):
+        """
+        Steps the currently displayed animation one step forward
+        """
         self.__animation.step_animation()

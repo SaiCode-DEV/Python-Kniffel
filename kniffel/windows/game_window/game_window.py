@@ -5,8 +5,8 @@ on the screen
 import curses
 from typing import Tuple
 
-import common
-from data_objects.game_state import GameState
+from kniffel import common
+from kniffel.data_objects.game_state import GameState
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.result_card import ResultCard
 from kniffel.windows.game_window.game_card import GameCard

@@ -5,8 +5,8 @@ The logic for a DiceSet is found in the dice_controller_module
 import curses
 from typing import List, Tuple
 
-import common
-from data_objects.dice import Dice
+from kniffel import common
+from kniffel.data_objects.dice import Dice
 
 DICE_FACES = [
     ["       ", "   ¤   ", "       "],
@@ -51,7 +51,7 @@ class DiceWindow:
         @param dice: List[Dice] wich is rendered
         """
         self.__window.clear()
-        self.__window.noutrefresh()
+        self.__window.refresh()
 
         max_y, max_x = self.__window.getmaxyx()
         off_top = (max_y - (common.DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2
@@ -99,10 +99,10 @@ class DiceWindow:
         iteration = 0
         for border in DICE_BORDER:
             if dice.locked:
-                self.__window.attron(common.COLOR_DICE_LOCKED)
+                self.__window.attron(curses.color_pair(common.COLOR_DICE_LOCKED))
             self.__window.addstr(current_y + iteration, current_x, border)
             self.__window.attroff(common.SELECTED_OPTION)
-            self.__window.attroff(common.COLOR_DICE_LOCKED)
+            self.__window.attroff(curses.color_pair(common.COLOR_DICE_LOCKED))
             iteration += 1
 
     def __draw_dice_face(self, dice: Dice):

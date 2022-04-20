@@ -6,5 +6,5 @@ class CardController:
         # elif isinstance(self.current_card, ResultCard):
         #    sub_str = ResultCard.get_control_string()
 
-    def handle_input(self, ch):
+    def handle_input(self, character:chr):
         pass
