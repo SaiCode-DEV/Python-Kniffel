@@ -11,9 +11,10 @@ class Combinations(Enum):
 
     THREE_OF_KIND = 7
     FOUR_OF_KIND = 8
+    FULL_HOUSE = 9
 
-    SMALL_STRAIGHT = 9
-    LARGE_STRAIGHT = 10
+    SMALL_STRAIGHT = 10
+    LARGE_STRAIGHT = 11
 
-    KNIFFEL = 11
-    CHANCE = 12
+    KNIFFEL = 12
+    CHANCE = 13

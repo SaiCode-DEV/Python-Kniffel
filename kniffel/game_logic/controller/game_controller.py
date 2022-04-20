@@ -41,7 +41,7 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window)
-        self.card_controller: CardController = CardController()
+        self.card_controller: CardController = CardController(game_window.game_card)
 
         self.__active_player: int = 0
         self.combinations: List[Dict[Combinations, int]] = []
@@ -62,10 +62,13 @@ class GameController:
         if ch == key_codes.VK_HORIZONTAL_TAB:
             if self.selected is EnumWindowSelected.CARD_WINDOW:
                 self.selected = EnumWindowSelected.DICE_WINDOW
+                self.card_controller.show_selected(False)
                 self.dice_controller.show_selected(True)
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
                 self.selected = EnumWindowSelected.CARD_WINDOW
                 self.dice_controller.show_selected(False)
+                self.card_controller.change_player()
+                self.card_controller.show_selected(True)
                 self.game_window.render(self.get_game_state())
             self.__update_control_str()
             return

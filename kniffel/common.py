@@ -15,6 +15,8 @@ ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintrag
 
 DICE_COUNT = 5
 PLAYER_COUNT = 2
+POINTS_STR_LEN = 5
+POINTS_COUNT = 13
 
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",
@@ -56,6 +58,72 @@ GAME_PAD = [
     " ----------------------------------- "
 ]
 
+TEST_NAME_PAD = [
+    "                                   ",
+    "                                   ",
+    "                                   "
+]
+
+TEST_GAME_PAD = [
+    "-----------------------------------",
+    "! Einser      !nur 1er!",
+    "!-------------!-------!",
+    "! Zweier      !nur 2er!",
+    "!-------------!-------!",
+    "! Dreier      !nur 3er!",
+    "!-------------!-------!",
+    "! Vieerer     !nur 4er!",
+    "!-------------!-------!",
+    "! Fünfer      !nur 5er!",
+    "!-------------!-------!",
+    "! Sechse      !nur 6er!",
+    "!-------------!-------!",
+    "! Dreierpasch !  alle !",
+    "!-------------!-------!",
+    "! Viererpasch !  alle !",
+    "!-------------!-------!",
+    "! Full-House  !  +25  !",
+    "!-------------!-------!",
+    "! K.Straße    !  +30  !",
+    "!-------------!-------!",
+    "! G.Straße    !  +40  !",
+    "!-------------!-------!",
+    "! Kniffel     !  +50  !",
+    "!-------------!-------!",
+    "! Chance      !  alle !",
+    "-----------------------------------"
+]
+
+TEST_POINTS_PAD = [
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}"
+]
+
+SEPARATOR = "!"
+
 RESULT_PAD = [
     " ------------------------------------------ ",
     " ! Oberer Teil  !   →   !{}!{}! ",
@@ -74,6 +142,7 @@ COLOR_PAIR_BLUE_BLACK = None
 # Settings
 COLOR_DICE_LOCKED = None
 SELECTED_OPTION = curses.A_REVERSE
+
 
 def init_colors():
     global COLOR_PAIR_BLUE_BLACK
