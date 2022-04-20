@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import curses
 
 import common
@@ -5,6 +7,7 @@ import common
 from data_objects.point import Point
 from data_objects.player import Player
 from windows.game_window.game_card import GameCard
+from typing import TYPE_CHECKING
 
 
 class CardController:
@@ -47,7 +50,7 @@ class CardController:
                 self.__points[self.__selected_point].save_value(15, self.__selected_point)
             else:
                 print("Combination is completed. Select another combination")
-        self.game_card.render(self.__points)
+        self.game_card.render([self.__points])
 
     def show_selected(self, show: bool):
         self.game_card.show_selected(show)

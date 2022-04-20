@@ -9,6 +9,7 @@ from enum import Enum
 import common
 import key_codes
 from data_objects.combinations import Combinations
+from data_objects.point import Point
 from kniffel.data_objects.game_state import GameState
 from kniffel.game_logic.controller.card_controller import CardController
 from kniffel.game_logic.controller.dice_controller import DiceController
@@ -44,9 +45,13 @@ class GameController:
         self.card_controller: CardController = CardController(game_window.game_card)
 
         self.__active_player: int = 0
-        self.combinations: List[Dict[Combinations, int]] = []
+        self.combinations: List[List[Point]] = []
         for _ in range(common.PLAYER_COUNT):
-            self.combinations.append({})
+            column = []
+            for i in range(common.POINTS_COUNT):
+                column.append(Point())
+            self.combinations.append(column)
+        self.combinations[0][0].selected = True
 
         self.__update_control_str()
 
@@ -116,7 +121,7 @@ class GameController:
         if combination in player_combination:
             self.game_window.display_message(self.get_game_state(), common.ERROR_COMBINATION_ALREADY_DONE)
             return
-        player_combination[combination] = value
+        player_combination[combination] = value  # todo
         self.__next_player()
 
     def __next_player(self):

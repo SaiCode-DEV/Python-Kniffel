@@ -5,6 +5,6 @@ from kniffel.data_objects.dice import Dice
 
 
 class GameState:
-    def __init__(self, dice: List[Dice], points: List[Point]):
+    def __init__(self, dice: List[Dice], points: List[List[Point]]):
         self.points = points
         self.dice = dice
