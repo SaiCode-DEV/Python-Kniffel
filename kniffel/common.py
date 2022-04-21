@@ -16,7 +16,7 @@ ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintrag
 DICE_COUNT = 5
 PLAYER_COUNT = 2
 POINTS_STR_LEN = 5
-POINTS_COUNT = 13
+COMBINATIONS_COUNT = 13
 
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",

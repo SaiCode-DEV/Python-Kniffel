@@ -22,8 +22,7 @@ class Point:
     def __init__(self):
         self.selected = False
         self.completed = False
-        self.value = 0
-        self.position = 0
+        self.value = ""
 
         self.__points = []
 
@@ -33,6 +32,3 @@ class Point:
     @property
     def points(self):
         return self.__points
-
-    def add_points(self, value: str, art: Combinations):
-        self.__points[art] = value

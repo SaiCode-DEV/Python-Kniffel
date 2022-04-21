@@ -1,17 +1,14 @@
 import curses
-from typing import Tuple, List, Dict
+from typing import Tuple, List
 
-from data_objects.combinations import Combinations
 from kniffel import common
 from kniffel.data_objects.point import Point
-from kniffel.data_objects.player import Player
 
 
 class GameCard:
     def __init__(self, window: curses.window):
         self.__show_selected = False
         self.__selected_str = 0
-        self.__selected_player = Player.FIRST
         self.__window = window
         self.__points = Point()
 
@@ -72,10 +69,12 @@ class GameCard:
             if i % 2 == 0:
                 index = i // 2
                 point = column[index]
-                if not self.__show_selected and point.selected:
+
+                if self.__show_selected and point.selected:
                     self.__window.attron(curses.color_pair(5))
                 else:
                     self.__window.attron(curses.color_pair(4))
+
                 str_to_add = common.TEST_POINTS_PAD[i].format(point.value)
                 self.__window.addstr(y_off + i, x_off, str_to_add.center(5))
                 self.__window.attroff(curses.color_pair(4))
@@ -92,6 +91,3 @@ class GameCard:
 
     def show_selected(self, show):
         self.__show_selected = show
-
-    def change_player(self, player: Player):
-        self.__selected_player = player

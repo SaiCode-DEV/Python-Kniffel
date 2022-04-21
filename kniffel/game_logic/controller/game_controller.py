@@ -48,7 +48,7 @@ class GameController:
         self.combinations: List[List[Point]] = []
         for _ in range(common.PLAYER_COUNT):
             column = []
-            for i in range(common.POINTS_COUNT):
+            for i in range(common.COMBINATIONS_COUNT):
                 column.append(Point())
             self.combinations.append(column)
         self.combinations[0][0].selected = True
@@ -72,7 +72,6 @@ class GameController:
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
                 self.selected = EnumWindowSelected.CARD_WINDOW
                 self.dice_controller.show_selected(False)
-                self.card_controller.change_player()
                 self.card_controller.show_selected(True)
                 self.game_window.render(self.get_game_state())
             self.__update_control_str()
@@ -114,7 +113,7 @@ class GameController:
         """
         Collects the active game state
         """
-        return GameState(self.dice_controller.get_dice(), self.combinations)
+        return GameState(self.dice_controller.get_dice(), self.card_controller.get_card())
 
     def add_entry(self, combination: Combinations, value):
         player_combination = self.combinations[self.__active_player]
@@ -126,4 +125,4 @@ class GameController:
 
     def __next_player(self):
         self.__active_player += 1
-        self.__active_player %= len(self.combinations)  # next players turn
+        self.__active_player %= len(self.card_controller.get_card())  # next players turn
