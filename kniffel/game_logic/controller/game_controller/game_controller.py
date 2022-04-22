@@ -12,6 +12,7 @@ from kniffel import key_codes
 from kniffel.data_objects import combinations
 from kniffel.data_objects.combinations import Combinations
 from kniffel.game_logic.value_calculator import InvalidThrow
+from kniffel.data_objects.point import Point
 from kniffel.data_objects.game_state import GameState
 from kniffel.game_logic.controller.game_controller.card_controller import CardController
 from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
@@ -47,12 +48,16 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController()
+        self.card_controller: CardController = CardController(game_window.game_card)
 
         self.__active_player: int = 0
-        self.combinations: List[Dict[Combinations, int]] = []
+        self.combinations: List[List[Point]] = []
         for _ in range(common.PLAYER_COUNT):
-            self.combinations.append({})
+            column = []
+            for i in range(common.COMBINATIONS_COUNT):
+                column.append(Point())
+            self.combinations.append(column)
+        self.combinations[0][0].selected = True
 
         self.__update_control_str()
 
@@ -68,10 +73,12 @@ class GameController:
         if character == key_codes.VK_HORIZONTAL_TAB:
             if self.selected is EnumWindowSelected.CARD_WINDOW:
                 self.selected = EnumWindowSelected.DICE_WINDOW
+                self.card_controller.show_selected(False)
                 self.dice_controller.show_selected(True)
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
                 self.selected = EnumWindowSelected.CARD_WINDOW
                 self.dice_controller.show_selected(False)
+                self.card_controller.show_selected(True)
                 self.game_window.render(self.get_game_state())
             self.__update_control_str()
             return
@@ -120,7 +127,7 @@ class GameController:
         """
         Collects the active game state
         """
-        return GameState(self.dice_controller.get_dice(), self.combinations)
+        return GameState(self.dice_controller.get_dice(), self.card_controller.get_card())
 
     def add_entry(self, combination: Combinations):
         """
@@ -135,7 +142,7 @@ class GameController:
         calc_fn = combinations.get_calc_fn(combination)
         try:
             value = calc_fn(self.dice_controller.get_dice_values())
-            player_combination[combination] = value
+            #todo player_combination[combination] = value
         except InvalidThrow:
             self.display_message("Failed to count Dice values")
             return
@@ -149,7 +156,7 @@ class GameController:
         self.dice_controller.reset_roll_count()
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
         self.__active_player += 1
-        self.__active_player %= len(self.combinations)  # next players turn
+        self.__active_player %= len(self.card_controller.get_card())  # next players turn
 
     def reset_game(self):
         """

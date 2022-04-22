@@ -119,7 +119,7 @@ class GameWindow:
         self.window.addstr(0, self.__get_str_off(self.message), self.message)
         self.window.addstr(max_y - 1, self.__get_str_off(self.control_str), self.control_str)
 
-        self.__current_card.render(game_state.combinations)
+        self.__current_card.render(game_state.points)
         self.__dice_window.render(game_state.dice)
 
     def __get_str_off(self, msg: str) -> int:

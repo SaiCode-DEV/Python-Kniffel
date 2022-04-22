@@ -3,7 +3,7 @@ The game_state module contains all classes for holding and storing a games curre
 """
 from typing import List, Dict
 
-from kniffel.data_objects.combinations import Combinations
+from data_objects.point import Point
 from kniffel.data_objects.dice import Dice
 
 
@@ -13,16 +13,16 @@ class GameState:
     it should withold all information to restore a canceled game
     """
 
-    def __init__(self, dice: List[Dice], combinations: List[Dict[Combinations, int]]):
-        self.__combinations = combinations
+    def __init__(self, dice: List[Dice], points: List[List[Point]]):
+        self.__points = points
         self.__dice = dice
 
     @property
-    def combinations(self) -> List[Dict[Combinations, int]]:
+    def points(self) -> List[List[Point]]:
         """
         A getter for the combinations within a GameState
         """
-        return self.__combinations
+        return self.__points
 
     @property
     def dice(self) -> List[Dice]:
