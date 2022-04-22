@@ -1,0 +1,167 @@
+{
+    "active_player": 1,
+    "roll_count": 3,
+    "points": [
+        [
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": 8
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            }
+        ],
+        [
+            {
+                "selected": true,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            },
+            {
+                "selected": false,
+                "completed": false,
+                "value": null
+            }
+        ]
+    ],
+    "dice": [
+        {
+            "value": 3,
+            "selected": false,
+            "locked": false
+        },
+        {
+            "value": 5,
+            "selected": false,
+            "locked": false
+        },
+        {
+            "value": 5,
+            "selected": false,
+            "locked": false
+        },
+        {
+            "value": 4,
+            "selected": false,
+            "locked": false
+        },
+        {
+            "value": 1,
+            "selected": true,
+            "locked": false
+        }
+    ]
+}

@@ -10,6 +10,7 @@ from kniffel.windows.animations.start_animation import StartAnimation
 
 
 OPTIONS = [
+    common.LABEL_MANU_CONTINUE,
     common.LABEL_MANU_PLAY,
     common.LABEL_MENU_PLAY_BOT,
     common.LABEL_MENU_ESCAPE

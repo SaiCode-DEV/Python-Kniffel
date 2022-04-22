@@ -45,6 +45,13 @@ class DiceController:
         """
         return self.__selected
 
+    @property
+    def roll_count(self) -> int:
+        """
+        returns the current roll count
+        """
+        return self.__roll_count
+
     def handle_input(self, character: chr):
         """
         Decides what to do with a users input
@@ -99,7 +106,19 @@ class DiceController:
         """
         return [dice.value for dice in self.__dice]
 
-    def set_dice(self, dices: List[int]):
+    def set_dice(self, dices: List[Dice]):
+        """
+        Sets the currently displayed dice value
+        @param dices: values that the new dice should have
+        """
+        validate_throw([die.value for die in dices])
+        iteration = 0
+        for die in dices:
+            dices[iteration] = die
+            iteration += 1
+        self.dice_window.render(self.__dice)
+
+    def set_dice_value(self, dices: List[int]):
         """
         Sets the currently displayed dice value
         @param dices: values that the new dice should have
@@ -150,6 +169,12 @@ class DiceController:
         @return: True if allowed, False if not
         """
         return self.__roll_count < common.MAX_ROLL_COUNT
+
+    def set_roll_count(self, roll_count: int):
+        """
+        sets the roll count to the passed number
+        """
+        self.__roll_count = roll_count
 
     def reset_roll_count(self):
         """

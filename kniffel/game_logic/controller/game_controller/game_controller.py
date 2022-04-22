@@ -4,6 +4,7 @@ Controller for managing the GameWindow and a Game's State
 
 from __future__ import annotations
 
+import os
 from enum import Enum
 
 from typing import TYPE_CHECKING, List
@@ -13,11 +14,14 @@ from kniffel.data_objects import combinations
 from kniffel.data_objects.combinations import Combinations
 from kniffel.game_logic.value_calculator import InvalidThrow
 from kniffel.data_objects.point import Point
-from kniffel.data_objects.game_state import GameState
+from kniffel.data_objects.game_state import GameState, GameStateEncoder
 from kniffel.game_logic.controller.game_controller.card_controller import CardController
 from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.game_window import GameWindow
+
+import json
+from os import path
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -150,7 +154,10 @@ class GameController:
         """
         Collects the active game state
         """
-        return GameState(self.dice_controller.get_dice(), self.combinations)
+        return GameState(self.dice_controller.get_dice(),
+                         self.combinations,
+                         self.__active_player,
+                         self.dice_controller.roll_count)
 
     def add_entry(self, combination: Combinations):
         """
@@ -204,3 +211,36 @@ class GameController:
         self.__active_player = number
         self.card_controller.set_selected_player(self.__active_player)
         self.display_message(common.LABEL_PLAYER_TURN.format(self.__active_player + 1))
+
+    def load_from_file(self):
+        """
+        loads the game_state from file specified in common
+        """
+        if path.isfile(common.FILE_GAME_STATE):
+            with open(common.FILE_GAME_STATE, encoding="utf-8") as file:
+                try:
+                    data = json.load(file)
+                    self.__set_game_state(data)
+                except json.JSONDecodeError:
+                    print("Error reading game state file")
+
+    def __set_game_state(self, data):
+        try:
+            game_state = GameState.from_json(data)
+            self.dice_controller.set_dice(game_state.dice)
+            self.combinations = game_state.points
+            if len(self.combinations) != common.PLAYER_COUNT or len(self.combinations[0]) != common.COMBINATIONS_COUNT:
+                self.__reset_combinations()
+            self.__set_active_player(game_state.active_player)
+            self.dice_controller.set_roll_count(game_state.roll_count)
+        except TypeError:
+            pass
+
+    def save_to_file(self):
+        """
+        saves the current game_state to a file saved in common
+        """
+        if not path.isdir(common.DIR_FILE_GAME_STATE):
+            os.mkdir(common.DIR_FILE_GAME_STATE)
+        with open(common.FILE_GAME_STATE, "w", encoding="utf-8") as file:
+            json.dump(obj=self.get_game_state(), fp=file, cls=GameStateEncoder, indent=4)

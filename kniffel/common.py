@@ -4,12 +4,15 @@ all strings which get displayed to the user
 """
 
 import curses
+import kniffel
+from os import path
 
 GAME_TITLE = "Kniffel"
 
-LABEL_MANU_PLAY = "(P) Spiel starten"
-LABEL_MENU_PLAY_BOT = "(C) Play against computer"
-LABEL_MENU_ESCAPE = "(Q) Quit the game"
+LABEL_MANU_CONTINUE = "(C) Spiel fortführen"
+LABEL_MANU_PLAY = "(N) Neues Spiel starten"
+LABEL_MENU_PLAY_BOT = "(P) Neues Spiel gegen Computer starten"
+LABEL_MENU_ESCAPE = "(Q) Spiel beenden"
 
 LABEL_PLAYER_TURN = "Spieler Nummer {} ist am Zug"
 
@@ -33,6 +36,9 @@ ROLL_COUNT_ANIMATION = 8
 POINTS_STR_LEN = 5
 COMBINATIONS_COUNT = 13
 
+DIR_FILE_GAME_STATE = kniffel.__file__.replace("__init__.py", "") + "persistence"
+FILE_GAME_STATE = path.join(DIR_FILE_GAME_STATE, "game_state.json")
+
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",
         "| ' /| '_ \\| | |_| |_ / _ \\ | ",
@@ -53,11 +59,11 @@ TEST_GAME_PAD = [
     "!-------------!-------!",
     "! Dreier      !nur 3er!",
     "!-------------!-------!",
-    "! Vierer     !nur 4er!",
+    "! Vierer      !nur 4er!",
     "!-------------!-------!",
     "! Fünfer      !nur 5er!",
     "!-------------!-------!",
-    "! Sechse      !nur 6er!",
+    "! Sechser     !nur 6er!",
     "!-------------!-------!",
     "! Dreierpasch !  alle !",
     "!-------------!-------!",

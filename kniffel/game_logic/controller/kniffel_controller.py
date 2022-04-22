@@ -28,7 +28,8 @@ class KniffelController:
     def __init__(self, window_manager: WindowManager):
         self.window_manager = window_manager
         self.game_controller = GameController(self, window_manager.game_window)
-        self.start_menu_controller = StartMenuController(self,window_manager.start_window)
+        self.game_controller.load_from_file()
+        self.start_menu_controller = StartMenuController(self, window_manager.start_window)
         self.__running = False
 
         self.active_window = EnumWindowSelected.START_MENU
@@ -57,6 +58,7 @@ class KniffelController:
             elif self.active_window is EnumWindowSelected.GAME_WINDOW:
                 self.game_controller.handle_input(character)
         WindowManager.close()
+        self.game_controller.save_to_file()
 
     def show_start_menu(self):
         """
@@ -64,6 +66,13 @@ class KniffelController:
         """
         self.window_manager.show_start_menu(self.game_controller.get_game_state())
         self.active_window = EnumWindowSelected.START_MENU
+
+    def continue_game(self):
+        """
+        resumes the game where it was left off
+        """
+        self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.active_window = EnumWindowSelected.GAME_WINDOW
 
     def start_classic_game(self):
         """

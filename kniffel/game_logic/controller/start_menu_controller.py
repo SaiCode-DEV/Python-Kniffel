@@ -26,8 +26,10 @@ class StartMenuController:
         Decides what to do with a users input
         @param character: input from the user
         """
-        if character in (key_codes.VK_UC_P, key_codes.VK_LC_P):
+        if character in (key_codes.VK_UC_N, key_codes.VK_LC_N):
             self.kniffel_controller.start_classic_game()
+        if character in (key_codes.VK_UC_C, key_codes.VK_LC_C):
+            self.kniffel_controller.continue_game()
         if character in (key_codes.VK_LC_Q, key_codes.VK_UC_Q):
             self.kniffel_controller.exit()
 

@@ -6,9 +6,8 @@ import common
 import key_codes
 from data_objects.combinations import Combinations
 
-from data_objects.point import Point
 from windows.game_window.game_card import GameCard
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -52,9 +51,15 @@ class CardController:
 
     def set_selected_player(self, player: int):
         combinations = self.game_controller.get_game_state().points
-        combinations[self.__selected_player][self.__selected_combination].selected = False
+        self.__unselect_all()
         self.__selected_player = player
         combinations[self.__selected_player][self.__selected_combination].selected = True
+
+    def __unselect_all(self):
+        combinations = self.game_controller.get_game_state().points
+        for col in combinations:
+            for point in col:
+                point.selected = False
 
     def show_selected(self, show: bool):
         self.game_card.show_selected(show)
