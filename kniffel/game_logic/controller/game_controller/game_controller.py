@@ -193,6 +193,7 @@ class GameController:
         self.__set_active_player(0)
         self.__reset_combinations()
         self.game_window.render(self.get_game_state())
+        self.select_dice_window()
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
 
     def __set_active_player(self, number: int):
