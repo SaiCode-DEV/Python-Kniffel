@@ -4,27 +4,24 @@ import curses
 
 import common
 import key_codes
+from data_objects.combinations import Combinations
 
 from data_objects.point import Point
 from windows.game_window.game_card import GameCard
-from typing import List
+from typing import List, TYPE_CHECKING
+
+# to avoid a circular import
+if TYPE_CHECKING:
+    from game_logic.controller.game_controller.game_controller import GameController
 
 
 class CardController:
-    def __init__(self, game_card: GameCard):
+    def __init__(self, game_card: GameCard, game_controller: GameController):
         self.game_card = game_card
+        self.game_controller = game_controller
         self.__selected_player = None
         self.__selected_combination = None
 
-        self.__combinations: List[List[Point]] = []
-
-        for _ in range(common.PLAYER_COUNT):
-            column = []
-            for i in range(common.COMBINATIONS_COUNT):
-                column.append(Point())
-            self.__combinations.append(column)
-
-        self.__combinations[0][0].selected = True
         self.__selected_combination = 0
         self.__selected_player = 0
 
@@ -38,28 +35,26 @@ class CardController:
         #    sub_str = ResultCard.get_control_string()
 
     def handle_input(self, ch):
+        combinations = self.game_controller.get_game_state().points
         if ch == curses.KEY_DOWN:
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
+            combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination = (self.__selected_combination + 1) % common.COMBINATIONS_COUNT
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
+            combinations[self.__selected_player][self.__selected_combination].selected = True
         if ch == curses.KEY_UP:
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
+            combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination -= 1
             if self.__selected_combination < 0:
                 self.__selected_combination = common.COMBINATIONS_COUNT - 1
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
-        # TODO changing a player does not work correctly
+            combinations[self.__selected_player][self.__selected_combination].selected = True
         if ch == curses.KEY_ENTER or ch == 10 or ch == 13 or ch == key_codes.VK_NUMPAD_ENTER:
+            self.game_controller.add_entry(Combinations(self.__selected_combination))
+        self.game_card.render(combinations)
 
-            self.__combinations[self.__selected_player][self.__selected_combination].value = 5  # TODO test
-
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
-            self.__selected_player = (self.__selected_player + 1) % common.PLAYER_COUNT
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
-        self.game_card.render(self.__combinations)
-
-    def get_card(self):
-        return [card for card in self.__combinations]
+    def set_selected_player(self, player: int):
+        combinations = self.game_controller.get_game_state().points
+        combinations[self.__selected_player][self.__selected_combination].selected = False
+        self.__selected_player = player
+        combinations[self.__selected_player][self.__selected_combination].selected = True
 
     def show_selected(self, show: bool):
         self.game_card.show_selected(show)

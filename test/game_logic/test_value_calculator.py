@@ -22,14 +22,14 @@ class TestValueCalculator(TestCase):
 
     def test_get_number_value(self):
         with self.assertRaises(InvalidThrow):
-            get_number_value(1, [0, 1, 1, 1, 1])
+            __get_number_value(1, [0, 1, 1, 1, 1])
         with self.assertRaises(InvalidThrow):
-            get_number_value(1, [7, 1, 1, 1, 1])
+            __get_number_value(1, [7, 1, 1, 1, 1])
         with self.assertRaises(InvalidThrow):
-            get_number_value(1, [0, 1])
-        result = get_number_value(1, [1, 1, 1, 2, 6])
+            __get_number_value(1, [0, 1])
+        result = __get_number_value(1, [1, 1, 1, 2, 6])
         self.assertEqual(3, result, "1,[1, 1, 1, 2, 6] should result to 3")
-        result = get_number_value(5, [1, 3, 1, 2, 6])
+        result = __get_number_value(5, [1, 3, 1, 2, 6])
         self.assertEqual(0, result, "5,[1, 3, 1, 2, 6] should result to 0")
 
     def test_get_three_of_kind(self):
@@ -54,13 +54,13 @@ class TestValueCalculator(TestCase):
         self.assertEqual(FULL_HOUSE_VALUE, result, f"[1,1,1,2,2] should result to {FULL_HOUSE_VALUE}")
 
     def test_count_run(self):
-        result = count_run([1, 1, 3, 2, 2])
+        result = __count_run([1, 1, 3, 2, 2])
         self.assertEqual(3, result, "[1,1,3,2,2] should result to 3")
-        result = count_run([1, 4, 3, 2, 5])
+        result = __count_run([1, 4, 3, 2, 5])
         self.assertEqual(5, result, "[1, 4, 3, 2, 5] should result to 5")
-        result = count_run([1, 1, 1, 1, 1])
+        result = __count_run([1, 1, 1, 1, 1])
         self.assertEqual(1, result, "[1, 1, 1, 1, 1] should result to 1")
-        result = count_run([4, 4, 3, 5, 5])
+        result = __count_run([4, 4, 3, 5, 5])
         self.assertEqual(3, result, "[4,4,3,5,5] should result to 3")
 
     def test_small_straight(self):

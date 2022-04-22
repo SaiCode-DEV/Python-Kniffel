@@ -111,6 +111,13 @@ class DiceController:
             iteration += 1
         self.dice_window.render(self.__dice)
 
+    def unlock_all_dice(self):
+        """
+        unlocks all dice
+        """
+        for dice in self.__dice:
+            dice.locked = False
+
     def lock_dice(self, dice_nr: int, locked: bool):
         """
         locks or unlocks a die depending on the locked value

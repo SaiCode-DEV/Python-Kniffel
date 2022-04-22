@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from enum import Enum
 
-from typing import TYPE_CHECKING, Dict, List
+from typing import TYPE_CHECKING, List
 from kniffel import common
 from kniffel import key_codes
 from kniffel.data_objects import combinations
@@ -48,17 +48,46 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController(game_window.game_card)
+        self.card_controller: CardController = CardController(game_window.game_card, self)
 
         self.__active_player: int = 0
         self.combinations: List[List[Point]] = []
+        self.__reset_combinations()
+
+        self.__update_control_str()
+
+    def __reset_combinations(self):
+        """
+        resets the all combinations to be empty again
+        """
+        self.combinations: List[List[Point]] = []
         for _ in range(common.PLAYER_COUNT):
             column = []
-            for i in range(common.COMBINATIONS_COUNT):
+            for _ in range(common.COMBINATIONS_COUNT):
                 column.append(Point())
             self.combinations.append(column)
         self.combinations[0][0].selected = True
 
+    def select_card_window(self):
+        """
+        switches the view to the card_window
+        and re-renders the screen
+        """
+        self.selected = EnumWindowSelected.CARD_WINDOW
+        self.dice_controller.show_selected(False)
+        self.card_controller.show_selected(True)
+        self.game_window.render(self.get_game_state())
+        self.__update_control_str()
+
+    def select_dice_window(self):
+        """
+        switches the view to the dice_window
+        and re-renders the screen
+        """
+        self.selected = EnumWindowSelected.DICE_WINDOW
+        self.card_controller.show_selected(False)
+        self.dice_controller.show_selected(True)
+        self.game_window.render(self.get_game_state())
         self.__update_control_str()
 
     def handle_input(self, character: chr):
@@ -67,20 +96,14 @@ class GameController:
         @param character: chr representing the users input
         """
         if character in (key_codes.VK_UC_Q, key_codes.VK_LC_Q):
-            self.kniffel_controller.exit()
+            self.kniffel_controller.show_start_menu()
 
         # switch between subwindows
         if character == key_codes.VK_HORIZONTAL_TAB:
             if self.selected is EnumWindowSelected.CARD_WINDOW:
-                self.selected = EnumWindowSelected.DICE_WINDOW
-                self.card_controller.show_selected(False)
-                self.dice_controller.show_selected(True)
+                self.select_dice_window()
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
-                self.selected = EnumWindowSelected.CARD_WINDOW
-                self.dice_controller.show_selected(False)
-                self.card_controller.show_selected(True)
-                self.game_window.render(self.get_game_state())
-            self.__update_control_str()
+                self.select_card_window()
             return
         self.__distribute_input(character)
 
@@ -127,7 +150,7 @@ class GameController:
         """
         Collects the active game state
         """
-        return GameState(self.dice_controller.get_dice(), self.card_controller.get_card())
+        return GameState(self.dice_controller.get_dice(), self.combinations)
 
     def add_entry(self, combination: Combinations):
         """
@@ -136,16 +159,17 @@ class GameController:
         @param combination: in which field the value is entered
         """
         player_combination = self.combinations[self.__active_player]
-        if combination in player_combination:
+        if player_combination[combination.value].value is not None:
             self.display_message(common.ERROR_COMBINATION_ALREADY_DONE)
             return
         calc_fn = combinations.get_calc_fn(combination)
         try:
             value = calc_fn(self.dice_controller.get_dice_values())
-            #todo player_combination[combination] = value
+            player_combination[combination.value].value = value
         except InvalidThrow:
             self.display_message("Failed to count Dice values")
             return
+        self.game_window.render(self.get_game_state())
         self.__next_player()
 
     def __next_player(self):
@@ -153,19 +177,29 @@ class GameController:
         selects the next player and resets the roll count
         @return:
         """
+        self.dice_controller.unlock_all_dice()
         self.dice_controller.reset_roll_count()
+        active_player = (self.__active_player + 1) % len(self.combinations)
+        self.__set_active_player(active_player)
+        self.select_dice_window()
+
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
-        self.__active_player += 1
-        self.__active_player %= len(self.card_controller.get_card())  # next players turn
 
     def reset_game(self):
         """
         Resets the Game state so a new game can begin
         """
         self.dice_controller.reset_roll_count()
-        self.__active_player: int = 0
-        self.combinations: List[Dict[Combinations, int]] = []
-        for _ in range(common.PLAYER_COUNT):
-            self.combinations.append({})
+        self.__set_active_player(0)
+        self.__reset_combinations()
         self.game_window.render(self.get_game_state())
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
+
+    def __set_active_player(self, number: int):
+        """
+        Sets the active player and updates screen to show active player
+        @param number: index of active player
+        """
+        self.__active_player = number
+        self.card_controller.set_selected_player(self.__active_player)
+        self.display_message(common.LABEL_PLAYER_TURN.format(self.__active_player + 1))

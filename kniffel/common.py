@@ -11,7 +11,9 @@ LABEL_MANU_PLAY = "(P) Spiel starten"
 LABEL_MENU_PLAY_BOT = "(C) Play against computer"
 LABEL_MENU_ESCAPE = "(Q) Quit the game"
 
-LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Spiel Beenden"
+LABEL_PLAYER_TURN = "Spieler Nummer {} ist am Zug"
+
+LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Start Menu"
 LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll " \
                                      "| (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
 LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations |" \
@@ -36,40 +38,6 @@ LOGO = [" _  __      _  __  __      _  ",
         "| ' /| '_ \\| | |_| |_ / _ \\ | ",
         "| . \\| | | | |  _|  _|  __/ | ",
         "|_|\\_\\_| |_|_|_| |_|  \\___|_| "]
-
-GAME_PAD = [
-    "                                     ",
-    "                                     ",
-    "                                     ",
-    " ----------------------------------- ",
-    " ! Einser      !nur 1er!{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Zweier      !nur 2er!{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Dreier      !nur 3er!{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Vierer      !nur 4er!{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Fünfer      !nur 5er!{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Sechser     !nur 6er!{}!{}! ",
-    " ----------------------------------- ",
-    " ----------------------------------- ",
-    " ! Dreierpasch !  alle !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Viererpasch !  alle !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Full-House  !  +25  !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! K.Straße    !  +30  !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! G.Straße    !  +40  !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Kniffel     !  +50  !{}!{}! ",
-    " !-------------!-------!-----!-----! ",
-    " ! Chance      !  alle !{}!{}! ",
-    " ----------------------------------- "
-]
 
 TEST_NAME_PAD = [
     "                                   ",

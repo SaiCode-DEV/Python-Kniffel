@@ -58,6 +58,13 @@ class KniffelController:
                 self.game_controller.handle_input(character)
         WindowManager.close()
 
+    def show_start_menu(self):
+        """
+        Show the start menu
+        """
+        self.window_manager.show_start_menu(self.game_controller.get_game_state())
+        self.active_window = EnumWindowSelected.START_MENU
+
     def start_classic_game(self):
         """
         Show the Game Window and start the Game

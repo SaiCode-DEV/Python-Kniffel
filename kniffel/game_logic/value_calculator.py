@@ -63,7 +63,67 @@ def get_count_dict(throw: List[int]) -> Dict[int, int]:
     return counts
 
 
-def get_number_value(dice_value: int, throw: List[int]) -> int:
+def get_one_value(throw: List[int]) -> int:
+    """
+    Sums up all the one's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all one's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(1, throw)
+
+
+def get_two_value(throw: List[int]) -> int:
+    """
+    Sums up all the two's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all two's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(2, throw)
+
+
+def get_three_value(throw: List[int]) -> int:
+    """
+    Sums up all the three's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all three's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(3, throw)
+
+
+def get_four_value(throw: List[int]) -> int:
+    """
+    Sums up all the four's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all four's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(4, throw)
+
+
+def get_five_value(throw: List[int]) -> int:
+    """
+    Sums up all the five's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all five's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(5, throw)
+
+
+def get_six_value(throw: List[int]) -> int:
+    """
+    Sums up all the six's in a throw
+    @param throw: a List of dice values
+    @return: the Sum of all six's
+    @raise InvalidThrow if the throw does not fit requirements
+    """
+    return __get_number_value(6, throw)
+
+
+def __get_number_value(dice_value: int, throw: List[int]) -> int:
     """
     Sums up all the dices with the same value as the passed number
     @param dice_value: value of the dices that should be counted
@@ -134,7 +194,7 @@ def get_full_house_value(throw: List[int]) -> int:
     return 0
 
 
-def count_run(throw: List[int]) -> int:
+def __count_run(throw: List[int]) -> int:
     """
     Counts the longest sequenz of subsequent numbers in a throw
     @param throw: a list of dice values
@@ -163,7 +223,7 @@ def get_small_straight_value(throw: List[int]) -> int:
     @raise InvalidThrow if the throw does not fit requirements
     """
     validate_throw(throw)
-    if count_run(throw) >= 3:
+    if __count_run(throw) >= 3:
         return SMALL_STRAIGHT_VALUE
     return 0
 
@@ -177,7 +237,7 @@ def get_large_straight_value(throw: List[int]) -> int:
     @raise InvalidThrow if the throw does not fit requirements
     """
     validate_throw(throw)
-    if count_run(throw) >= 4:
+    if __count_run(throw) >= 4:
         return LARGE_STRAIGHT_VALUE
     return 0
 

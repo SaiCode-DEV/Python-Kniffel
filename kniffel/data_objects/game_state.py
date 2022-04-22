@@ -1,9 +1,9 @@
 """
 The game_state module contains all classes for holding and storing a games current state
 """
-from typing import List, Dict
+from typing import List
 
-from data_objects.point import Point
+from kniffel.data_objects.point import Point
 from kniffel.data_objects.dice import Dice
 
 

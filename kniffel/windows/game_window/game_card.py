@@ -14,7 +14,7 @@ class GameCard:
 
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
-        return len(common.GAME_PAD), len(common.GAME_PAD[0])
+        return len(common.TEST_GAME_PAD), len(common.TEST_GAME_PAD[0])
 
     @staticmethod
     def get_control_string() -> str:
@@ -39,8 +39,8 @@ class GameCard:
         name_str = attachment + common.GAME_TITLE + ending
 
         max_y, max_x = self.__window.getmaxyx()
-        x_off = (max_x - len(common.GAME_PAD[0])) // 2
-        y_off = (max_y - len(common.GAME_PAD)) // 2
+        x_off = (max_x - len(common.TEST_GAME_PAD[0])) // 2
+        y_off = (max_y - len(common.TEST_GAME_PAD)) // 2
 
         # Print name pad
         for i in range(len(common.TEST_NAME_PAD)):
@@ -75,7 +75,13 @@ class GameCard:
                 else:
                     self.__window.attron(curses.color_pair(4))
 
-                str_to_add = common.TEST_POINTS_PAD[i].format(point.value)
+                if point.value is None:
+                    str_to_add = ""
+                elif point.value is 0:
+                    str_to_add = "-"
+                else:
+                    str_to_add = common.TEST_POINTS_PAD[i].format(point.value)
+
                 self.__window.addstr(y_off + i, x_off, str_to_add.center(5))
                 self.__window.attroff(curses.color_pair(4))
                 self.__window.attroff(curses.color_pair(5))
