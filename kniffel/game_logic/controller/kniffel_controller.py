@@ -6,6 +6,7 @@ the makro state of the game
 from enum import Enum
 from time import sleep
 
+from data_objects.game_kind import EnumGameKind
 from kniffel import common
 from kniffel.game_logic.controller.game_controller.game_controller import GameController
 from kniffel.game_logic.controller.start_menu_controller import StartMenuController
@@ -79,13 +80,16 @@ class KniffelController:
         Show the Game Window and start the Game
         """
         self.window_manager.show_game_window(self.game_controller.get_game_state())
-        self.game_controller.reset_game()
+        self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
         self.active_window = EnumWindowSelected.GAME_WINDOW
 
     def start_bot_game(self):
         """
         Show the Game Window and starts a game against a bot
         """
+        self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_BOT)
+        self.active_window = EnumWindowSelected.GAME_WINDOW
 
     def exit(self):
         """

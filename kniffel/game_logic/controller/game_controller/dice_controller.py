@@ -45,6 +45,16 @@ class DiceController:
         """
         return self.__selected
 
+    @selected.setter
+    def selected(self, selected_index: int):
+        """
+        selects the dice with the passed index
+        @param selected_index: index of dice to be selected
+        """
+        self.__dice[self.selected].selected = False
+        self.__selected = selected_index
+        self.__dice[self.selected].selected = True
+
     @property
     def roll_count(self) -> int:
         """

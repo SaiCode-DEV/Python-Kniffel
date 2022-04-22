@@ -31,6 +31,7 @@ DICE_COUNT = 5
 PLAYER_COUNT = 2
 MAX_ROLL_COUNT = 3  # Number of rolls a player can roll in one turn
 ANIMATION_DELAY = 0.175
+BOT_DECISION_DELAY = 1  # number of seconds the bots decision is displayed
 ROLL_COUNT_ANIMATION = 8
 
 POINTS_STR_LEN = 5

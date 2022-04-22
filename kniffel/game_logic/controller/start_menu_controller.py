@@ -30,6 +30,8 @@ class StartMenuController:
             self.kniffel_controller.start_classic_game()
         if character in (key_codes.VK_UC_C, key_codes.VK_LC_C):
             self.kniffel_controller.continue_game()
+        if character in (key_codes.VK_LC_P, key_codes.VK_UC_P):
+            self.kniffel_controller.start_bot_game()
         if character in (key_codes.VK_LC_Q, key_codes.VK_UC_Q):
             self.kniffel_controller.exit()
 

@@ -1,6 +1,6 @@
 {
     "active_player": 0,
-    "roll_count": 1,
+    "roll_count": 0,
     "points": [
         [
             {
@@ -139,7 +139,7 @@
     ],
     "dice": [
         {
-            "value": 6,
+            "value": 3,
             "selected": true,
             "locked": false
         },
@@ -149,7 +149,7 @@
             "locked": false
         },
         {
-            "value": 6,
+            "value": 1,
             "selected": false,
             "locked": false
         },
