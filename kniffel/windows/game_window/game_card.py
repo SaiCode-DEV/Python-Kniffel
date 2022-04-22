@@ -6,28 +6,33 @@ from kniffel.data_objects.point import Point
 
 
 class GameCard:
+    """
+    GameCard class takes in a window it will render a game card
+    """
     def __init__(self, window: curses.window):
         self.__show_selected = False
-        self.__selected_str = 0
         self.__window = window
-        self.__points = Point()
 
     @staticmethod
     def get_required_size() -> Tuple[int, int]:
+        """
+        Return height and width needed for rendering a game card
+        @return height, width
+        """
         return len(common.TEST_GAME_PAD), len(common.TEST_GAME_PAD[0])
 
     @staticmethod
     def get_control_string() -> str:
+        """
+        Returns the control-string with all available controls for the game card
+        """
         return common.LABEL_CONTROL_DESCRIPTION_GAME_CARD
 
-    @staticmethod
-    def get_created_points_str(value: str = ""):
-        attachment = " " * ((5 - len(value)) // 2)
-        ending = " " * (5 - len(value) - len(attachment))
-
-        return attachment + value + ending
-
     def render(self, points: List[List[Point]]):
+        """
+        Render the passed List[List[Point]] to the window passed in the constructor
+        @param points: List[List[Point]] which is rendered
+        """
         self.__window.clear()
 
         curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -64,6 +69,10 @@ class GameCard:
         self.__window.refresh()
 
     def __render_column(self, column: List[Point]):
+        """
+        Draws column at the current curser-position on the window
+        @param column: column which is rendered
+        """
         y_off, x_off = self.__window.getyx()
         for i in range(len(common.TEST_POINTS_PAD)):
             if i % 2 == 0:
@@ -96,4 +105,10 @@ class GameCard:
         pass
 
     def show_selected(self, show):
+        """
+        Changes the state of the renderer when show is set to True a selected combination will be rendered
+        with the appropriate property
+        @param show: True=Selected combinations are rendered with selection property,
+         False selected combination are not rendered with selection property
+        """
         self.__show_selected = show
