@@ -1,10 +1,10 @@
 {
-    "active_player": 1,
-    "roll_count": 3,
+    "active_player": 0,
+    "roll_count": 1,
     "points": [
         [
             {
-                "selected": false,
+                "selected": true,
                 "completed": false,
                 "value": null
             },
@@ -21,7 +21,7 @@
             {
                 "selected": false,
                 "completed": false,
-                "value": 8
+                "value": null
             },
             {
                 "selected": false,
@@ -71,7 +71,7 @@
         ],
         [
             {
-                "selected": true,
+                "selected": false,
                 "completed": false,
                 "value": null
             },
@@ -139,28 +139,28 @@
     ],
     "dice": [
         {
+            "value": 6,
+            "selected": true,
+            "locked": false
+        },
+        {
+            "value": 2,
+            "selected": false,
+            "locked": false
+        },
+        {
+            "value": 6,
+            "selected": false,
+            "locked": false
+        },
+        {
             "value": 3,
             "selected": false,
             "locked": false
         },
         {
-            "value": 5,
+            "value": 3,
             "selected": false,
-            "locked": false
-        },
-        {
-            "value": 5,
-            "selected": false,
-            "locked": false
-        },
-        {
-            "value": 4,
-            "selected": false,
-            "locked": false
-        },
-        {
-            "value": 1,
-            "selected": true,
             "locked": false
         }
     ]

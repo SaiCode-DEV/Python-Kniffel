@@ -1,8 +1,7 @@
 """
 The game_state module contains all classes for holding and storing a games current state
 """
-import json
-from json import JSONEncoder, JSONDecoder
+from json import JSONEncoder
 from typing import List, Dict
 
 from kniffel.data_objects.point import Point, PointEncoder
@@ -17,6 +16,9 @@ class GameState:
 
     @staticmethod
     def from_json(data):
+        """
+        Marshals a GameState object from dict
+        """
         game_state = GameState()
         if not isinstance(data, Dict):
             return game_state
@@ -39,7 +41,13 @@ class GameState:
             game_state.points = points_decoded
         return game_state
 
-    def __init__(self, dice: List[Dice] = None, points: List[List[Point]] = None, active_player: int = 0, roll_count: int = 0):
+    def __init__(
+            self,
+            dice: List[Dice] = None,
+            points: List[List[Point]] = None,
+            active_player: int = 0,
+            roll_count: int = 0
+    ):
         self.active_player = active_player
         self.roll_count = roll_count
         self.__points = points
@@ -80,19 +88,19 @@ class GameStateEncoder(JSONEncoder):
         if not isinstance(o, GameState):
             return None
 
-        points = []
+        points_encoded = []
         for column in o.points:
-            col = []
-            for p in column:
-                col.append(PointEncoder().default(p))
-            points.append(col)
-        dice = []
+            col_encoded = []
+            for point in column:
+                col_encoded.append(PointEncoder().default(point))
+            points_encoded.append(col_encoded)
+        dice_encoded = []
         for die in o.dice:
-            dice.append(DiceEncoder().default(die))
+            dice_encoded.append(DiceEncoder().default(die))
 
         return {
             "active_player": o.active_player,
             "roll_count": o.roll_count,
-            "points": points,
-            "dice": dice
+            "points": points_encoded,
+            "dice": dice_encoded
         }

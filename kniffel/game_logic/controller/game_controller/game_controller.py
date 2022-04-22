@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import os
 from enum import Enum
+import json
+from os import path
 
 from typing import TYPE_CHECKING, List
 from kniffel import common
@@ -19,9 +21,6 @@ from kniffel.game_logic.controller.game_controller.card_controller import CardCo
 from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.game_window import GameWindow
-
-import json
-from os import path
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -229,7 +228,8 @@ class GameController:
             game_state = GameState.from_json(data)
             self.dice_controller.set_dice(game_state.dice)
             self.combinations = game_state.points
-            if len(self.combinations) != common.PLAYER_COUNT or len(self.combinations[0]) != common.COMBINATIONS_COUNT:
+            if len(self.combinations) != common.PLAYER_COUNT or \
+                    len(self.combinations[0]) != common.COMBINATIONS_COUNT:
                 self.__reset_combinations()
             self.__set_active_player(game_state.active_player)
             self.dice_controller.set_roll_count(game_state.roll_count)

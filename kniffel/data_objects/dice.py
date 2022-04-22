@@ -57,9 +57,12 @@ class Dice:
 
 
 class DiceEncoder(JSONEncoder):
+    """
+    Encoder used to to encode a Dice to json
+    """
     def default(self, o):
         """
-        used for decoding Dice to json
+        used for encoding Dice to json
         """
         if not isinstance(o, Dice):
             return None

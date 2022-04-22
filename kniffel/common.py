@@ -3,9 +3,9 @@ The common module is supposed to contain all commonly used attributes and
 all strings which get displayed to the user
 """
 
+from os import path
 import curses
 import kniffel
-from os import path
 
 GAME_TITLE = "Kniffel"
 
