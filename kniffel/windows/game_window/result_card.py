@@ -2,11 +2,10 @@
 The module contains
 """
 import curses
-from typing import List, Dict
+from typing import List
 
 from kniffel.data_objects.point import Point
 
-from data_objects.combinations import Combinations
 from kniffel import common
 
 
@@ -16,7 +15,10 @@ class ResultCard:
     """
     def __init__(self, window: curses.window):
         self.__window = window
-        self.__show_selected = False
+
+        self.__first_player_end_sum = 0
+        self.__second_player_end_sum = 0
+        self.__win_player = None
 
     @staticmethod
     def get_required_size():
@@ -40,9 +42,6 @@ class ResultCard:
         """
         self.__window.clear()
 
-        # TODO COLOR INI COMMON
-        curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_WHITE)
-
         card_width = len(common.RESULT_PAD[0])
         attachment = " " * (card_width // 2 - len(common.GAME_TITLE) // 2)
         ending = " " * (card_width - len(common.GAME_TITLE) - len(attachment))
@@ -54,28 +53,28 @@ class ResultCard:
 
         # Print name pad
         count: int = 0
-        for line in common.TEST_NAME_PAD:
-            self.__window.addstr(y_off + count, x_off, line, curses.color_pair(4))
+        for line in common.NAME_PAD:
+            self.__window.addstr(y_off + count, x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             count += 1
 
         # Print result card
         line_count = 0
         for line in common.RESULT_PAD:
-            self.__window.addstr(line_count + y_off + len(common.TEST_NAME_PAD), x_off, line, curses.color_pair(4))
+            self.__window.addstr(line_count + y_off + len(common.NAME_PAD), x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             line_count += 1
 
         count = 0
         for column in points:
-            y_off_column = y_off + len(common.TEST_NAME_PAD) + 1
-            x_off_column = x_off + len(common.TEST_GAME_PAD[1]) + count * 6
+            y_off_column = y_off + len(common.NAME_PAD) + 1
+            x_off_column = x_off + len(common.NAME_PAD[1]) + count * 6
             self.__window.move(y_off_column, x_off_column)
-            self.__render_column(column)
+            self.__render_column(column, count)
             count += 1
 
-        self.__window.addstr(1 + y_off, x_off, name_str, curses.color_pair(4))
+        self.__window.addstr(1 + y_off, x_off, name_str, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
         self.__window.refresh()
 
-    def __render_column(self, column: List[Point]):
+    def __render_column(self, column: List[Point], player: int):
         """
         Draws column at the current curser-position on the window
         @param column: column which is rendered
@@ -102,23 +101,31 @@ class ResultCard:
                 index = count // 2
                 point = result_points[index]
 
-                if self.__show_selected and point.selected:
-                    self.__window.attron(curses.color_pair(5))
-                else:
-                    self.__window.attron(curses.color_pair(4))
+                if index == 3:
+                    self.__find_win_player(player, 2)
 
-                test = line.format(point)
+                str_to_add = line.format(point).center(5)
 
-                self.__window.addstr(y_off + count, x_off, test.center(5))
-                self.__window.attroff(curses.color_pair(4))
-                self.__window.attroff(curses.color_pair(5))
+                self.__window.addstr(y_off + count, x_off - 12, str_to_add.center(5), curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             else:
                 str_to_add = line
-                self.__window.addstr(y_off + count, x_off, str_to_add, curses.color_pair(4))
+                self.__window.addstr(y_off + count, x_off - 12, str_to_add, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1
-            self.__window.addstr("!", curses.color_pair(4))
+
+            self.__window.addstr("!", curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+
             self.__window.refresh()
 
-    def show_selected(self, show):
-        self.__show_selected = show
+    def __find_win_player(self, player: int, end_sum: int):
+        if player == 0:
+            self.__first_player_end_sum = end_sum
+        elif player == 1:
+            self.__second_player_end_sum = end_sum
+
+        if self.__first_player_end_sum > self.__second_player_end_sum:
+            self.__win_player = 0
+        elif self.__first_player_end_sum < self.__second_player_end_sum:
+            self.__win_player = 1
+        else:
+            self.__win_player = None
