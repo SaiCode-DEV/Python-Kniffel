@@ -55,7 +55,6 @@ class GameController:
         self.combinations: List[List[Point]] = []
         self.__reset_combinations()
         self.__combinations_counter = common.COMBINATIONS_COUNT * 2
-        self.__game_over = False
 
         self.__update_control_str()
 
@@ -118,9 +117,6 @@ class GameController:
                 self.select_dice_window()
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
                 self.select_card_window()
-            elif self.card_controller.get_game_status() == 2:
-                print("test")
-                self.select_result_window()
             return
         self.__distribute_input(character)
 
@@ -179,9 +175,8 @@ class GameController:
         if player_combination[combination.value].value is not None:
             self.display_message(common.ERROR_COMBINATION_ALREADY_DONE)
             return
-        else:
-            self.__combinations_counter -= 1
 
+        self.__combinations_counter -= 1
         calc_fn = combinations.get_calc_fn(combination)
         try:
             value = calc_fn(self.dice_controller.get_dice_values())
@@ -195,9 +190,6 @@ class GameController:
             return
         self.game_window.render(self.get_game_state())
         self.__next_player()
-
-    def game_over(self):
-        return self.__game_over
 
     def __next_player(self):
         """

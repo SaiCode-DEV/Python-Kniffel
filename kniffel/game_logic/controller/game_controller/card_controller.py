@@ -27,7 +27,6 @@ class CardController:
         self.game_card = game_card
         self.result_card = result_card
         self.game_controller = game_controller
-        self.__game_status = 0
         self.__selected_player = None
         self.__selected_combination = None
 
@@ -58,15 +57,8 @@ class CardController:
                 self.__selected_combination = common.COMBINATIONS_COUNT - 1
             combinations[self.__selected_player][self.__selected_combination].selected = True
         if key in (curses.KEY_ENTER, 10, 13, key_codes.VK_NUMPAD_ENTER):
-            self.__game_status += 1
             self.game_controller.add_entry(Combinations(self.__selected_combination))
-        if self.game_controller.game_over():
-            self.result_card.render(combinations)
-        else:
-            self.game_card.render(combinations)
-
-    def get_game_status(self):
-        return self.__game_status
+        self.game_card.render(combinations)
 
     def set_selected_player(self, player: int):
         """

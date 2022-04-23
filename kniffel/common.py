@@ -40,13 +40,13 @@ LOGO = [" _  __      _  __  __      _  ",
         "| . \\| | | | |  _|  _|  __/ | ",
         "|_|\\_\\_| |_|_|_| |_|  \\___|_| "]
 
-TEST_NAME_PAD = [
+NAME_PAD = [
     "                                   ",
     "                                   ",
     "                                   "
 ]
 
-TEST_GAME_PAD = [
+GAME_PAD = [
     "-----------------------------------",
     "! Einser      !nur 1er!",
     "!-------------!-------!",
@@ -76,7 +76,7 @@ TEST_GAME_PAD = [
     "-----------------------------------"
 ]
 
-TEST_POINTS_PAD = [
+POINTS_PAD = [
     "{}",
     "-----",
     "{}",
@@ -216,6 +216,8 @@ LOADING = [loading01, loading02,
 
 # Curses color pairs
 COLOR_PAIR_BLUE_BLACK = 1
+COLOR_PAIR_BLACK_WHITE = 2
+COLOR_PAIR_BLACK_CYAN = 3
 COLOR_DICE_LOCKED = 1
 SELECTED_OPTION = curses.A_REVERSE
 
@@ -226,3 +228,5 @@ def init_colors():
     @return:
     """
     curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_CYAN)
