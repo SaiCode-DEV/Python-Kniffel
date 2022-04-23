@@ -49,7 +49,8 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController(game_window.game_card, game_window.result_card, self)
+        self.card_controller: CardController = CardController(game_window.game_card,
+                                                              game_window.result_card, self)
 
         self.__active_player: int = 0
         self.combinations: List[List[Point]] = []

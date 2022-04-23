@@ -1,15 +1,16 @@
 """
-This modul contains the needed functionality for rendering a game-card onto a window
+This module contains the needed functionality for rendering a game-card into a window
 The logic for a game-card is found in the card_controller_module
 """
 import curses
 from typing import Tuple, List
 
+from windows.game_window.players_card import PlayerCard
 from kniffel import common
 from kniffel.data_objects.point import Point
 
 
-class GameCard:
+class GameCard(PlayerCard):
     """
     GameCard class takes in a window it will render a game card
     """
@@ -39,25 +40,18 @@ class GameCard:
         """
         self.__window.clear()
 
-        card_width = len(common.GAME_PAD[0])
-        attachment = " " * (card_width // 2 - len(common.GAME_TITLE) // 2)
-        ending = " " * (card_width - len(common.GAME_TITLE) - len(attachment))
-        name_str = attachment + common.GAME_TITLE + ending
-
         max_y, max_x = self.__window.getmaxyx()
         x_off = (max_x - len(common.GAME_PAD[0])) // 2
         y_off = (max_y - len(common.GAME_PAD)) // 2
 
-        # Print name pad
-        count: int = 0
-        for line in common.NAME_PAD:
-            self.__window.addstr(y_off + count, x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
-            count += 1
+        # Print header pad
+        self.draw_header(self.__window, y_off, x_off)
 
         # Print game pad
         line_count = 0
         for line in common.GAME_PAD:
-            self.__window.addstr(line_count + y_off + len(common.NAME_PAD), x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            self.__window.addstr(line_count + y_off + len(common.NAME_PAD), x_off, line,
+                                 curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             line_count += 1
 
         iteration = 0
@@ -68,7 +62,6 @@ class GameCard:
             self.__render_column(column)
             iteration += 1
 
-        self.__window.addstr(1 + y_off, x_off, name_str, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
         self.__window.refresh()
 
     def __render_column(self, column: List[Point]):
@@ -102,7 +95,8 @@ class GameCard:
                 self.__window.attroff(curses.color_pair(common.COLOR_PAIR_BLACK_CYAN))
             else:
                 str_to_add = line
-                self.__window.addstr(y_off + count, x_off, str_to_add, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(y_off + count, x_off, str_to_add,
+                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1
             self.__window.addstr("!", curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
@@ -110,8 +104,8 @@ class GameCard:
 
     def show_selected(self, show):
         """
-        Changes the state of the renderer when show is set to True a selected combination will be rendered
-        with the appropriate property
+        Changes the state of the renderer when show is set to True a selected
+        combination will be rendered with the appropriate property
         @param show: True=Selected combinations are rendered with selection property,
          False selected combination are not rendered with selection property
         """

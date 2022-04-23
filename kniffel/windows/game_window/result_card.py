@@ -1,29 +1,27 @@
 """
-The module contains
+This modul contains the needed functionality for rendering a game-card into a window
 """
 import curses
 from typing import List
 
-from kniffel.data_objects.point import Point
+from windows.game_window.players_card import PlayerCard
 
 from kniffel import common
+from kniffel.data_objects.point import Point
 
 
-class ResultCard:
+
+class ResultCard(PlayerCard):
     """
-    The ResultCard takes in a window
+    The ResultCard takes in a window it will render a result card
     """
     def __init__(self, window: curses.window):
         self.__window = window
 
-        self.__first_player_end_sum = 0
-        self.__second_player_end_sum = 0
-        self.__win_player = None
-
     @staticmethod
     def get_required_size():
         """
-        Return height and width needed for rendering a game card
+        Return height and width needed for rendering a result card
         @return height, width
         """
         return len(common.RESULT_PAD), len(common.RESULT_PAD[0])
@@ -42,39 +40,31 @@ class ResultCard:
         """
         self.__window.clear()
 
-        card_width = len(common.RESULT_PAD[0])
-        attachment = " " * (card_width // 2 - len(common.GAME_TITLE) // 2)
-        ending = " " * (card_width - len(common.GAME_TITLE) - len(attachment))
-        name_str = attachment + common.GAME_TITLE + ending
-
         max_y, max_x = self.__window.getmaxyx()
         x_off = (max_x - len(common.RESULT_PAD[0])) // 2
         y_off = (max_y - len(common.RESULT_PAD)) // 2
 
-        # Print name pad
-        count: int = 0
-        for line in common.NAME_PAD:
-            self.__window.addstr(y_off + count, x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
-            count += 1
+        # Print header pad
+        self.draw_header(self.__window, y_off, x_off)
 
         # Print result card
-        line_count = 0
+        count = 0
         for line in common.RESULT_PAD:
-            self.__window.addstr(line_count + y_off + len(common.NAME_PAD), x_off, line, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
-            line_count += 1
+            self.__window.addstr(count + y_off + len(common.NAME_PAD), x_off, line,
+                                 curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            count += 1
 
         count = 0
         for column in points:
             y_off_column = y_off + len(common.NAME_PAD) + 1
             x_off_column = x_off + len(common.NAME_PAD[1]) + count * 6
             self.__window.move(y_off_column, x_off_column)
-            self.__render_column(column, count)
+            self.__render_column(column)
             count += 1
 
-        self.__window.addstr(1 + y_off, x_off, name_str, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
         self.__window.refresh()
 
-    def __render_column(self, column: List[Point], player: int):
+    def __render_column(self, column: List[Point]):
         """
         Draws column at the current curser-position on the window
         @param column: column which is rendered
@@ -101,31 +91,17 @@ class ResultCard:
                 index = count // 2
                 point = result_points[index]
 
-                if index == 3:
-                    self.__find_win_player(player, 2)
-
                 str_to_add = line.format(point).center(5)
 
-                self.__window.addstr(y_off + count, x_off - 12, str_to_add.center(5), curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(y_off + count, x_off - 12, str_to_add.center(5),
+                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             else:
                 str_to_add = line
-                self.__window.addstr(y_off + count, x_off - 12, str_to_add, curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(y_off + count, x_off - 12, str_to_add,
+                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1
 
             self.__window.addstr("!", curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             self.__window.refresh()
-
-    def __find_win_player(self, player: int, end_sum: int):
-        if player == 0:
-            self.__first_player_end_sum = end_sum
-        elif player == 1:
-            self.__second_player_end_sum = end_sum
-
-        if self.__first_player_end_sum > self.__second_player_end_sum:
-            self.__win_player = 0
-        elif self.__first_player_end_sum < self.__second_player_end_sum:
-            self.__win_player = 1
-        else:
-            self.__win_player = None
