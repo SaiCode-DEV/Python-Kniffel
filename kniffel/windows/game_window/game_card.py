@@ -1,3 +1,7 @@
+"""
+This modul contains the needed functionality for rendering a game-card onto a window
+The logic for a game-card is found in the card_controller_module
+"""
 import curses
 from typing import Tuple, List
 
@@ -35,6 +39,7 @@ class GameCard:
         """
         self.__window.clear()
 
+        # TODO COLOR IN COMMON
         curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_WHITE)
         curses.init_pair(5, curses.COLOR_BLACK, curses.COLOR_CYAN)
 
@@ -48,8 +53,16 @@ class GameCard:
         y_off = (max_y - len(common.TEST_GAME_PAD)) // 2
 
         # Print name pad
-        for i in range(len(common.TEST_NAME_PAD)):
-            self.__window.addstr(y_off + i, x_off, common.TEST_NAME_PAD[i], curses.color_pair(4))
+        count: int = 0
+        for line in common.TEST_NAME_PAD:
+            self.__window.addstr(y_off + count, x_off, line, curses.color_pair(4))
+            count += 1
+
+        # Print game pad
+        line_count = 0
+        for line in common.TEST_GAME_PAD:
+            self.__window.addstr(line_count + y_off + len(common.TEST_NAME_PAD), x_off, line, curses.color_pair(4))
+            line_count += 1
 
         iteration = 0
         for column in points:
@@ -58,12 +71,6 @@ class GameCard:
             self.__window.move(y_off_column, x_off_column)
             self.__render_column(column)
             iteration += 1
-
-        # Print game pad
-        line_count = 0
-        for line in common.TEST_GAME_PAD:
-            self.__window.addstr(line_count + y_off + len(common.TEST_NAME_PAD), x_off, line, curses.color_pair(4))
-            line_count += 1
 
         self.__window.addstr(1 + y_off, x_off, name_str, curses.color_pair(4))
         self.__window.refresh()
@@ -74,9 +81,10 @@ class GameCard:
         @param column: column which is rendered
         """
         y_off, x_off = self.__window.getyx()
-        for i in range(len(common.TEST_POINTS_PAD)):
-            if i % 2 == 0:
-                index = i // 2
+        count: int = 0
+        for line in common.TEST_POINTS_PAD:
+            if count % 2 == 0:
+                index = count // 2
                 point = column[index]
 
                 if self.__show_selected and point.selected:
@@ -86,23 +94,23 @@ class GameCard:
 
                 if point.value is None:
                     str_to_add = ""
-                elif point.value is 0:
-                    str_to_add = "-"
+                elif point.value == 0:
+                    str_to_add = "0"
                 else:
-                    str_to_add = common.TEST_POINTS_PAD[i].format(point.value)
+                    str_to_add = line.format(point.value)
 
-                self.__window.addstr(y_off + i, x_off, str_to_add.center(5))
+                print(point.value)
+
+                self.__window.addstr(y_off + count, x_off, str_to_add.center(5))
                 self.__window.attroff(curses.color_pair(4))
                 self.__window.attroff(curses.color_pair(5))
             else:
-                str_to_add = common.TEST_POINTS_PAD[i]
-                self.__window.addstr(y_off + i, x_off, str_to_add, curses.color_pair(4))
+                str_to_add = line
+                self.__window.addstr(y_off + count, x_off, str_to_add, curses.color_pair(4))
 
+            count += 1
             self.__window.addstr("!", curses.color_pair(4))
             self.__window.refresh()
-
-    def handle_input(self, ch: chr):
-        pass
 
     def show_selected(self, show):
         """

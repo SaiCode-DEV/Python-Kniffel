@@ -1,5 +1,5 @@
 """
-This modul contains the needed functionality for rendering a Dice-Set onto a window
+This module contains the needed functionality for rendering a Dice-Set onto a window
 The logic for a DiceSet is found in the dice_controller_module
 """
 import curses

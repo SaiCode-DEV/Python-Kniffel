@@ -30,6 +30,7 @@ class EnumWindowSelected(Enum):
     """
     DICE_WINDOW = 1
     CARD_WINDOW = 2
+    RESULT_WINDOW = 3
 
 
 class GameController:
@@ -48,11 +49,13 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController(game_window.game_card, self)
+        self.card_controller: CardController = CardController(game_window.game_card, game_window.result_card, self)
 
         self.__active_player: int = 0
         self.combinations: List[List[Point]] = []
         self.__reset_combinations()
+        self.__combinations_counter = common.COMBINATIONS_COUNT * 2
+        self.__game_over = False
 
         self.__update_control_str()
 
@@ -90,6 +93,17 @@ class GameController:
         self.game_window.render(self.get_game_state())
         self.__update_control_str()
 
+    def select_result_window(self):
+        """
+        switches the view to the result_window
+        and re-render the screen
+        """
+        self.selected = EnumWindowSelected.RESULT_WINDOW
+        self.dice_controller.show_selected(False)
+        self.card_controller.show_selected(False)
+        self.game_window.render(self.get_game_state())
+        self.__update_control_str()
+
     def handle_input(self, character: chr):
         """
         Handles a Users input and decides what to do with it
@@ -104,6 +118,9 @@ class GameController:
                 self.select_dice_window()
             elif self.selected is EnumWindowSelected.DICE_WINDOW:
                 self.select_card_window()
+            elif self.card_controller.get_game_status() == 2:
+                print("test")
+                self.select_result_window()
             return
         self.__distribute_input(character)
 
@@ -162,6 +179,9 @@ class GameController:
         if player_combination[combination.value].value is not None:
             self.display_message(common.ERROR_COMBINATION_ALREADY_DONE)
             return
+        else:
+            self.__combinations_counter -= 1
+
         calc_fn = combinations.get_calc_fn(combination)
         try:
             value = calc_fn(self.dice_controller.get_dice_values())
@@ -169,8 +189,15 @@ class GameController:
         except InvalidThrow:
             self.display_message("Failed to count Dice values")
             return
+        if self.__combinations_counter == 0:
+            self.display_message(common.GAME_OVER)
+            self.game_window.show_result_card(self.get_game_state())
+            return
         self.game_window.render(self.get_game_state())
         self.__next_player()
+
+    def game_over(self):
+        return self.__game_over
 
     def __next_player(self):
         """

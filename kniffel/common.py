@@ -23,6 +23,7 @@ LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
 ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"
+GAME_OVER = "GAME OVER"
 
 DICE_COUNT = 5
 PLAYER_COUNT = 2
@@ -103,19 +104,29 @@ TEST_POINTS_PAD = [
     "{}"
 ]
 
-SEPARATOR = "!"
-
 RESULT_PAD = [
-    " ------------------------------------------ ",
-    " ! Oberer Teil  !   →   !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! bei >=63     !  +35  !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! Gesamt o.Teil!   →   !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! Endsumme     !   →   !{}!{}! ",
-    " ------------------------------------------ ",
+    "-----------------------------------",
+    "! Oberer Teil !   →   !",
+    "!-------------!-------!",
+    "! bei >=63    !  +35  !",
+    "!-------------!-------!",
+    "!Gesamt o.Teil!   →   !",
+    "!-------------!-------!",
+    "! Endsumme    !   →   !",
+    "-----------------------------------"
 ]
+
+RESULT_POINTS_PAD = [
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}"
+]
+
+SEPARATOR = "!"
 
 loading01 = [" _ ",
              "| |",

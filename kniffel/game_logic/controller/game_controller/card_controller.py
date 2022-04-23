@@ -1,14 +1,17 @@
+"""
+The card_controller module contains all the functionality for entrance and navigating a game card
+"""
 from __future__ import annotations
 
 import curses
 
+from typing import TYPE_CHECKING
 import common
 import key_codes
 from data_objects.combinations import Combinations
 
-from data_objects.point import Point
 from windows.game_window.game_card import GameCard
-from typing import List, TYPE_CHECKING
+from windows.game_window.result_card import ResultCard
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -16,9 +19,15 @@ if TYPE_CHECKING:
 
 
 class CardController:
-    def __init__(self, game_card: GameCard, game_controller: GameController):
+    """
+    The CardController is supposed to be used as an abstraction to a game card.
+    The game card is rendered to the passed Game-Card
+    """
+    def __init__(self, game_card: GameCard, result_card: ResultCard, game_controller: GameController):
         self.game_card = game_card
+        self.result_card = result_card
         self.game_controller = game_controller
+        self.__game_status = 0
         self.__selected_player = None
         self.__selected_combination = None
 
@@ -27,34 +36,51 @@ class CardController:
 
     @staticmethod
     def get_control_str() -> str:
+        """
+        Returns the control-string with all available controls for the game card
+        """
         return common.LABEL_CONTROL_DESCRIPTION_GAME_CARD
 
-        # if isinstance(self.current_card, GameCard):
-        #    sub_str = GameCard.get_control_string()
-        # elif isinstance(self.current_card, ResultCard):
-        #    sub_str = ResultCard.get_control_string()
-
-    def handle_input(self, ch):
+    def handle_input(self, key):
+        """
+        Combination what to do with a users input
+        @param key: chr User input
+        """
         combinations = self.game_controller.get_game_state().points
-        if ch == curses.KEY_DOWN:
+        if key == curses.KEY_DOWN:
             combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination = (self.__selected_combination + 1) % common.COMBINATIONS_COUNT
             combinations[self.__selected_player][self.__selected_combination].selected = True
-        if ch == curses.KEY_UP:
+        if key == curses.KEY_UP:
             combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination -= 1
             if self.__selected_combination < 0:
                 self.__selected_combination = common.COMBINATIONS_COUNT - 1
             combinations[self.__selected_player][self.__selected_combination].selected = True
-        if ch == curses.KEY_ENTER or ch == 10 or ch == 13 or ch == key_codes.VK_NUMPAD_ENTER:
+        if key in (curses.KEY_ENTER, 10, 13, key_codes.VK_NUMPAD_ENTER):
+            self.__game_status += 1
             self.game_controller.add_entry(Combinations(self.__selected_combination))
-        self.game_card.render(combinations)
+        if self.game_controller.game_over():
+            self.result_card.render(combinations)
+        else:
+            self.game_card.render(combinations)
+
+    def get_game_status(self):
+        return self.__game_status
 
     def set_selected_player(self, player: int):
+        """
+        Set new player to navigate in combinations column
+        @param player: new selected player
+        """
         combinations = self.game_controller.get_game_state().points
         combinations[self.__selected_player][self.__selected_combination].selected = False
         self.__selected_player = player
         combinations[self.__selected_player][self.__selected_combination].selected = True
 
     def show_selected(self, show: bool):
+        """
+        Sets weather the selected combination are shown with their special property
+        @param show: True selected are show, False they are not
+        """
         self.game_card.show_selected(show)
