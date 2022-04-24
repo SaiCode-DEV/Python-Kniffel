@@ -8,6 +8,7 @@ from curses import wrapper
 from kniffel import common
 from kniffel.game_logic.controller.kniffel_controller import KniffelController
 from kniffel.windows.window_manager import WindowManager, WindowToSmall
+from kniffel.tracer import Tracer
 
 
 def main(std_scr: curses.window):
@@ -25,8 +26,9 @@ def main(std_scr: curses.window):
               "pleas do so yourself, and then restart the program")
         sys.exit(1)
     game_manager = KniffelController(window_manager)
+    Tracer.set_term(std_scr)
     game_manager.start()
-
+    Tracer.close_file()
 
 if __name__ == "__main__":
     wrapper(main)

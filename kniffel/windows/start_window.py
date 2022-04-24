@@ -8,7 +8,6 @@ from kniffel.data_objects.game_state import GameState
 from kniffel import common
 from kniffel.windows.animations.start_animation import StartAnimation
 
-
 OPTIONS = [
     common.LABEL_MANU_CONTINUE,
     common.LABEL_MANU_PLAY,

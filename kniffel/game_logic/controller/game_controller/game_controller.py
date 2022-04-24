@@ -288,8 +288,8 @@ class GameController:
         """
         saves the current game_state to a file saved in common
         """
-        if not path.isdir(common.DIR_FILE_GAME_STATE):
-            os.mkdir(common.DIR_FILE_GAME_STATE)
+        if not path.isdir(common.DIR_PERSISTENCE):
+            os.mkdir(common.DIR_PERSISTENCE)
         with open(common.FILE_GAME_STATE, "w", encoding="utf-8") as file:
             json.dump(obj=self.get_game_state(), fp=file, cls=GameStateEncoder, indent=4)
 

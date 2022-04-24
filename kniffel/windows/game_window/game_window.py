@@ -10,6 +10,7 @@ from kniffel.data_objects.game_state import GameState
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.result_card import ResultCard
 from kniffel.windows.game_window.game_card import GameCard
+from kniffel.tracer import Tracer
 
 
 class GameWindow:
@@ -121,6 +122,7 @@ class GameWindow:
 
         self.__current_card.render(game_state.points)
         self.__dice_window.render(game_state.dice)
+        Tracer.write_term_file()
 
     def __get_str_off(self, msg: str) -> int:
         """

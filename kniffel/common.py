@@ -38,8 +38,10 @@ ROLL_COUNT_ANIMATION = 8
 POINTS_STR_LEN = 5
 COMBINATIONS_COUNT = 13
 
-DIR_FILE_GAME_STATE = kniffel.__file__.replace("__init__.py", "") + "persistence"
-FILE_GAME_STATE = path.join(DIR_FILE_GAME_STATE, "game_state.json")
+TRACE_OUTPUT = False
+
+DIR_PERSISTENCE = kniffel.__file__.replace("__init__.py", "") + "persistence"
+FILE_GAME_STATE = path.join(DIR_PERSISTENCE, "game_state.json")
 
 LOGO = [" _  __      _  __  __      _  ",
         "| |/ /_ __ (_)/ _|/ _| ___| | ",

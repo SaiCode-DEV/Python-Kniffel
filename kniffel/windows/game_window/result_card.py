@@ -8,7 +8,7 @@ from kniffel.windows.game_window import players_card
 
 from kniffel import common
 from kniffel.data_objects.point import Point
-
+from kniffel.tracer import Tracer
 
 
 class ResultCard:
@@ -63,6 +63,7 @@ class ResultCard:
             count += 1
 
         self.__window.refresh()
+        Tracer.write_term_file()
 
     def __render_column(self, column: List[Point]):
         """
