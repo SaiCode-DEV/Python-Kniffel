@@ -73,6 +73,53 @@ class GameState:
     def dice(self, value: List[Dice]):
         self.__dice = value
 
+    def __eq__(self, other) -> bool:
+        """
+        checks if two GameState objects are equal
+        """
+        if not isinstance(other, GameState):
+            return False
+        if self.active_player != other.active_player or self.roll_count != other.roll_count:
+            return False
+        if self.game_kind != other.game_kind and self.game_kind.value != other.game_kind.value:
+            return False
+
+        if not self.dice_equal(other):
+            return False
+
+        return self.points_equal(other)
+
+    def dice_equal(self, other) -> bool:
+        """
+        checks if the passed object has the same dices
+        """
+        if len(self.dice) != len(other.dice):
+            return False
+        iteration = 0
+        for dice in self.dice:
+            if dice != other.dice[iteration]:
+                return False
+            iteration += 1
+        return True
+
+    def points_equal(self, other) -> bool:
+        """
+        checks if the passed object has the same point entries
+        """
+        if len(self.points) != len(other.points):
+            return False
+        col_nr = 0
+        for column in self.points:
+            if len(column) != len(other.points[col_nr]):
+                return False
+            row_nr = 0
+            for point in column:
+                if point != other.points[col_nr][row_nr]:
+                    return False
+                row_nr += 1
+            col_nr += 1
+        return True
+
 
 class GameStateEncoder(JSONEncoder):
     """

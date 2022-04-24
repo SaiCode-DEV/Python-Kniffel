@@ -21,9 +21,9 @@ class Point:
         if not isinstance(data, Dict):
             return point
         if "selected" in data:
-            point.value = data["selected"]
+            point.selected = data["selected"]
         if "completed" in data:
-            point.value = data["completed"]
+            point.completed = data["completed"]
         if "value" in data:
             point.value = data["value"]
         return point
@@ -46,6 +46,14 @@ class Point:
         setter for value property (to shut up pylint)
         """
         self.__value = value
+
+    def __eq__(self, other) -> bool:
+        """
+        checks if two Point objects are equal
+        """
+        if not isinstance(other, Point):
+            return False
+        return self.selected == other.selected and self.completed == other.completed and self.value == other.value
 
 
 class PointEncoder(JSONEncoder):

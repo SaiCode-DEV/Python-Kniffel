@@ -23,9 +23,9 @@ class Dice:
         if "value" in data:
             dice.value = data["value"]
         if "selected" in data:
-            dice.value = data["selected"]
+            dice.selected = data["selected"]
         if "locked" in data:
-            dice.value = data["locked"]
+            dice.locked = data["locked"]
         return dice
 
     def __init__(self):
@@ -55,11 +55,20 @@ class Dice:
         """
         self.__value = random.randint(1, 6)
 
+    def __eq__(self, other):
+        """
+        checks if two dice objects are equal
+        """
+        if not isinstance(other, Dice):
+            return False
+        return self.value == other.value and self.locked == other.locked and self.selected == other.selected
+
 
 class DiceEncoder(JSONEncoder):
     """
     Encoder used to to encode a Dice to json
     """
+
     def default(self, o):
         """
         used for encoding Dice to json
