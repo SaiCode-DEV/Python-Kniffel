@@ -8,7 +8,6 @@ from test.windows import game_window
 EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "dice_outputs"
 
 
-@staticmethod
 def get_all_dice(value):
     dice = []
     for _ in range(5):
