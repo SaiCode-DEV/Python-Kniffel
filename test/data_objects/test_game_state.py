@@ -1,6 +1,7 @@
 # pylint: disable=C
 import json
 import random
+import os
 from os import path
 from unittest import TestCase
 
@@ -8,7 +9,7 @@ from kniffel import common
 from test import data_objects
 from kniffel.data_objects.game_state import *
 
-JSON_PATH = data_objects.__file__.replace("__init__.py", "") + "json"
+JSON_PATH = data_objects.__file__.replace("__init__.py", "") + "json-temp"
 
 
 def get_random_dice():
@@ -48,6 +49,8 @@ class GameStateTest(TestCase):
         game_state.dice = get_random_dice()
         game_state.game_kind = EnumGameKind.GAME_AGAINST_BOT
         game_state.active_player = 2
+        if not path.isdir(JSON_PATH):
+            os.mkdir(JSON_PATH)
         with open(path.join(JSON_PATH, "test.json"), "w", encoding="utf-8") as file:
             json.dump(obj=game_state, fp=file, cls=GameStateEncoder, indent=4)
         with open(path.join(JSON_PATH, "test.json"), "r", encoding="utf-8") as file:
