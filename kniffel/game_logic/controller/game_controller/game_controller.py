@@ -55,7 +55,8 @@ class GameController:
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController(game_window.game_card, self)
+        self.card_controller: CardController = CardController(game_window.game_card,
+                                                              game_window.result_card, self)
 
         self.__active_player: int = 0
         self.combinations: List[List[Point]] = []
@@ -107,8 +108,8 @@ class GameController:
         if character in (key_codes.VK_UC_Q, key_codes.VK_LC_Q):
             self.kniffel_controller.show_start_menu()
 
-        # if the bot is currently playing ignore user input except quit
-        if self.__bot_is_playing:
+        # if the bot is currently playing or game is done ignore user input except quit
+        if self.__bot_is_playing or self.__is_game_over():
             return
 
         # switch between subwindows
@@ -147,6 +148,10 @@ class GameController:
         """
         self.game_window.display_message(self.get_game_state(), message)
 
+    def __show_result(self):
+        self.display_message(common.GAME_OVER)
+        self.game_window.show_result_card(self.get_game_state())
+
     def __get_control_str(self) -> str:
         """
         Concats the currently available options that the user has.
@@ -159,7 +164,7 @@ class GameController:
             sub_str = DiceWindow.get_control_string()
         return common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + sub_str
 
-    def add_entry(self, combination: Combinations):
+    def add_player_entry(self, combination: Combinations):
         """
         Adds the value of the current dice value to active players
         combinations as the passed combination
@@ -169,17 +174,12 @@ class GameController:
         if player_combination[combination.value].value is not None:
             self.display_message(common.ERROR_COMBINATION_ALREADY_DONE)
             return
-        calc_fn = combinations.get_calc_fn(combination)
-        try:
-            value = calc_fn(self.dice_controller.get_dice_values())
-            player_combination[combination.value].value = value
-        except InvalidThrow:
-            self.display_message("Failed to count Dice values")
-            return
+        self.__add_entry(combination)
         self.game_window.render(self.get_game_state())
-        self.__next_player()
+        if not self.__is_game_over():
+            self.__next_player()
 
-    def __add_bot_entry(self, combination):
+    def __add_bot_entry(self, combination: Combinations):
         """
         Adds the value of the current dice value to active players
         combinations as the passed combination without advancing player
@@ -188,6 +188,16 @@ class GameController:
         player_combination = self.combinations[self.__active_player]
         if player_combination[combination.value].value is not None:
             print("Bot made error should field already taken")
+        self.__add_entry(combination)
+        self.game_window.render(self.get_game_state())
+
+    def __add_entry(self, combination: Combinations):
+        """
+        Adds the passed combination value to the combinations of the
+        active player does not do any checks if entry is valid
+        @param combination: in which field the value is entered
+        """
+        player_combination = self.combinations[self.__active_player]
         calc_fn = combinations.get_calc_fn(combination)
         try:
             value = calc_fn(self.dice_controller.get_dice_values())
@@ -195,7 +205,10 @@ class GameController:
         except InvalidThrow:
             self.display_message("Failed to count Dice values")
             return
-        self.game_window.render(self.get_game_state())
+
+        if self.__is_game_over():
+            self.dice_controller.unlock_all_dice()
+            self.__show_result()
 
     def __run_bot(self):
         """
@@ -230,10 +243,11 @@ class GameController:
         self.__bot_is_playing = self.__game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
         if self.__bot_is_playing:
             self.__run_bot()
+            if self.__is_game_over():
+                return
             self.__next_player()
             return
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
-        # todo show result screen if done
 
     def __is_game_over(self) -> bool:
         """
@@ -254,6 +268,7 @@ class GameController:
         self.dice_controller.unlock_all_dice()
         self.__set_active_player(0)
         self.__reset_combinations()
+        self.game_window.show_game_card(self.get_game_state())
         self.game_window.render(self.get_game_state())
         self.select_dice_window()
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
@@ -307,8 +322,10 @@ class GameController:
             self.__game_kind = game_state.game_kind
             self.__set_active_player(game_state.active_player)
             self.dice_controller.set_roll_count(game_state.roll_count)
+            if self.__is_game_over():
+                self.__show_result()
         except TypeError:
-            pass
+            self.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
 
     def get_game_state(self) -> GameState:
         """

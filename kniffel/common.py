@@ -26,6 +26,7 @@ LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
 ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"
+GAME_OVER = "GAME OVER"
 
 DICE_COUNT = 5
 PLAYER_COUNT = 2
@@ -46,13 +47,13 @@ LOGO = [" _  __      _  __  __      _  ",
         "| . \\| | | | |  _|  _|  __/ | ",
         "|_|\\_\\_| |_|_|_| |_|  \\___|_| "]
 
-TEST_NAME_PAD = [
+NAME_PAD = [
     "                                   ",
-    "                                   ",
+    "              Kniffel              ",
     "                                   "
 ]
 
-TEST_GAME_PAD = [
+GAME_PAD = [
     "-----------------------------------",
     "! Einser      !nur 1er!",
     "!-------------!-------!",
@@ -82,7 +83,7 @@ TEST_GAME_PAD = [
     "-----------------------------------"
 ]
 
-TEST_POINTS_PAD = [
+POINTS_PAD = [
     "{}",
     "-----",
     "{}",
@@ -110,19 +111,29 @@ TEST_POINTS_PAD = [
     "{}"
 ]
 
-SEPARATOR = "!"
-
 RESULT_PAD = [
-    " ------------------------------------------ ",
-    " ! Oberer Teil  !   →   !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! bei >=63     !  +35  !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! Gesamt o.Teil!   →   !{}!{}! ",
-    " !--------------!-------!-----!-----!-----! ",
-    " ! Endsumme     !   →   !{}!{}! ",
-    " ------------------------------------------ ",
+    "-----------------------------------",
+    "! Oberer Teil !   →   !",
+    "!-------------!-------!",
+    "! bei >=63    !  +35  !",
+    "!-------------!-------!",
+    "!Gesamt o.Teil!   →   !",
+    "!-------------!-------!",
+    "! Endsumme    !   →   !",
+    "-----------------------------------"
 ]
+
+RESULT_POINTS_PAD = [
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}",
+    "-----",
+    "{}"
+]
+
+SEPARATOR = "!"
 
 loading01 = [" _ ",
              "| |",
@@ -212,6 +223,8 @@ LOADING = [loading01, loading02,
 
 # Curses color pairs
 COLOR_PAIR_BLUE_BLACK = 1
+COLOR_PAIR_BLACK_WHITE = 2
+COLOR_PAIR_BLACK_CYAN = 3
 COLOR_DICE_LOCKED = 1
 SELECTED_OPTION = curses.A_REVERSE
 
@@ -222,3 +235,5 @@ def init_colors():
     @return:
     """
     curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_CYAN)

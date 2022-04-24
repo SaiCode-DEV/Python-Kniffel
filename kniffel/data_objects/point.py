@@ -1,8 +1,17 @@
+"""
+The point module contains the needed classes for storing the
+current state of a point
+"""
+
+
 from json import JSONEncoder
 from typing import Dict
 
 
 class Point:
+    """
+    Class Point holds all relevant data of a point object
+    """
     @staticmethod
     def from_json(data):
         """
