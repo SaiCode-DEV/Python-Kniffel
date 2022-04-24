@@ -5,23 +5,18 @@ The logic for a game-card is found in the card_controller_module
 """
 import curses
 
-import common
+from kniffel import common
 
 
-class PlayerCard:
+def draw_header(window: curses.window, y_off: int, x_off: int):
     """
-    Super-class for game and result card
+    Draw header for game and result cards
+    @param window: screen in which will be drawn
+    @param y_off: y coordinate
+    @param x_off: x coordinate
     """
-    @staticmethod
-    def draw_header(window: curses.window, y_off: int, x_off: int):
-        """
-        Draw header for game and result cards
-        @param window: screen in which will be drawn
-        @param y_off: y coordinate
-        @param x_off: x coordinate
-        """
-        count: int = 0
-        for line in common.NAME_PAD:
-            window.addstr(y_off + count, x_off, line,
-                          curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
-            count += 1
+    count: int = 0
+    for line in common.NAME_PAD:
+        window.addstr(y_off + count, x_off, line,
+                      curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+        count += 1

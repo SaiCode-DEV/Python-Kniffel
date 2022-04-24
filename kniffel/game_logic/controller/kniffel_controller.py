@@ -6,7 +6,7 @@ the makro state of the game
 from enum import Enum
 from time import sleep
 
-from data_objects.game_kind import EnumGameKind
+from kniffel.data_objects.game_kind import EnumGameKind
 from kniffel import common
 from kniffel.game_logic.controller.game_controller.game_controller import GameController
 from kniffel.game_logic.controller.start_menu_controller import StartMenuController

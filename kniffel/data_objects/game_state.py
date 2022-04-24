@@ -4,7 +4,7 @@ The game_state module contains all classes for holding and storing a games curre
 from json import JSONEncoder
 from typing import List, Dict
 
-from data_objects.game_kind import EnumGameKind
+from kniffel.data_objects.game_kind import EnumGameKind
 from kniffel.data_objects.point import Point, PointEncoder
 from kniffel.data_objects.dice import Dice, DiceEncoder
 
@@ -44,19 +44,12 @@ class GameState:
             game_state.points = points_decoded
         return game_state
 
-    def __init__(
-            self,
-            dice: List[Dice] = None,
-            points: List[List[Point]] = None,
-            active_player: int = 0,
-            roll_count: int = 0,
-            game_kind: EnumGameKind = EnumGameKind.GAME_AGAINST_HUMAN
-    ):
-        self.active_player = active_player
-        self.roll_count = roll_count
-        self.game_kind = game_kind
-        self.__points = points
-        self.__dice = dice
+    def __init__(self):
+        self.active_player = 0
+        self.roll_count = 0
+        self.game_kind = EnumGameKind.GAME_AGAINST_HUMAN
+        self.__points = None
+        self.__dice = None
 
     @property
     def points(self) -> List[List[Point]]:

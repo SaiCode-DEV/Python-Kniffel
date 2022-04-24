@@ -2,16 +2,15 @@
 The card_controller module contains all the functionality for entrance and navigating a game card
 """
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import curses
 
-from typing import TYPE_CHECKING
-import common
-import key_codes
-from data_objects.combinations import Combinations
+from kniffel import common
+from kniffel import key_codes
+from kniffel.data_objects.combinations import Combinations
 
-from windows.game_window.game_card import GameCard
-from typing import TYPE_CHECKING
+from kniffel.windows.game_window.game_card import GameCard
 from kniffel.windows.game_window.result_card import ResultCard
 
 # to avoid a circular import

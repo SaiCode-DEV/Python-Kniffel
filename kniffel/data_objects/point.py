@@ -3,7 +3,6 @@ The point module contains the needed classes for storing the
 current state of a point
 """
 
-
 from json import JSONEncoder
 from typing import Dict
 
@@ -12,6 +11,7 @@ class Point:
     """
     Class Point holds all relevant data of a point object
     """
+
     @staticmethod
     def from_json(data):
         """
@@ -31,7 +31,21 @@ class Point:
     def __init__(self):
         self.selected = False
         self.completed = False
-        self.value = None
+        self.__value = None
+
+    @property
+    def value(self) -> int:
+        """
+        getter for value property (to shut up pylint)
+        """
+        return self.__value
+
+    @value.setter
+    def value(self, value: int):
+        """
+        setter for value property (to shut up pylint)
+        """
+        self.__value = value
 
 
 class PointEncoder(JSONEncoder):

@@ -12,7 +12,7 @@ from os import path
 
 from typing import TYPE_CHECKING, List
 
-from data_objects.game_kind import EnumGameKind
+from kniffel.data_objects.game_kind import EnumGameKind
 from kniffel import common
 from kniffel import key_codes
 from kniffel.data_objects import combinations
@@ -64,7 +64,6 @@ class GameController:
 
         self.__update_control_str()
         self.__bot_is_playing = False
-        self.test = 0  # todo remove
 
     def __reset_combinations(self):
         """
@@ -224,8 +223,7 @@ class GameController:
             # todo ask bot what dice should be locked/what result should be entered
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
-        self.__add_bot_entry(Combinations(self.test))
-        self.test += 1
+        #self.__add_bot_entry(Combinations(value of bot))
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
 
@@ -331,8 +329,10 @@ class GameController:
         """
         Collects the active game state
         """
-        return GameState(self.dice_controller.get_dice(),
-                         self.combinations,
-                         self.__active_player,
-                         self.dice_controller.roll_count,
-                         self.__game_kind)
+        game_state = GameState()
+        game_state.dice = self.dice_controller.get_dice()
+        game_state.points = self.combinations
+        game_state.active_player = self.__active_player
+        game_state.roll_count = self.dice_controller.roll_count
+        game_state.game_kind = self.__game_kind
+        return game_state

@@ -4,14 +4,14 @@ This modul contains the needed functionality for rendering a game-card into a wi
 import curses
 from typing import List
 
-from windows.game_window.players_card import PlayerCard
+from kniffel.windows.game_window import players_card
 
 from kniffel import common
 from kniffel.data_objects.point import Point
 
 
 
-class ResultCard(PlayerCard):
+class ResultCard:
     """
     The ResultCard takes in a window it will render a result card
     """
@@ -45,7 +45,7 @@ class ResultCard(PlayerCard):
         y_off = (max_y - len(common.RESULT_PAD)) // 2
 
         # Print header pad
-        self.draw_header(self.__window, y_off, x_off)
+        players_card.draw_header(self.__window, y_off, x_off)
 
         # Print result card
         count = 0

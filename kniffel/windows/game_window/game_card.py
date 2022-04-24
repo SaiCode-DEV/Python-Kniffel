@@ -5,12 +5,12 @@ The logic for a game-card is found in the card_controller_module
 import curses
 from typing import Tuple, List
 
-from windows.game_window.players_card import PlayerCard
+from kniffel.windows.game_window import players_card
 from kniffel import common
 from kniffel.data_objects.point import Point
 
 
-class GameCard(PlayerCard):
+class GameCard:
     """
     GameCard class takes in a window it will render a game card
     """
@@ -45,7 +45,7 @@ class GameCard(PlayerCard):
         y_off = (max_y - len(common.GAME_PAD)) // 2
 
         # Print header pad
-        self.draw_header(self.__window, y_off, x_off)
+        players_card.draw_header(self.__window, y_off, x_off)
 
         # Print game pad
         line_count = 0
