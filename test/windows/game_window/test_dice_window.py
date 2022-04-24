@@ -1,54 +1,63 @@
 # pylint: disable=C
-
+from os import path
 from kniffel.windows.game_window.dice_window import *
 
-from unittest import TestCase
+from test.windows.window_test import WindowTest
+from test.windows import game_window
 
-ONE_DICE = ["---------", "!       !", "!   ¤   !", "!       !", "---------"]
+EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "dice_outputs"
 
 
-class DiceWindowTest(TestCase):
+class DiceWindowTest(WindowTest):
+
     def __init__(self, method_name='runTest'):
         super().__init__(method_name)
-        self.window: curses.window = None
         self.dice_window: DiceWindow = None
-        self.std_scr = curses.initscr()
-        curses.start_color()
-
-        common.init_colors()
-        curses.curs_set(0)  # hide cursor
-        self.std_scr.keypad(True)  # to be able to compare input wit curses constants
-        curses.cbreak()  # no input buffering
-        curses.noecho()
-
-        curses.resize_term(50, 100)
-        self.std_scr.clear()
-        self.std_scr.refresh()
 
     def setUp(self):
-        max_y, max_x = DiceWindow.get_required_size()
-        self.window = self.std_scr.subwin(max_y, max_x, 0, 0)
+        super().setUp()
         self.dice_window = DiceWindow(self.window)
 
     def tearDown(self) -> None:
         del self.window
 
-    def test_display(self):
-        [max_y, max_x] = DiceWindow.get_required_size()
+    def get_max_yx(self):
+        return DiceWindow.get_required_size()
+
+    def test_all_ones(self):
         dice = []
         for _ in range(5):
             die = Dice()
             die.value = 1
             dice.append(die)
         self.dice_window.render(dice)
-        lines = []
-        for y in range(max_y):
-            chars = []
-            for x in range(max_x):
-                chars.append(chr(self.window.inch(y, x) & 0xFF))
-            line = "".join(chars)
-            if line.strip() == "":
-                continue
-            lines.append(line.strip())
-        self.assertEqual(ONE_DICE * 5, lines)
+        actual = self.get_screen_value()
 
+        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+
+        with open(path.join(EXPECTED_PATH, "all_ones.txt"), "r", encoding="utf-8") as expected:
+            iteration = 0
+            for line in expected:
+                if len(actual) - 1 < iteration:
+                    raise AssertionError("all_ones length of expected does not match actual")
+                self.assertEqual(line.strip(), actual[iteration].strip(), "all ones rendered incorrectly")
+                iteration += 1
+
+    def test_all_twos(self):
+        dice = []
+        for _ in range(5):
+            die = Dice()
+            die.value = 2
+            dice.append(die)
+        self.dice_window.render(dice)
+        actual = self.get_screen_value()
+
+        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+
+        with open(path.join(EXPECTED_PATH, "all_twos.txt"), "r", encoding="utf-8") as expected:
+            iteration = 0
+            for line in expected:
+                if len(actual) - 1 < iteration:
+                    raise AssertionError("all_ones length of expected does not match actual")
+                self.assertEqual(line.strip(), actual[iteration].strip(), "all ones rendered incorrectly")
+                iteration += 1
