@@ -1,5 +1,5 @@
 """
-This modul contains the GameWindow-class which is used to render a GameState
+This module contains the GameWindow-class which is used to render a GameState
 on the screen
 """
 import curses
@@ -38,7 +38,7 @@ class GameWindow:
         str_len = len(common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW
                       + DiceWindow.get_control_string())
         required_x = max(str_len, required_x)
-        # plus two for statustext and message
+        # plus two for status text and message
         required_y = max(game_card_y, result_card_y, dice_y + 2)
         return required_y, required_x + 2
 
@@ -78,7 +78,7 @@ class GameWindow:
 
     def __get_sub_windows(self) -> Tuple[curses.window, curses.window]:
         """
-        Creates appropriate subwindows for the card and dice and returns them
+        Creates appropriate sub windows for the card and dice and returns them
         @return: card_window,dice_window
         """
         [_, dice_x] = DiceWindow.get_required_size()
@@ -111,7 +111,7 @@ class GameWindow:
 
     def render(self, game_state: GameState):
         """
-        Renders all relavent components onto the screen
+        Renders all relevant components onto the screen
         """
         self.window.clear()
         self.window.refresh()
@@ -126,7 +126,7 @@ class GameWindow:
 
     def __get_str_off(self, msg: str) -> int:
         """
-        Retunrs the required x_offset for placing a string at the middle of the screen
+        Returns the required x_offset for placing a string at the middle of the screen
         @param msg: the string for which the offset is going to be calculated
         """
         _, max_x = self.window.getmaxyx()
@@ -147,7 +147,7 @@ class GameWindow:
 
     def display_controls(self, game_state: GameState, control_str):
         """
-        Displays the Controlstring at the bottom of the window
+        Displays the control string at the bottom of the window
         @param game_state: GameState current state of the game needed for re-render
         @param control_str: str which will be displayed at bottom of window
         """
