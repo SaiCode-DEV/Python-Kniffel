@@ -31,7 +31,7 @@ class StartAnimation:
         """
         height, width = self.window.getmaxyx()
 
-        start_x_title = int((width // 2) - (len(common.LOGO[0]) // 2))
+        start_x_title = int((width - len(common.LOGO[0])) // 2)
         start_y_title = int((height - len(common.LOGO)) // 2)
 
         self.window.clear()
@@ -48,7 +48,7 @@ class StartAnimation:
             for line in common.LOGO:
                 self.window.addstr(start_y_title + iteration,
                                    start_x_title,
-                                   line,
+                                   line.rstrip(),
                                    curses.color_pair(common.COLOR_PAIR_BLUE_BLACK))
                 iteration += 1
         self.window.refresh()

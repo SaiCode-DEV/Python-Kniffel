@@ -21,7 +21,7 @@ class StartAnimationTest(WindowTest):
         return StartAnimation.get_required_size()
 
     def test_game_card_render(self):
-        for loading in common.LOADING:
+        for loading in [*common.LOADING, common.LOGO]:
             self.start_animation.render()
             actual = self.get_screen_value()
 
