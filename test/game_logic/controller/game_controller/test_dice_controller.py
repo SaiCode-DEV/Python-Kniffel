@@ -36,7 +36,7 @@ class DiceControllerTest(TestCase):
         new_dice = self.dice_controller.get_dice_values()
         for i in range(len(old_dice)):
             if old_dice[i] != new_dice[i]:
-                return
+               return
         raise AssertionError("Dice should change with re-roll")
 
     def lock_all_dice(self):

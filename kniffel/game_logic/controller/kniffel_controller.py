@@ -39,7 +39,7 @@ class KniffelController:
     def start(self):
         """
         Starts the main game loop in here inputs will get handled
-        and to the subwindows distributed
+        and to the sub windows distributed
         """
 
         self.__running = True
