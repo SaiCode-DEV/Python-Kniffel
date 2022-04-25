@@ -43,6 +43,7 @@ class GameController:
     """
     The GameController class contains the logic for managing a game and for managing a games state
     """
+    game_kind = EnumGameKind.GAME_AGAINST_HUMAN
 
     def __init__(self, kniffel_controller: KniffelController, game_window: GameWindow):
         """
@@ -52,7 +53,6 @@ class GameController:
         @param game_window: game window on which the actions will be visible
         """
         self.selected = EnumWindowSelected.DICE_WINDOW
-        self.__game_kind = EnumGameKind.GAME_AGAINST_HUMAN
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
@@ -237,7 +237,7 @@ class GameController:
         self.__set_active_player(active_player)
         self.select_dice_window()
 
-        bot_is_playing = self.__game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
+        bot_is_playing = GameController.game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
         if bot_is_playing:
             self.__run_bot()
             if self.__is_game_over():
@@ -260,7 +260,7 @@ class GameController:
         """
         Resets the Game state so a new game can begin
         """
-        self.__game_kind = game_kind
+        GameController.game_kind = game_kind
         self.dice_controller.reset_roll_count()
         self.dice_controller.unlock_all_dice()
         self.__set_active_player(0)
@@ -316,7 +316,7 @@ class GameController:
             if len(self.combinations) != common.PLAYER_COUNT or \
                     len(self.combinations[0]) != common.COMBINATIONS_COUNT:
                 self.__reset_combinations()
-            self.__game_kind = game_state.game_kind
+            GameController.game_kind = game_state.game_kind
             self.__set_active_player(game_state.active_player)
             self.dice_controller.set_roll_count(game_state.roll_count)
             if self.__is_game_over():
@@ -333,5 +333,5 @@ class GameController:
         game_state.points = self.combinations
         game_state.active_player = self.__active_player
         game_state.roll_count = self.dice_controller.roll_count
-        game_state.game_kind = self.__game_kind
+        game_state.game_kind = GameController.game_kind
         return game_state
