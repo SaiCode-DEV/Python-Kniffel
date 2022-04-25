@@ -17,10 +17,10 @@ LABEL_MENU_ESCAPE = "(Q) Spiel beenden"
 LABEL_PLAYER_TURN = "Spieler Nummer {} ist am Zug"
 
 LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Start Menu"
-LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll " \
-                                     "| (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
-LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations |" \
-                                      " (Enter) Lock Result |"
+LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Ergebnis eintragen | (Space) Würfeln " \
+                                     "| (Pfeiltasten) Würfel navigieren | (Enter) Würfel ent-/sperren |"
+LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Weiter würfeln | (Pfeiltasten) Kombinationen navigieren |" \
+                                      " (Enter) Ergebnis eintragen |"
 LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"

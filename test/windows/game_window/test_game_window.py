@@ -71,6 +71,8 @@ class GameWindowTest(WindowTest):
         self.game_window.display_message(game_state, "This is a test")
         self.game_window.show_game_card(game_state)  # has to be present after re-render
         actual = self.get_screen_value()
+        print("\n".join(actual))
+
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
 
         with open(path.join(EXPECTED_PATH, "with_test_message.txt"), "r", encoding="utf-8") as expected:
