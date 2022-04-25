@@ -105,7 +105,7 @@ class DiceController:
                 Tracer.trace = True
             self.dice_window.render(self.__dice)
             if iteration != roll_count - 1:
-                sleep(0.15)
+                sleep(common.ANIMATION_DELAY_ROLL)
 
     def get_dice(self) -> List[Dice]:
         """

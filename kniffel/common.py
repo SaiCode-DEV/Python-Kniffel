@@ -30,7 +30,8 @@ GAME_OVER = "GAME OVER"
 DICE_COUNT = 5
 PLAYER_COUNT = 2
 MAX_ROLL_COUNT = 3  # Number of rolls a player can roll in one turn
-ANIMATION_DELAY = 0.175
+ANIMATION_DELAY_START_ANIMATION = 0.175
+ANIMATION_DELAY_ROLL = 0.15
 BOT_DECISION_DELAY = 1  # number of seconds the bots decision is displayed
 ROLL_COUNT_ANIMATION = 8
 
