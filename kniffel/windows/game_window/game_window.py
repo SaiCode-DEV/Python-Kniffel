@@ -48,11 +48,11 @@ class GameWindow:
         self.window = window
         self.window.clear()
         self.window.refresh()
-        card_window, dice_window = self.__get_sub_windows()
+        card_window, result_window, dice_window = self.__get_sub_windows()
 
         self.__dice_window = DiceWindow(dice_window)
         self.__game_card = GameCard(card_window)
-        self.__result_card = ResultCard(card_window)
+        self.__result_card = ResultCard(result_window)
         self.__current_card = self.__game_card
 
     @property
@@ -76,10 +76,10 @@ class GameWindow:
         """
         return self.__result_card
 
-    def __get_sub_windows(self) -> Tuple[curses.window, curses.window]:
+    def __get_sub_windows(self) -> Tuple[curses.window, curses.window, curses.window]:
         """
         Creates appropriate sub windows for the card and dice and returns them
-        @return: card_window,dice_window
+        @return: card_window,result_window,dice_window
         """
         [_, dice_x] = DiceWindow.get_required_size()
         [_, result_card_x] = ResultCard.get_required_size()
@@ -90,8 +90,9 @@ class GameWindow:
         card_window_x = int(max_x * (card_x / (card_x + dice_x)))
         dice_window_x = max_x - card_window_x
         card_window = self.window.subwin(max_y - 2, card_window_x, 1, 0)
+        result_window = self.window.subwin(max_y - 2, max_x, 1, 0)
         dice_window = self.window.subwin(max_y - 2, dice_window_x, 1, card_window_x)
-        return card_window, dice_window
+        return card_window, result_window, dice_window
 
     def show_result_card(self, game_state: GameState):
         """
@@ -121,7 +122,8 @@ class GameWindow:
         self.window.addstr(max_y - 1, self.__get_str_off(self.control_str), self.control_str)
 
         self.__current_card.render(game_state.points)
-        self.__dice_window.render(game_state.dice)
+        if not isinstance(self.__current_card, ResultCard):
+            self.__dice_window.render(game_state.dice)
         Tracer.write_term_file()
 
     def __get_str_off(self, msg: str) -> int:

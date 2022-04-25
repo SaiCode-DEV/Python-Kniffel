@@ -21,8 +21,7 @@ LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll " \
                                      "| (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
 LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations |" \
                                       " (Enter) Lock Result |"
-LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll |" \
-                                        " (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
+LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
 ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"

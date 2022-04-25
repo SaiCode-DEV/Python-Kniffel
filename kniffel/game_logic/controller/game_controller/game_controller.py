@@ -24,6 +24,7 @@ from kniffel.game_logic.controller.game_controller.card_controller import CardCo
 from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.game_window import GameWindow
+from kniffel.windows.game_window.result_card import ResultCard
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -63,7 +64,6 @@ class GameController:
         self.__reset_combinations()
 
         self.__update_control_str()
-        self.__bot_is_playing = False
 
     def __reset_combinations(self):
         """
@@ -108,7 +108,7 @@ class GameController:
             self.kniffel_controller.show_start_menu()
 
         # if the bot is currently playing or game is done ignore user input except quit
-        if self.__bot_is_playing or self.__is_game_over():
+        if self.__is_game_over():
             return
 
         # switch between subwindows
@@ -148,8 +148,10 @@ class GameController:
         self.game_window.display_message(self.get_game_state(), message)
 
     def __show_result(self):
+        game_state = self.get_game_state()
         self.display_message(common.GAME_OVER)
-        self.game_window.show_result_card(self.get_game_state())
+        self.game_window.display_controls(game_state, common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + ResultCard.get_control_string())
+        self.game_window.show_result_card(game_state)
 
     def __get_control_str(self) -> str:
         """
@@ -215,9 +217,6 @@ class GameController:
         """
         self.dice_controller.show_selected(False)
         self.card_controller.show_selected(False)
-        if not self.__bot_is_playing:
-            print("self.__bot_is_playing not set and __run_bot was called")
-            return
         for _ in range(common.MAX_ROLL_COUNT):
             self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
             # todo ask bot what dice should be locked/what result should be entered
@@ -238,8 +237,8 @@ class GameController:
         self.__set_active_player(active_player)
         self.select_dice_window()
 
-        self.__bot_is_playing = self.__game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
-        if self.__bot_is_playing:
+        bot_is_playing = self.__game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
+        if bot_is_playing:
             self.__run_bot()
             if self.__is_game_over():
                 return
