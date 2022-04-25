@@ -64,6 +64,30 @@ class GameWindowTest(WindowTest):
                 self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
+    def test_result_card_render(self):
+        game_state = GameState()
+        game_state.dice = get_dice_with_value(1)
+        game_state.points = get_empty_combinations()
+        player = 0
+        for column in game_state.points:
+            combination = 0
+            for _ in column:
+                game_state.points[player][combination].value = player + combination
+                combination += 1
+            player += 1
+        self.game_window.show_result_card(game_state)
+        actual = self.get_screen_value()
+
+        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+
+        with open(path.join(EXPECTED_PATH, "result_card_render.txt"), "r", encoding="utf-8") as expected:
+            iteration = 0
+            for line in expected:
+                if len(actual) - 1 < iteration:
+                    raise AssertionError("test_result_card_render length of expected does not match actual")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"test_result_card_render line rendered incorrectly in line {iteration + 1}")
+                iteration += 1
+
     def test_display_message(self):
         game_state = GameState()
         game_state.dice = get_dice_with_value(2)
