@@ -69,9 +69,9 @@ class GameWindowTest(WindowTest):
         game_state.dice = get_dice_with_value(2)
         game_state.points = get_empty_combinations()
         self.game_window.display_message(game_state, "This is a test")
+        self.game_window.display_controls(game_state, "This is another test")
         self.game_window.show_game_card(game_state)  # has to be present after re-render
         actual = self.get_screen_value()
-        print("\n".join(actual))
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
 
