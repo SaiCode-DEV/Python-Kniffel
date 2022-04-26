@@ -45,7 +45,7 @@ class StartWindow:
         for opt in OPTIONS:
             if len(opt) > max_x:
                 max_x = len(opt)
-        return logo_y + len(OPTIONS) * 2, max_x
+        return logo_y + len(OPTIONS) * 2 + 1, max_x
 
     def __init__(self, std_scr: curses.window):
         logo_win, self.window = get_screens(std_scr)
