@@ -23,17 +23,23 @@ class CardController:
     The CardController is supposed to be used as an abstraction to a game card.
     The game card is rendered to the passed Game-Card
     """
-    def __init__(self, game_card: GameCard,
+    def __init__(self,
+                 game_card: GameCard,
                  result_card: ResultCard,
                  game_controller: GameController):
         self.game_card = game_card
         self.result_card = result_card
         self.game_controller = game_controller
+        self.__combinations = []
         self.__selected_player = None
         self.__selected_combination = None
 
         self.__selected_combination = 0
         self.__selected_player = 0
+
+    @property
+    def selected_combination(self):
+        return self.__selected_combination
 
     @staticmethod
     def get_control_str() -> str:
@@ -47,21 +53,21 @@ class CardController:
         Combination what to do with a users input
         @param key: chr User input
         """
-        combinations = self.game_controller.get_game_state().points
+        self.__combinations = self.game_controller.get_game_state().points
         if key == curses.KEY_DOWN:
-            combinations[self.__selected_player][self.__selected_combination].selected = False
+            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination = \
                 (self.__selected_combination + 1) % common.COMBINATIONS_COUNT
-            combinations[self.__selected_player][self.__selected_combination].selected = True
+            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
         if key == curses.KEY_UP:
-            combinations[self.__selected_player][self.__selected_combination].selected = False
+            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
             self.__selected_combination -= 1
             if self.__selected_combination < 0:
                 self.__selected_combination = common.COMBINATIONS_COUNT - 1
-            combinations[self.__selected_player][self.__selected_combination].selected = True
+            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
         if key in (curses.KEY_ENTER, 10, 13, key_codes.VK_NUMPAD_ENTER):
             self.game_controller.add_player_entry(Combinations(self.__selected_combination))
-        self.game_card.render(combinations)
+        self.game_card.render(self.__combinations)
 
     def set_selected_player(self, player: int):
         """
