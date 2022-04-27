@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 import sys
 
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = ["numpy"]
 
 if sys.platform.startswith('win'):
     INSTALL_REQUIRES.append("windows-curses")

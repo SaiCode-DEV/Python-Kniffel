@@ -240,7 +240,7 @@ class GameController:
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
 
-    def __get_available_options_for_bot(self) -> List[Combinations]:
+    def _get_available_options_for_bot(self) -> List[Combinations]:
         """
         collects available options for bots and returns them as a list
         """

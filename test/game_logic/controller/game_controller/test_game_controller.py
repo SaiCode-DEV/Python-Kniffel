@@ -99,3 +99,12 @@ class GameControllerTest(TestCase):
             if point.value is not None:
                 bot_played = True
         self.assertTrue(bot_played, "bot should have made a turn")
+
+    def test_available_bot_options(self):
+        combos = state_generator.get_empty_combinations()
+        combos[1][0].value = 1
+        combos[1][2].value = 2
+        self.game_controller.combinations = combos
+
+        available = self.game_controller._get_available_options_for_bot()
+        self.assertListEqual([1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [a.value for a in available], "the available options were wrongly prepared for bot")
