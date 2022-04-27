@@ -64,6 +64,7 @@ class Dice:
         return self.value == other.value and self.locked == other.locked and self.selected == other.selected
 
 
+
 class DiceEncoder(JSONEncoder):
     """
     Encoder used to to encode a Dice to json
