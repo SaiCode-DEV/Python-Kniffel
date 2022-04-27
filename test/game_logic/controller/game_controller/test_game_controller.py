@@ -18,6 +18,8 @@ class GameControllerTest(TestCase):
         common.ANIMATION_DELAY_ROLL = 0
 
     def setUp(self):
+        common.ANIMATION_DELAY_ROLL = 0
+        common.BOT_DECISION_DELAY = 0
         self.mock_kniffel_controller = MockKniffelController()
         self.mock_game_window = MockGameWindow()
         self.game_controller = GameController(self.mock_kniffel_controller, self.mock_game_window)
@@ -84,4 +86,16 @@ class GameControllerTest(TestCase):
         self.game_controller.card_controller.handle_input(key_codes.VK_NUMPAD_ENTER)
 
         self.assertEqual(10, self.game_controller.get_game_state().points[0][Combinations.TWOS.value].value,
-                          "should have added entry to twos with value 10")
+                         "should have added entry to twos with value 10")
+
+    def test_bot_running(self):
+        self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_BOT)
+        self.game_controller.select_card_window()
+        self.game_controller.handle_input(key_codes.VK_NUMPAD_ENTER)
+        # todo check if bot ran
+        game_state = self.game_controller.get_game_state()
+        bot_played = False
+        for point in game_state.points[1]:
+            if point.value is not None:
+                bot_played = True
+        self.assertTrue(bot_played, "bot should have made a turn")
