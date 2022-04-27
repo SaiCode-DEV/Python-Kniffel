@@ -48,7 +48,7 @@ class KniffelController:
                 self.start_menu_controller.step_animation()
                 self.window_manager.render(self.game_controller.get_game_state())
                 self.window_manager.set_no_input_delay(True)
-                sleep(common.ANIMATION_DELAY)
+                sleep(common.ANIMATION_DELAY_START_ANIMATION)
             else:
                 self.window_manager.set_no_input_delay(False)
             character = self.window_manager.get_ch()

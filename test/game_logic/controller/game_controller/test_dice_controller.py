@@ -16,6 +16,7 @@ class DiceControllerTest(TestCase):
         self.mock_dice_window = MockDiceWindow()
         self.mock_game_controller = MockGameController()
         self.dice_controller = DiceController(self.mock_dice_window, self.mock_game_controller)
+        common.ANIMATION_DELAY_ROLL = 0
 
     def test_handle_arrow_down(self):
         self.dice_controller.handle_input(curses.KEY_DOWN)

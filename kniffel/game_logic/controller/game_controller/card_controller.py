@@ -23,6 +23,7 @@ class CardController:
     The CardController is supposed to be used as an abstraction to a game card.
     The game card is rendered to the passed Game-Card
     """
+
     def __init__(self, game_card: GameCard,
                  result_card: ResultCard,
                  game_controller: GameController):
@@ -71,6 +72,15 @@ class CardController:
         combinations = self.game_controller.get_game_state().points
         self.__unselect_all()
         self.__selected_player = player
+        combinations[self.__selected_player][self.__selected_combination].selected = True
+
+    def set_selected_combination(self, combination: int):
+        """
+        setter for active the active combination
+        """
+        combinations = self.game_controller.get_game_state().points
+        self.__unselect_all()
+        self.__selected_combination = combination
         combinations[self.__selected_player][self.__selected_combination].selected = True
 
     def __unselect_all(self):

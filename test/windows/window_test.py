@@ -19,14 +19,13 @@ class WindowTest(TestCase):
         curses.cbreak()  # no input buffering
         curses.noecho()
 
-        curses.resize_term(10000, 10000)
-        max_y, max_x = self.get_max_yx()
-        curses.resize_term(max_y, max_x)
-        self.std_scr.clear()
-        self.std_scr.refresh()
 
     def setUp(self):
         max_y, max_x = self.get_max_yx()
+        curses.resize_term(10000, 10000)
+        self.std_scr.clear()
+        self.std_scr.refresh()
+        curses.resize_term(max_y, max_x)
         self.window = self.std_scr.subwin(max_y, max_x, 0, 0)
 
     def get_max_yx(self):
