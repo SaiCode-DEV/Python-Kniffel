@@ -65,6 +65,20 @@ class GameController:
 
         self.__update_control_str()
 
+    @property
+    def active_player(self) -> int:
+        """
+        @return: index of the currently active player
+        """
+        return self.__active_player
+
+    @active_player.setter
+    def active_player(self, active_player: int):
+        """
+        sets the currently active player index
+        """
+        self.__active_player = active_player
+
     def __reset_combinations(self):
         """
         resets the all combinations to be empty again
@@ -222,7 +236,7 @@ class GameController:
             # todo ask bot what dice should be locked/what result should be entered
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
-        #self.__add_bot_entry(Combinations(value of bot))
+        # self.__add_bot_entry(Combinations(value of bot))
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
 
@@ -321,7 +335,8 @@ class GameController:
             self.dice_controller.set_roll_count(game_state.roll_count)
             if self.__is_game_over():
                 self.__show_result()
-        except TypeError:
+        except TypeError as error:
+            print("failed to load game state", error)
             self.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
 
     def get_game_state(self) -> GameState:

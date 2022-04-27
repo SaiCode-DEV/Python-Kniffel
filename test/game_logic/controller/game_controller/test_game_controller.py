@@ -1,8 +1,11 @@
 # pylint disable=C
+from copy import deepcopy
 from unittest import TestCase
 
 from kniffel import key_codes
 from kniffel.game_logic.controller.game_controller.game_controller import *
+from test import state_generator
+from test.game_logic.controller import game_controller
 from test.mock.mock_game_window import MockGameWindow
 from test.mock.mock_kniffel_controller import MockKniffelController
 
@@ -39,3 +42,34 @@ class GameControllerTest(TestCase):
                 break
         self.assertTrue(dice_changed, "dice did not roll either because of error in dice controller or input not forwarded to dice controller")
 
+    def test_saving_and_loading_state(self):
+        common.DIR_PERSISTENCE = game_controller.__file__.replace("__init__.py", "") + "json-temp"
+        common.FILE_GAME_STATE = path.join(common.DIR_PERSISTENCE, "game_state.json")
+
+        game_state: GameState = GameState()
+        game_state.points = state_generator.get_random_combinations()
+        game_state.dice = state_generator.get_dice_with_value(2)
+        game_state.dice[1].selected = True
+        game_state.active_player = 1
+        game_state.game_kind = EnumGameKind.GAME_AGAINST_BOT
+
+        self.game_controller.combinations = deepcopy(game_state.points)
+        self.game_controller.dice_controller.set_dice(game_state.dice)
+        GameController.game_kind = game_state.game_kind
+        self.game_controller.active_player = game_state.active_player
+        self.game_controller.save_to_file()
+        self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
+
+        for i in range(common.PLAYER_COUNT):
+            values_expected = [p.value for p in state_generator.get_empty_combinations()[i]]
+            values_actual = [p.value for p in self.game_controller.combinations[i]]
+            self.assertListEqual(values_expected, values_actual,
+                                 "Game-Controller did not reset game-state after new game started")
+
+        equal_dice = set([d.value for d in game_state.dice]).intersection(self.game_controller.dice_controller.get_dice_values())
+        self.assertNotEqual(5, equal_dice, "game controller should have re-rolled dice after game start")
+        self.assertEqual(0, self.game_controller.active_player, "game controller should have reset active player")
+
+        self.game_controller.load_from_file()
+
+        self.assertEqual(game_state, self.game_controller.get_game_state(), "Game-Controller did not load game-state correctly")

@@ -6,3 +6,4 @@ build
 htmlcov
 persistence
 test/data_objects/json-temp
+test/game_logic/controller/game_controller/json-temp
