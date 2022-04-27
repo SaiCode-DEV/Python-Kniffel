@@ -240,6 +240,18 @@ class GameController:
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
 
+    def __get_available_options_for_bot(self) -> List[Combinations]:
+        """
+        collects available options for bots and returns them as a list
+        """
+        options = []
+        iteration = 0
+        for point in self.combinations[1]:
+            if point.value is None:
+                options.append(Combinations(iteration))
+            iteration += 1
+        return options
+
     def __next_player(self):
         """
         selects the next player and resets the roll count
