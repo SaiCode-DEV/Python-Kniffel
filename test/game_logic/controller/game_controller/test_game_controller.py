@@ -73,3 +73,15 @@ class GameControllerTest(TestCase):
         self.game_controller.load_from_file()
 
         self.assertEqual(game_state, self.game_controller.get_game_state(), "Game-Controller did not load game-state correctly")
+
+    def test_entry(self):
+        dice = state_generator.get_dice_with_value(2)
+        self.game_controller.dice_controller.set_dice(dice)
+        self.game_controller.select_card_window()
+
+        self.game_controller.card_controller.set_selected_player(0)
+        self.game_controller.card_controller.set_selected_combination(Combinations.TWOS.value)
+        self.game_controller.card_controller.handle_input(key_codes.VK_NUMPAD_ENTER)
+
+        self.assertEqual(10, self.game_controller.get_game_state().points[0][Combinations.TWOS.value].value,
+                          "should have added entry to twos with value 10")
