@@ -98,7 +98,7 @@ class GameControllerTest(TestCase):
         for point in game_state.points[1]:
             if point.value is not None:
                 bot_played = True
-        #self.assertTrue(bot_played, "bot should have made a turn")
+        self.assertTrue(bot_played, "bot should have made a turn")
 
     def test_available_bot_options(self):
         combos = state_generator.get_empty_combinations()
