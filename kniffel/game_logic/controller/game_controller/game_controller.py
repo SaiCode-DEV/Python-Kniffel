@@ -314,6 +314,8 @@ class GameController:
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
 
     def continue_game(self):
+        """continues the game
+        """
         if self.__is_game_over():
             self.__show_result()
             return
