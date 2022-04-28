@@ -1,5 +1,9 @@
-# https://brefeld.homepage.t-online.de/kniffel.html
-import sys
+"""A bot that fights against the human player and ALWAYS wins.
+    It uses maths and simple logic to decide what to do.
+    Inspired by:
+    https://brefeld.homepage.t-online.de/kniffel.html
+    """
+
 from typing import Tuple
 
 from kniffel.data_objects.combinations import Combinations
@@ -23,7 +27,7 @@ POSSIBLE = {
     "chance": 0}
 
 
-def get_best_choice(dice_rolled:list[number], available_combinations) -> dict:
+def get_best_choice(dice_rolled: list[number], available_combinations) -> dict:
     """Return the best choice on a simple logic basis.
 
     Args:
@@ -123,7 +127,10 @@ def reroll_controller(dice_rolled, available_combinations):
     # get the elements with the highest value
 
 
-def bot_controller(dice: list[int], available_combinations, rerolls_left=0)->Tuple[bool,Combinations]:
+def bot_controller(dice: list[int],
+                   available_combinations,
+                   rerolls_left=0) -> Tuple[bool,
+                                            Combinations]:
     """The main bot controller
 
     Args:
@@ -136,9 +143,9 @@ def bot_controller(dice: list[int], available_combinations, rerolls_left=0)->Tup
     """
     # sort the dices by value
     dice_sorted = sorted(dice, reverse=True)
-    #print(dice_sorted)
+    # print(dice_sorted)
     best_now = get_best_choice(dice_sorted, available_combinations)
-    #print(best_now)
+    # print(best_now)
     if best_now.get(Combinations.KNIFFEL) == 50:
         #print("yahtzee is the best choice")
         return False, Combinations.KNIFFEL
@@ -160,7 +167,7 @@ def bot_controller(dice: list[int], available_combinations, rerolls_left=0)->Tup
     else:
         #print("There is no good special combination")
         if rerolls_left > 0:
-            #print("reroll")
+            # print("reroll")
             # choose the cubes to reroll
             return True, reroll_controller(dice_sorted, available_combinations)
         else:
