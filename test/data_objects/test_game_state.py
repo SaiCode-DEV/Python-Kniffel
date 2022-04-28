@@ -1,52 +1,20 @@
 # pylint: disable=C
 import json
-import random
 import os
 from os import path
 from unittest import TestCase
 
-from kniffel import common
-from test import data_objects
+from test import data_objects, state_generator
 from kniffel.data_objects.game_state import *
 
 JSON_PATH = data_objects.__file__.replace("__init__.py", "") + "json-temp"
 
 
-def get_random_dice():
-    dice = []
-    iteration = 0
-    for _ in range(5):
-        die = Dice()
-        die.value = random.randint(1, 6)
-        die.selected = iteration % 2 == 0
-        die.selected = iteration % 2 != 0
-        dice.append(die)
-        iteration += 1
-    return dice
-
-
-def get_random_combinations():
-    combinations = []
-    player_nr = 0
-    for _ in range(common.PLAYER_COUNT):
-        column = []
-        point_nr = 0
-        for _ in range(common.COMBINATIONS_COUNT):
-            point = Point()
-            point.value = random.randint(0, 50)
-            point.selected = point_nr % 2 == player_nr % 2
-            column.append(point)
-            point_nr += 1
-        combinations.append(column)
-        player_nr += 1
-    return combinations
-
-
 class GameStateTest(TestCase):
     def test_json_marshal(self):
         game_state = GameState()
-        game_state.points = get_random_combinations()
-        game_state.dice = get_random_dice()
+        game_state.points = state_generator.get_random_combinations()
+        game_state.dice = state_generator.get_random_dice()
         game_state.game_kind = EnumGameKind.GAME_AGAINST_BOT
         game_state.active_player = 2
         if not path.isdir(JSON_PATH):

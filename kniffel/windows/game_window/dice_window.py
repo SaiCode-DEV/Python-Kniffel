@@ -7,7 +7,6 @@ from typing import List, Tuple
 
 from kniffel import common
 from kniffel.data_objects.dice import Dice
-from kniffel.tracer import Tracer
 
 DICE_FACES = [
     ["       ", "   ¤   ", "       "],
@@ -64,7 +63,6 @@ class DiceWindow:
             self.__render_single_dice(single_dice)
             iteration += 1
         self.__window.refresh()
-        Tracer.write_term_file()
 
     def show_selected(self, show: bool):
         """

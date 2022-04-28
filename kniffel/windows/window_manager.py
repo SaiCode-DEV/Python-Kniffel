@@ -7,7 +7,6 @@ import curses
 from kniffel.data_objects.game_state import GameState
 from kniffel.windows.start_window import StartWindow
 from kniffel.windows.game_window.game_window import GameWindow
-from kniffel.tracer import Tracer
 
 
 class WindowToSmall(Exception):
@@ -97,10 +96,7 @@ class WindowManager:
         Blocks until the user has entered an input which will
         then be returned
         """
-        char = self.std_scr.getch()
-        if char != -1:
-            Tracer.write_to_file(chr(char))
-        return char
+        return self.std_scr.getch()
 
     def set_no_input_delay(self, delay: bool):
         """

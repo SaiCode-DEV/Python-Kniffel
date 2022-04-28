@@ -16,6 +16,7 @@ def get_all_dice(value):
         dice.append(die)
     return dice
 
+
 class DiceWindowTest(WindowTest):
 
     def __init__(self, method_name='runTest'):
@@ -32,9 +33,6 @@ class DiceWindowTest(WindowTest):
     def get_max_yx(self):
         return DiceWindow.get_required_size()
 
-
-
-
     def test_all_ones(self):
         self.dice_window.render(get_all_dice(1))
         actual = self.get_screen_value()
@@ -46,7 +44,7 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_twos(self):
@@ -60,7 +58,7 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_threes(self):
@@ -74,7 +72,7 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_fours(self):
@@ -88,7 +86,7 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_fives(self):
@@ -102,7 +100,7 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_sixes(self):
@@ -116,5 +114,5 @@ class DiceWindowTest(WindowTest):
             for line in expected:
                 if len(actual) - 1 < iteration:
                     raise AssertionError("all_ones length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration+1}")
+                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1

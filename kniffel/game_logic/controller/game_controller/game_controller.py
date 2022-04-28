@@ -24,6 +24,7 @@ from kniffel.game_logic.controller.game_controller.card_controller import CardCo
 from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
 from kniffel.windows.game_window.dice_window import DiceWindow
 from kniffel.windows.game_window.game_window import GameWindow
+from kniffel.windows.game_window.result_card import ResultCard
 
 # to avoid a circular import
 if TYPE_CHECKING:
@@ -42,6 +43,7 @@ class GameController:
     """
     The GameController class contains the logic for managing a game and for managing a games state
     """
+    game_kind = EnumGameKind.GAME_AGAINST_HUMAN
 
     def __init__(self, kniffel_controller: KniffelController, game_window: GameWindow):
         """
@@ -51,7 +53,6 @@ class GameController:
         @param game_window: game window on which the actions will be visible
         """
         self.selected = EnumWindowSelected.DICE_WINDOW
-        self.__game_kind = EnumGameKind.GAME_AGAINST_HUMAN
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
         self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
@@ -63,7 +64,20 @@ class GameController:
         self.__reset_combinations()
 
         self.__update_control_str()
-        self.__bot_is_playing = False
+
+    @property
+    def active_player(self) -> int:
+        """
+        @return: index of the currently active player
+        """
+        return self.__active_player
+
+    @active_player.setter
+    def active_player(self, active_player: int):
+        """
+        sets the currently active player index
+        """
+        self.__active_player = active_player
 
     def __reset_combinations(self):
         """
@@ -108,7 +122,7 @@ class GameController:
             self.kniffel_controller.show_start_menu()
 
         # if the bot is currently playing or game is done ignore user input except quit
-        if self.__bot_is_playing or self.__is_game_over():
+        if self.__is_game_over():
             return
 
         # switch between subwindows
@@ -148,8 +162,10 @@ class GameController:
         self.game_window.display_message(self.get_game_state(), message)
 
     def __show_result(self):
+        game_state = self.get_game_state()
         self.display_message(common.GAME_OVER)
-        self.game_window.show_result_card(self.get_game_state())
+        self.game_window.display_controls(game_state, common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + ResultCard.get_control_string())
+        self.game_window.show_result_card(game_state)
 
     def __get_control_str(self) -> str:
         """
@@ -215,17 +231,26 @@ class GameController:
         """
         self.dice_controller.show_selected(False)
         self.card_controller.show_selected(False)
-        if not self.__bot_is_playing:
-            print("self.__bot_is_playing not set and __run_bot was called")
-            return
         for _ in range(common.MAX_ROLL_COUNT):
             self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
             # todo ask bot what dice should be locked/what result should be entered
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
-        #self.__add_bot_entry(Combinations(value of bot))
+        # self.__add_bot_entry(Combinations(value of bot))
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
+
+    def _get_available_options_for_bot(self) -> List[Combinations]:
+        """
+        collects available options for bots and returns them as a list
+        """
+        options = []
+        iteration = 0
+        for point in self.combinations[1]:
+            if point.value is None:
+                options.append(Combinations(iteration))
+            iteration += 1
+        return options
 
     def __next_player(self):
         """
@@ -238,8 +263,8 @@ class GameController:
         self.__set_active_player(active_player)
         self.select_dice_window()
 
-        self.__bot_is_playing = self.__game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
-        if self.__bot_is_playing:
+        bot_is_playing = GameController.game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
+        if bot_is_playing:
             self.__run_bot()
             if self.__is_game_over():
                 return
@@ -261,7 +286,7 @@ class GameController:
         """
         Resets the Game state so a new game can begin
         """
-        self.__game_kind = game_kind
+        GameController.game_kind = game_kind
         self.dice_controller.reset_roll_count()
         self.dice_controller.unlock_all_dice()
         self.__set_active_player(0)
@@ -317,12 +342,13 @@ class GameController:
             if len(self.combinations) != common.PLAYER_COUNT or \
                     len(self.combinations[0]) != common.COMBINATIONS_COUNT:
                 self.__reset_combinations()
-            self.__game_kind = game_state.game_kind
+            GameController.game_kind = game_state.game_kind
             self.__set_active_player(game_state.active_player)
             self.dice_controller.set_roll_count(game_state.roll_count)
             if self.__is_game_over():
                 self.__show_result()
-        except TypeError:
+        except TypeError as error:
+            print("failed to load game state", error)
             self.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
 
     def get_game_state(self) -> GameState:
@@ -334,5 +360,5 @@ class GameController:
         game_state.points = self.combinations
         game_state.active_player = self.__active_player
         game_state.roll_count = self.dice_controller.roll_count
-        game_state.game_kind = self.__game_kind
+        game_state.game_kind = GameController.game_kind
         return game_state

@@ -17,12 +17,11 @@ LABEL_MENU_ESCAPE = "(Q) Spiel beenden"
 LABEL_PLAYER_TURN = "Spieler Nummer {} ist am Zug"
 
 LABEL_CONTROL_DESCRIPTION_GAME_WINDOW = " | (Q) Start Menu"
-LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Enter Result | (Space) Roll " \
-                                     "| (Arrow) Navigate Dice | (Enter) Lock/Unlock Dice |"
-LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Roll Dice | (Arrow) Navigate Combinations |" \
-                                      " (Enter) Lock Result |"
-LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " | (TAB) Enter Result | (Space) Roll |" \
-                                        " (Arrow) Navigate Dice | (Enter) lock/unlock Dice |"
+LABEL_CONTROL_DESCRIPTION_DICE_SET = " | (TAB) Ergebnis eintragen | (Space) Würfeln " \
+                                     "| (Pfeiltasten) Würfel navigieren | (Enter) Würfel ent-/sperren |"
+LABEL_CONTROL_DESCRIPTION_GAME_CARD = " | (TAB) Weiter würfeln | (Pfeiltasten) Kombinationen navigieren |" \
+                                      " (Enter) Ergebnis eintragen |"
+LABEL_CONTROL_DESCRIPTION_RESULT_CARD = " |"
 
 ERROR_COMBINATION_ALREADY_DONE = "In dieses Feld können Sie nichts mehr eintragen"
 ERROR_NO_MORE_ROLLS = "Leider dürfen Sie in diesem Zug keine weiteren Würfe mehr tätigen"
@@ -31,14 +30,13 @@ GAME_OVER = "GAME OVER"
 DICE_COUNT = 5
 PLAYER_COUNT = 2
 MAX_ROLL_COUNT = 3  # Number of rolls a player can roll in one turn
-ANIMATION_DELAY = 0.175
+ANIMATION_DELAY_START_ANIMATION = 0.175
+ANIMATION_DELAY_ROLL = 0.15
 BOT_DECISION_DELAY = 1  # number of seconds the bots decision is displayed
 ROLL_COUNT_ANIMATION = 8
 
 POINTS_STR_LEN = 5
 COMBINATIONS_COUNT = 13
-
-TRACE_OUTPUT = False
 
 DIR_PERSISTENCE = kniffel.__file__.replace("__init__.py", "") + "persistence"
 FILE_GAME_STATE = path.join(DIR_PERSISTENCE, "game_state.json")
@@ -115,13 +113,13 @@ POINTS_PAD = [
 
 RESULT_PAD = [
     "-----------------------------------",
-    "! Oberer Teil !   →   !",
+    "! Oberer Teil !   ->  !",
     "!-------------!-------!",
     "! bei >=63    !  +35  !",
     "!-------------!-------!",
-    "!Gesamt o.Teil!   →   !",
+    "!Gesamt o.Teil!   ->  !",
     "!-------------!-------!",
-    "! Endsumme    !   →   !",
+    "! Endsumme    !   ->  !",
     "-----------------------------------"
 ]
 
