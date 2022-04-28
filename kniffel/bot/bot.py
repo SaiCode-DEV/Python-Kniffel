@@ -33,7 +33,7 @@ def get_best_choice(dice_rolled: list[number], available_combinations) -> dict:
     """Return the best choice on a simple logic basis.
 
     Args:
-        gewuerfelt (list): The numbers the dice rolled.
+        dice_rolled (list): The numbers the dice rolled.
         available (list): A list of all still available options to choose from.
 
     Returns:
@@ -105,7 +105,7 @@ def reroll_controller(dice_rolled, available_combinations):
         dices.append(
             sorted(dice_rolled[:3] + [dice + 1] + dice_rolled[4:], reverse=True))
         dices.append(sorted(dice_rolled[:4] + [dice + 1], reverse=True))
-    #print(f"orginal: {dice_rolled}\n")
+    #print(f"original: {dice_rolled}\n")
     # print(dices)
     dices = list(set({tuple(i) for i in dices}))
     dices = sorted([list(i) for i in dices])
@@ -133,10 +133,11 @@ def bot_controller(dice: list[int],
                    available_combinations,
                    rerolls_left=0) -> Tuple[bool,
                                             Combinations]:
+    # pylint: disable-msg=R0911
     """The main bot controller
 
     Args:
-        gewuerfelt (list[int]): The numbers the dice have rolled.
+        dice_rolled (list[int]): The numbers the dice have rolled.
         available (list[str]): What options are still available to choose from.
         left_rerolls (int, optional): How many Rerolls are left 0 = none. Defaults to 0.
 
@@ -166,23 +167,19 @@ def bot_controller(dice: list[int],
     elif best_now.get(Combinations.THREE_OF_KIND) if best_now.get(Combinations.THREE_OF_KIND) is not None else 0 > 6:
         #print("three of a kind is the best choice")
         return False, Combinations.THREE_OF_KIND
-    else:
-        #print("There is no good special combination")
-        if rerolls_left > 0:
-            # print("reroll")
-            # choose the cubes to reroll
-            return True, reroll_controller(dice_sorted, available_combinations)
-        else:
-            #print("no rerolls left, choose the best left over")
-            best = next(iter(best_now))
-            #print(f"{best} is the best with {best_now.get(next(iter(best_now)))} points")
-            return False, best
+    #else: (There is no good special combination)
+    if rerolls_left > 0:
+        # choose the cubes to reroll
+        return True, reroll_controller(dice_sorted, available_combinations)
+    #else: (no rerolls left, choose the best left over)
+    best = next(iter(best_now))
+    return False, best
 
 
 if __name__ == "__main__":
     # [1, 2, 5, 3, 5]
     # random cubes
-    gewuerfelt = [1, 2, 5, 3, 5]
+    dice_rolled = [1, 2, 5, 3, 5]
     available = [
         Combinations.ONES,
         Combinations.TWOS,
@@ -199,6 +196,6 @@ if __name__ == "__main__":
         Combinations.CHANCE
 
     ]
-    left_rerolls = 1
-    choice = bot_controller(gewuerfelt, available, left_rerolls)
+    rerolls = 1
+    choice = bot_controller(dice_rolled, available, rerolls)
     print(choice)
