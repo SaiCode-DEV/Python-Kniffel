@@ -3,9 +3,7 @@ import random
 from game_logic.value_calculator import *
 import sys
 import numpy as np
-from numpy import asarray as ar
-
-from numpy import diff
+from numpy import asarray as ar, number
 sys.path.append('../')
 POSSIBLE = {
     "one": 1,
@@ -23,11 +21,20 @@ POSSIBLE = {
     "chance": 0}
 
 
-def get_best_choice(gewuerfelt, available) -> dict:
+def get_best_choice(gewuerfelt:list(number), available) -> dict:
+    """Return the best choice on a simple logic basis.
+
+    Args:
+        gewuerfelt (list): The numbers the dice rolled.
+        available (list): A list of all still available options to choose from.
+
+    Returns:
+        dict: what dices should be rerolled or what option the bot chose.
+    """
     generate = []
     if(len(available) == 0):
         return {}
-    for i in range(len(available)):
+    for i in enumerate(available):
         # calculate the value of the throw
         match available[i]:
             case "one":
@@ -69,12 +76,17 @@ def get_best_choice(gewuerfelt, available) -> dict:
         return {}
 
 
-def calculate_expected_value(gewuerfelt, available):
-
-    return 0
-
 
 def reroll_controller(gewuerfelt, available):
+    """Choose the cubes to reroll.
+
+    Args:
+        gewuerfelt (list): The numbers the dice rolled.
+        available (list): A list of all still available options to choose from.
+
+    Returns:
+        list: The cubes to reroll. 
+    """
     # try out each possible dice combination
     dices = []
     for dice in range(6):
@@ -110,7 +122,17 @@ def reroll_controller(gewuerfelt, available):
     # get the elements with the highest value
 
 
-def bot_controller(gewuerfelt: list[int], available, left_rerolls=0) -> str:
+def bot_controller(gewuerfelt: list[int], available, left_rerolls=0):
+    """The main bot controller
+
+    Args:
+        gewuerfelt (list[int]): The numbers the dice have rolled.
+        available (list[str]): What options are still available to choose from.
+        left_rerolls (int, optional): How many Rerolls are left 0 = none. Defaults to 0.
+
+    Returns:
+        str: The option the bot chose.
+    """
     # sort the dices by value
     gewuerfelt = sorted(gewuerfelt, reverse=True)
     print(gewuerfelt)
