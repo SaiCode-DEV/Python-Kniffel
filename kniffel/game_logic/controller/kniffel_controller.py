@@ -73,6 +73,7 @@ class KniffelController:
         resumes the game where it was left off
         """
         self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.game_controller.continue_game()
         self.active_window = EnumWindowSelected.GAME_WINDOW
 
     def start_classic_game(self):

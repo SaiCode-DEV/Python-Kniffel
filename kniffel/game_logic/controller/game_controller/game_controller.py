@@ -274,14 +274,20 @@ class GameController:
         self.__set_active_player(active_player)
         self.select_dice_window()
 
-        bot_is_playing = GameController.game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
-        if bot_is_playing:
+        if self.__is_bot_turn():
             self.__run_bot()
             if self.__is_game_over():
                 return
             self.__next_player()
             return
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
+
+    def __is_bot_turn(self) -> bool:
+        """
+        checks weather the bot has to make a move now
+        returns true if that is the case
+        """
+        return GameController.game_kind.value == EnumGameKind.GAME_AGAINST_BOT.value and self.__active_player % 2 == 1
 
     def __is_game_over(self) -> bool:
         """
@@ -306,6 +312,13 @@ class GameController:
         self.game_window.render(self.get_game_state())
         self.select_dice_window()
         self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
+
+    def continue_game(self):
+        if self.__is_game_over():
+            self.__show_result()
+            return
+        if self.__is_bot_turn():
+            self.__run_bot()
 
     def __set_active_player(self, number: int):
         """
@@ -356,8 +369,6 @@ class GameController:
             GameController.game_kind = game_state.game_kind
             self.__set_active_player(game_state.active_player)
             self.dice_controller.set_roll_count(game_state.roll_count)
-            if self.__is_game_over():
-                self.__show_result()
         except TypeError as error:
             print("failed to load game state", error)
             self.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
