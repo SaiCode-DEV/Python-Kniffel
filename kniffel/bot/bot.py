@@ -80,8 +80,7 @@ def get_best_choice(dice_rolled: list[number], available_combinations) -> dict:
         # print(possible)
         # get the highest value
         return dict(sorted(possible.items(), key=lambda x: x[1], reverse=True))
-    else:
-        return {}
+    return {}
 
 
 def reroll_controller(dice_rolled, available_combinations):
