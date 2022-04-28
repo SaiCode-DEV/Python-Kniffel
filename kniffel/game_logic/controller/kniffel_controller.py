@@ -36,10 +36,11 @@ class KniffelController:
         self.active_window = EnumWindowSelected.START_MENU
         window_manager.show_start_menu(self.game_controller.get_game_state())
 
-    def start(self):
+    def start(self, test: bool):
         """
         Starts the main game loop in here inputs will get handled
         and to the sub windows distributed
+        @param test boolean if true loop will be exited after one run
         """
 
         self.__running = True
@@ -54,12 +55,21 @@ class KniffelController:
             character = self.window_manager.get_ch()
             if character == -1:  # -1 is returned if there was no input
                 continue
-            if self.active_window is EnumWindowSelected.START_MENU:
-                self.start_menu_controller.handle_input(character)
-            elif self.active_window is EnumWindowSelected.GAME_WINDOW:
-                self.game_controller.handle_input(character)
+            if test:
+                break
         WindowManager.close()
         self.game_controller.save_to_file()
+
+    def handle_input(self, character: chr):
+        """
+        distributes input to sub windows
+        :param character: key pressed
+        :return: -
+        """
+        if self.active_window is EnumWindowSelected.START_MENU:
+            self.start_menu_controller.handle_input(character)
+        elif self.active_window is EnumWindowSelected.GAME_WINDOW:
+            self.game_controller.handle_input(character)
 
     def show_start_menu(self):
         """

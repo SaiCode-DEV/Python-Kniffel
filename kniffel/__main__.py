@@ -25,7 +25,7 @@ def main(std_scr: curses.window):
               "pleas do so yourself, and then restart the program")
         sys.exit(1)
     game_manager = KniffelController(window_manager)
-    game_manager.start()
+    game_manager.start(False)
 
 if __name__ == "__main__":
     wrapper(main)
