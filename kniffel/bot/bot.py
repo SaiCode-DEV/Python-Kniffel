@@ -197,23 +197,3 @@ if __name__ == "__main__":
     left_rerolls = 1
     choice = bot_controller(gewuerfelt, available, left_rerolls)
     print(choice)
-
-
-def test(available_combinations):
-    # try out each possible dice combination
-    dices = []
-    for dice1 in range(6):
-        for dice2 in range(6):
-            for dice3 in range(6):
-                for dice4 in range(6):
-                    for dice5 in range(6):
-                        # create a new list with the new dice values
-                        dices.append(
-                            sorted([dice1 + 1, dice2 + 1, dice3 + 1, dice4 + 1, dice5 + 1]))
-    dices = list(set({tuple(i) for i in dices}))
-    dices = sorted([list(i) for i in dices])
-    print(len(dices))
-    for dice in dices:
-        new_value = get_best_choice(dice, available_combinations)
-        # subdivide 10 from chance
-        print(f"{dice} | {next(iter(new_value))} is the best with {new_value.get(next(iter(new_value)))} points")
