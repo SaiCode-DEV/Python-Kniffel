@@ -152,19 +152,19 @@ def bot_controller(dice: list[int],
     if best_now.get(Combinations.KNIFFEL) == 50:
         #print("yahtzee is the best choice")
         return False, Combinations.KNIFFEL
-    elif best_now.get(Combinations.LARGE_STRAIGHT) == 40:
+    if best_now.get(Combinations.LARGE_STRAIGHT) == 40:
         #print("large straight is the best choice")
         return False, Combinations.LARGE_STRAIGHT
-    elif best_now.get(Combinations.SMALL_STRAIGHT) == 30:
+    if best_now.get(Combinations.SMALL_STRAIGHT) == 30:
         #print("small straight is the best choice")
         return False, Combinations.SMALL_STRAIGHT
-    elif best_now.get(Combinations.FULL_HOUSE) == 25:
+    if best_now.get(Combinations.FULL_HOUSE) == 25:
         #print("full house is the best choice")
         return False, Combinations.FULL_HOUSE
-    elif best_now.get(Combinations.FOUR_OF_KIND) if best_now.get(Combinations.FOUR_OF_KIND) is not None else 0 > 5:
+    if best_now.get(Combinations.FOUR_OF_KIND) if best_now.get(Combinations.FOUR_OF_KIND) is not None else 0 > 5:
         #print("four of a kind is the best choice")
         return False, Combinations.FOUR_OF_KIND
-    elif best_now.get(Combinations.THREE_OF_KIND) if best_now.get(Combinations.THREE_OF_KIND) is not None else 0 > 6:
+    if best_now.get(Combinations.THREE_OF_KIND) if best_now.get(Combinations.THREE_OF_KIND) is not None else 0 > 6:
         #print("three of a kind is the best choice")
         return False, Combinations.THREE_OF_KIND
     #else: (There is no good special combination)
@@ -179,7 +179,6 @@ def bot_controller(dice: list[int],
 if __name__ == "__main__":
     # [1, 2, 5, 3, 5]
     # random cubes
-    dice_rolled = [1, 2, 5, 3, 5]
     available = [
         Combinations.ONES,
         Combinations.TWOS,
@@ -196,6 +195,6 @@ if __name__ == "__main__":
         Combinations.CHANCE
 
     ]
-    rerolls = 1
-    choice = bot_controller(dice_rolled, available, rerolls)
+    REROLLS = 1
+    choice = bot_controller([1, 2, 5, 3, 5], available, REROLLS)
     print(choice)
