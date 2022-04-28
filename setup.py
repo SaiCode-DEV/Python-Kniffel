@@ -1,6 +1,8 @@
+"""This is a docstring, because i need to do it
+    """
+import sys
 from setuptools import setup
 from setuptools import find_packages
-import sys
 
 INSTALL_REQUIRES = ["numpy"]
 
