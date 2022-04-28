@@ -1,4 +1,5 @@
 # Python-Kniffel
+[![Pylint](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml/badge.svg)](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml)
 
 ## Installation
 To build the project run in the Python-Kniffel directory "python setup.py build" \
