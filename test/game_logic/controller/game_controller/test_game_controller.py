@@ -92,13 +92,12 @@ class GameControllerTest(TestCase):
         self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_BOT)
         self.game_controller.select_card_window()
         self.game_controller.handle_input(key_codes.VK_NUMPAD_ENTER)
-        # todo check if bot ran
         game_state = self.game_controller.get_game_state()
         bot_played = False
         for point in game_state.points[1]:
             if point.value is not None:
                 bot_played = True
-        #self.assertTrue(bot_played, "bot should have made a turn")
+        self.assertTrue(bot_played, "bot should have made a turn")
 
     def test_available_bot_options(self):
         combos = state_generator.get_empty_combinations()
