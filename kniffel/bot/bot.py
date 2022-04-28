@@ -1,6 +1,8 @@
 # https://brefeld.homepage.t-online.de/kniffel.html
 import random
 import sys
+from typing import Tuple
+
 from numpy import diff
 
 from kniffel.data_objects.combinations import Combinations
@@ -56,7 +58,6 @@ def get_best_choice(dice: List[int], available_combinations: List[Combinations])
 
 
 def calculate_expected_value(gewuerfelt, available):
-
     return 0
 
 
@@ -96,7 +97,7 @@ def reroll_controller(dice_rolled, available_combinations):
     # get the elements with the highest value
 
 
-def bot_controller(dice: list[int], available_combinations, rerolls_left=0) -> Combinations:
+def bot_controller(dice: list[int], available_combinations, rerolls_left=0) -> Tuple[bool, List[bool] | Combinations]:
     # sort the dices by value
     dice_sorted = sorted(dice, reverse=True)
     print(dice_sorted)
@@ -104,40 +105,40 @@ def bot_controller(dice: list[int], available_combinations, rerolls_left=0) -> C
     print(best_now)
     if best_now.get(Combinations.KNIFFEL) == 50:
         print("yahtzee is the best choice")
-        return Combinations.KNIFFEL
+        return False, Combinations.KNIFFEL
     elif best_now.get(Combinations.LARGE_STRAIGHT) == 40:
         print("large straight is the best choice")
-        return Combinations.LARGE_STRAIGHT
+        return False, Combinations.LARGE_STRAIGHT
     elif best_now.get(Combinations.SMALL_STRAIGHT) == 30:
         print("small straight is the best choice")
-        return Combinations.SMALL_STRAIGHT
+        return False, Combinations.SMALL_STRAIGHT
     elif best_now.get(Combinations.FULL_HOUSE) == 25:
         print("full house is the best choice")
-        return Combinations.FULL_HOUSE
+        return False, Combinations.FULL_HOUSE
     elif best_now.get(Combinations.FOUR_OF_KIND) if best_now.get(Combinations.FOUR_OF_KIND) is not None else 0 > 5:
         print("four of a kind is the best choice")
-        return Combinations.FOUR_OF_KIND
+        return False, Combinations.FOUR_OF_KIND
     elif best_now.get(Combinations.THREE_OF_KIND) if best_now.get(Combinations.THREE_OF_KIND) is not None else 0 > 6:
         print("three of a kind is the best choice")
-        return Combinations.THREE_OF_KIND
+        return False, Combinations.THREE_OF_KIND
     else:
         print("There is no good special combination")
         if rerolls_left > 0:
             print("reroll")
             # choose the cubes to reroll
-            return reroll_controller(dice_sorted, available_combinations)
+            return True, reroll_controller(dice_sorted, available_combinations)
         else:
             print("no rerolls left, choose the best left over")
             best = next(iter(best_now))
             print(
                 f"{best} is the best with {best_now.get(next(iter(best_now)))} points")
-            return best
+            return False, best
 
 
 if __name__ == "__main__":
     # [1, 2, 5, 3, 5]
     # random cubes
-    gewuerfelt = [1, 2, 5, 3, 5]
+    gewuerfelt = [1, 1, 1, 1, 1]
     available = [
         Combinations.ONES,
         Combinations.TWOS,
