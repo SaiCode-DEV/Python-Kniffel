@@ -1,15 +1,12 @@
 # https://brefeld.homepage.t-online.de/kniffel.html
-import random
 import sys
 from typing import Tuple
-
-from numpy import diff
 
 from kniffel.data_objects.combinations import Combinations
 from kniffel.game_logic.value_calculator import *
 import numpy as np
 from numpy import asarray as ar, number
-sys.path.append('../')
+
 POSSIBLE = {
     "one": 1,
     "two": 2,
@@ -26,7 +23,7 @@ POSSIBLE = {
     "chance": 0}
 
 
-def get_best_choice(gewuerfelt:list(number), available) -> dict:
+def get_best_choice(dice_rolled:list[number], available_combinations) -> dict:
     """Return the best choice on a simple logic basis.
 
     Args:
@@ -43,32 +40,32 @@ def get_best_choice(gewuerfelt:list(number), available) -> dict:
         # calculate the value of the throw
         match combination.value:
             case Combinations.ONES.value:
-                generate.append(get_one_value(dice) / 1 * 5 + 1)
+                generate.append(get_one_value(dice_rolled) / 1 * 5 + 1)
             case Combinations.TWOS.value:
-                generate.append(get_two_value(dice) / 2 * 5 + 2)
+                generate.append(get_two_value(dice_rolled) / 2 * 5 + 2)
             case Combinations.THREES.value:
-                generate.append(get_three_value(dice) / 3 * 5 + 3)
+                generate.append(get_three_value(dice_rolled) / 3 * 5 + 3)
             case Combinations.FOURS.value:
-                generate.append(get_four_value(dice) / 4 * 5 + 4)
+                generate.append(get_four_value(dice_rolled) / 4 * 5 + 4)
             case Combinations.FIVES.value:
-                generate.append(get_five_value(dice) / 5 * 5 + 5)
+                generate.append(get_five_value(dice_rolled) / 5 * 5 + 5)
             case Combinations.SIXES.value:
-                generate.append(get_six_value(dice) / 6 * 5 + 6)
+                generate.append(get_six_value(dice_rolled) / 6 * 5 + 6)
             case Combinations.THREE_OF_KIND.value:
-                generate.append(get_three_of_kind_value(dice))
+                generate.append(get_three_of_kind_value(dice_rolled))
             case Combinations.FOUR_OF_KIND.value:
-                generate.append(get_four_of_kind_value(dice))
+                generate.append(get_four_of_kind_value(dice_rolled))
             case Combinations.FULL_HOUSE.value:
-                generate.append(get_full_house_value(dice))
+                generate.append(get_full_house_value(dice_rolled))
             case Combinations.SMALL_STRAIGHT.value:
-                generate.append(get_small_straight_value(dice))
+                generate.append(get_small_straight_value(dice_rolled))
             case Combinations.LARGE_STRAIGHT.value:
-                generate.append(get_large_straight_value(dice))
+                generate.append(get_large_straight_value(dice_rolled))
             case Combinations.KNIFFEL.value:
-                generate.append(get_kniffel_value(dice))
+                generate.append(get_kniffel_value(dice_rolled))
             case Combinations.CHANCE.value:
                 # to make it less interesting
-                generate.append(get_chance_value(dice) - 10)
+                generate.append(get_chance_value(dice_rolled) - 10)
 
     if len(generate) == len(available_combinations):
         possible = dict(zip(available_combinations, generate))
@@ -85,11 +82,11 @@ def reroll_controller(dice_rolled, available_combinations):
     """Choose the cubes to reroll.
 
     Args:
-        gewuerfelt (list): The numbers the dice rolled.
+        dice_rolled (list): The numbers the dice rolled.
         available (list): A list of all still available options to choose from.
 
     Returns:
-        list: The cubes to reroll. 
+        list: The cubes to reroll.
     """
     # try out each possible dice combination
     dices = []
