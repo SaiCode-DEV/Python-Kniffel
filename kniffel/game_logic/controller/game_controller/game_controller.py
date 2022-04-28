@@ -12,6 +12,7 @@ from os import path
 
 from typing import TYPE_CHECKING, List
 
+from kniffel.bot import bot
 from kniffel.data_objects.game_kind import EnumGameKind
 from kniffel import common
 from kniffel import key_codes
@@ -231,12 +232,22 @@ class GameController:
         """
         self.dice_controller.show_selected(False)
         self.card_controller.show_selected(False)
+        choice = None
         for _ in range(common.MAX_ROLL_COUNT):
             self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
-            # todo ask bot what dice should be locked/what result should be entered
+            rolled = self.dice_controller.get_dice_values()
+            available = self._get_available_options_for_bot()
+            left_rolls = common.MAX_ROLL_COUNT - self.dice_controller.roll_count
+            roll_again, choice = bot.bot_controller(rolled, available, left_rolls)
+            if not roll_again:
+                break
+            iteration = 0
+            for lock in choice:
+                self.dice_controller.lock_dice(iteration, lock)
+            iteration += 1
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
-        # self.__add_bot_entry(Combinations(value of bot))
+        self.__add_bot_entry(choice)
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
 
