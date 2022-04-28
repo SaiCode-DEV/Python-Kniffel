@@ -6,10 +6,12 @@
 
 from typing import Tuple
 
-from kniffel.data_objects.combinations import Combinations
-from kniffel.game_logic.value_calculator import *
 import numpy as np
 from numpy import asarray as ar, number
+from kniffel.data_objects.combinations import Combinations
+from kniffel.game_logic.value_calculator import get_one_value, get_two_value, get_three_value, get_four_value,\
+    get_five_value, get_six_value, get_three_of_kind_value, get_four_of_kind_value, get_full_house_value,\
+    get_small_straight_value, get_large_straight_value, get_kniffel_value, get_chance_value
 
 POSSIBLE = {
     "one": 1,
