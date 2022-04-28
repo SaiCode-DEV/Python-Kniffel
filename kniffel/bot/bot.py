@@ -123,7 +123,7 @@ def reroll_controller(dice_rolled, available_combinations):
     # get the elements with the highest value
 
 
-def bot_controller(dice: list[int], available_combinations, rerolls_left=0) -> Tuple[bool, List[bool] | Combinations]:
+def bot_controller(dice: list[int], available_combinations, rerolls_left=0)->Tuple[bool,Combinations]:
     """The main bot controller
 
     Args:
@@ -174,7 +174,7 @@ def bot_controller(dice: list[int], available_combinations, rerolls_left=0) -> T
 if __name__ == "__main__":
     # [1, 2, 5, 3, 5]
     # random cubes
-    gewuerfelt = [1, 1, 1, 1, 1]
+    gewuerfelt = [1, 2, 5, 3, 5]
     available = [
         Combinations.ONES,
         Combinations.TWOS,
