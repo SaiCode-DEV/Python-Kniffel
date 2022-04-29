@@ -17,8 +17,6 @@ from kniffel.game_logic.value_calculator import validate_throw
 from kniffel.windows.game_window.dice_window import DiceWindow
 
 # to avoid a circular import
-from kniffel.tracer import Tracer
-
 if TYPE_CHECKING:
     from game_logic.controller.game_controller.game_controller import GameController
 
@@ -31,7 +29,6 @@ class DiceController:
 
     def __init__(self, dice_window: DiceWindow, game_controller: GameController):
         self.game_controller = game_controller
-        self.__selected = None
         self.dice_window = dice_window
         self.__dice = []
         for _ in range(common.DICE_COUNT):
@@ -95,14 +92,11 @@ class DiceController:
         during the animation this method is blocking
         @param roll_count: number of times the dice should be rolled
         """
-        Tracer.trace = False  # disable tracer so the animation does not get traced
         self.__roll_count += 1
         for iteration in range(roll_count):
             for dice in self.__dice:
                 if not dice.locked:
                     dice.roll()
-            if iteration != roll_count - 1:
-                Tracer.trace = True
             self.dice_window.render(self.__dice)
             if iteration != roll_count - 1:
                 sleep(common.ANIMATION_DELAY_ROLL)
@@ -129,8 +123,12 @@ class DiceController:
         validate_throw([die.value for die in dices])
         iteration = 0
         for die in dices:
-            dices[iteration] = die
+            self.__dice[iteration] = copy.deepcopy(die)
+            if die.selected:
+                self.__selected = iteration
+            self.__dice[iteration].selected = False
             iteration += 1
+        self.__dice[self.__selected].selected = True
         self.dice_window.render(self.__dice)
 
     def set_dice_value(self, dices: List[int]):

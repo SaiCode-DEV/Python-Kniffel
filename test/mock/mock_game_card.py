@@ -1,3 +1,4 @@
+# pylint disable=C
 from typing import List
 
 from kniffel.data_objects.point import Point

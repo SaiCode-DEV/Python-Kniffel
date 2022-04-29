@@ -12,6 +12,7 @@ from os import path
 
 from typing import TYPE_CHECKING, List
 
+from kniffel.bot import bot
 from kniffel.data_objects.game_kind import EnumGameKind
 from kniffel import common
 from kniffel import key_codes
@@ -64,6 +65,20 @@ class GameController:
         self.__reset_combinations()
 
         self.__update_control_str()
+
+    @property
+    def active_player(self) -> int:
+        """
+        @return: index of the currently active player
+        """
+        return self.__active_player
+
+    @active_player.setter
+    def active_player(self, active_player: int):
+        """
+        sets the currently active player index
+        """
+        self.__active_player = active_player
 
     def __reset_combinations(self):
         """
@@ -217,14 +232,36 @@ class GameController:
         """
         self.dice_controller.show_selected(False)
         self.card_controller.show_selected(False)
+        choice = None
         for _ in range(common.MAX_ROLL_COUNT):
             self.dice_controller.roll(common.ROLL_COUNT_ANIMATION)
-            # todo ask bot what dice should be locked/what result should be entered
+            rolled = self.dice_controller.get_dice_values()
+            available = self._get_available_options_for_bot()
+            left_rolls = common.MAX_ROLL_COUNT - self.dice_controller.roll_count
+            roll_again, choice = bot.bot_controller(rolled, available, left_rolls)
+            if not roll_again:
+                break
+            iteration = 0
+            for lock in choice:
+                self.dice_controller.lock_dice(iteration, lock)
+            iteration += 1
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
-        #self.__add_bot_entry(Combinations(value of bot))
+        self.__add_bot_entry(choice)
         self.game_window.render(self.get_game_state())
         time.sleep(common.BOT_DECISION_DELAY)
+
+    def _get_available_options_for_bot(self) -> List[Combinations]:
+        """
+        collects available options for bots and returns them as a list
+        """
+        options = []
+        iteration = 0
+        for point in self.combinations[1]:
+            if point.value is None:
+                options.append(Combinations(iteration))
+            iteration += 1
+        return options
 
     def __next_player(self):
         """
@@ -321,7 +358,8 @@ class GameController:
             self.dice_controller.set_roll_count(game_state.roll_count)
             if self.__is_game_over():
                 self.__show_result()
-        except TypeError:
+        except TypeError as error:
+            print("failed to load game state", error)
             self.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
 
     def get_game_state(self) -> GameState:

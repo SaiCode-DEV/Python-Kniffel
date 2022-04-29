@@ -20,8 +20,6 @@ class Point:
         point = Point()
         if not isinstance(data, Dict):
             return point
-        if "selected" in data:
-            point.selected = data["selected"]
         if "completed" in data:
             point.completed = data["completed"]
         if "value" in data:
@@ -53,7 +51,7 @@ class Point:
         """
         if not isinstance(other, Point):
             return False
-        return self.selected == other.selected and self.completed == other.completed and self.value == other.value
+        return self.completed == other.completed and self.value == other.value
 
 
 class PointEncoder(JSONEncoder):

@@ -38,8 +38,6 @@ ROLL_COUNT_ANIMATION = 8
 POINTS_STR_LEN = 5
 COMBINATIONS_COUNT = 13
 
-TRACE_OUTPUT = False
-
 DIR_PERSISTENCE = kniffel.__file__.replace("__init__.py", "") + "persistence"
 FILE_GAME_STATE = path.join(DIR_PERSISTENCE, "game_state.json")
 
