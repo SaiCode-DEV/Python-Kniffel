@@ -1,8 +1,8 @@
 from typing import List
 
-from data_objects import combinations
-from data_objects.dice import Dice
-from game_logic.value_calculator import InvalidThrow
+from kniffel.data_objects import combinations
+from kniffel.data_objects.dice import Dice
+from kniffel.game_logic.value_calculator import InvalidThrow
 from kniffel import common
 from kniffel.data_objects.point import Point
 from kniffel.game_logic.controller.game_controller.game_controller import GameController

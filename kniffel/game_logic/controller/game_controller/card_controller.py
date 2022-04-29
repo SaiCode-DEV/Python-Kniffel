@@ -38,6 +38,10 @@ class CardController:
 
     @property
     def selected_combination(self):
+        """
+        Return selected combination
+        @return: int in range 0, 12
+        """
         return self.__selected_combination
 
     @staticmethod

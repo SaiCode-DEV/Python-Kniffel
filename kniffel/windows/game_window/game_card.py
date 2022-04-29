@@ -50,11 +50,13 @@ class GameCard:
         # Print game pad
         line_count = 0
         for line in common.GAME_PAD:
-            self.__window.addstr(line_count + y_off + len(common.NAME_PAD), x_off, line,
+            self.__window.addstr(line_count + y_off + len(common.NAME_PAD),
+                                 x_off,
+                                 line,
                                  curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             line_count += 1
 
-        iteration = 0
+        iteration = 0 
         for column in points:
             y_off_column = y_off + len(common.NAME_PAD) + 1
             x_off_column = x_off + len(common.GAME_PAD[1]) + iteration * 6
