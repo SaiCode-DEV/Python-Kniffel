@@ -4,13 +4,13 @@ from typing import List
 from kniffel.data_objects.point import Point
 
 
-class MockGameCard:
+class MockaGameCard:
     def __init__(self):
-        self.points = None
-        self.show = None
+        self.combinations = []
+        self.show = False
 
-    def render(self, points: List[List[Point]]):
-        self.points = points
+    def render(self, combinations: List[List[Point]]):
+        self.combinations = combinations
 
-    def show_selected(self, show):
+    def show_selected(self, show: bool):
         self.show = show
