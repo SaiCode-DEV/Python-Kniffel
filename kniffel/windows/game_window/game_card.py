@@ -56,7 +56,7 @@ class GameCard:
                                  curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             line_count += 1
 
-        iteration = 0 
+        iteration = 0
         for column in points:
             y_off_column = y_off + len(common.NAME_PAD) + 1
             x_off_column = x_off + len(common.GAME_PAD[1]) + iteration * 6
@@ -73,7 +73,7 @@ class GameCard:
         """
         y_off, x_off = self.__window.getyx()
         count: int = 0
-        for line in common.POINTS_PAD:
+        for points_card_line in common.POINTS_PAD:
             if count % 2 == 0:
                 index = count // 2
                 point = column[index]
@@ -88,14 +88,16 @@ class GameCard:
                 elif point.value == 0:
                     str_to_add = "-"
                 else:
-                    str_to_add = line.format(point.value)
+                    str_to_add = points_card_line.format(point.value)
 
                 self.__window.addstr(y_off + count, x_off, str_to_add.center(5))
                 self.__window.attroff(curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
                 self.__window.attroff(curses.color_pair(common.COLOR_PAIR_BLACK_CYAN))
             else:
-                str_to_add = line
-                self.__window.addstr(y_off + count, x_off, str_to_add,
+                str_to_add = points_card_line
+                self.__window.addstr(y_off + count,
+                                     x_off,
+                                     str_to_add,
                                      curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1

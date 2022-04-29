@@ -56,7 +56,7 @@ class ResultCard:
         count = 0
         for column in points:
             y_off_column = y_off + len(common.NAME_PAD) + 1
-            x_off_column = x_off + len(common.NAME_PAD[1]) + count * 6
+            x_off_column = x_off + len(common.RESULT_PAD[1]) + count * 6
             self.__window.move(y_off_column, x_off_column)
             self.__render_column(column)
             count += 1
@@ -85,18 +85,20 @@ class ResultCard:
             index += 1
 
         count: int = 0
-        for line in common.RESULT_POINTS_PAD:
+        for result_card_line in common.RESULT_POINTS_PAD:
             if count % 2 == 0:
                 index = count // 2
                 point = result_points[index]
 
-                str_to_add = line.format(point).center(5)
+                str_to_add = result_card_line.format(point).center(5)
 
-                self.__window.addstr(y_off + count, x_off - 12, str_to_add.center(5),
+                self.__window.addstr(y_off + count,
+                                     x_off,
+                                     str_to_add.center(5),
                                      curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
             else:
-                str_to_add = line
-                self.__window.addstr(y_off + count, x_off - 12, str_to_add,
+                str_to_add = result_card_line
+                self.__window.addstr(y_off + count, x_off, str_to_add,
                                      curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1

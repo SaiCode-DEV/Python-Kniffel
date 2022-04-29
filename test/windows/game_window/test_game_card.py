@@ -8,7 +8,6 @@ from test.windows import game_window
 
 EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "game_window_outputs"
 
-
 def get_players_combinations():
     players_combinations: List[List[Point]] = []
     for _ in range(common.PLAYER_COUNT):
@@ -22,7 +21,7 @@ def get_players_combinations():
 class TestGameCard(WindowTest):
     def __init__(self, method_name='runTest'):
         super().__init__(method_name)
-        self.game_card: GameCard = None
+        self.game_card: GameCard
 
     def setUp(self):
         super().setUp()
@@ -32,7 +31,8 @@ class TestGameCard(WindowTest):
         del self.window
 
     def get_max_yx(self):
-        return GameCard.get_required_size()
+        y,x = GameCard.get_required_size()
+        return [y + 7, x]
 
     def test_empty_game_card(self):
         self.game_card.render(get_players_combinations())
@@ -43,7 +43,6 @@ class TestGameCard(WindowTest):
         with open(path.join(EXPECTED_PATH, "empty_game_card.txt"), "r", encoding="utf-8") as expected:
             iteration = 0
             for line in expected:
-                print(actual)
                 if len(actual) - 1 < iteration:
                     raise AssertionError("game card length of expected does not match actual")
                 self.assertEqual(line.strip(), actual[iteration].strip(),
