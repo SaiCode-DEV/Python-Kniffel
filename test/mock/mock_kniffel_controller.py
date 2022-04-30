@@ -23,4 +23,3 @@ class MockKniffelController:
 
     def show_start_menu(self):
         self.show_start_menu_called = True
-
