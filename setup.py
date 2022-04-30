@@ -1,5 +1,6 @@
-"""This is a docstring, because i need to do it
-    """
+"""
+the setup module is used to prepare kniffel for a pip install
+"""
 import sys
 from setuptools import setup
 from setuptools import find_packages
