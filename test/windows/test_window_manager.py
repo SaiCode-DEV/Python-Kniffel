@@ -1,6 +1,7 @@
 # pylint: disable=C
 # pylint: disable=protected-access
 from os import path
+from time import sleep
 
 from kniffel.data_objects.game_state import GameState
 from test.windows.window_test import WindowTest
@@ -18,7 +19,7 @@ class WindowManagerTest(WindowTest):
 
     def setUp(self):
         super().setUp()
-        self.window_manager = WindowManager(self.window)
+        self.window_manager = WindowManager(self.window,True)
 
     def get_max_yx(self):
         game_y, game_x = GameWindow.get_required_size()

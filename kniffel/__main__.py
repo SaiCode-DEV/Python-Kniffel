@@ -19,13 +19,14 @@ def main(std_scr: curses.window):
     common.init_colors()
 
     try:
-        window_manager = WindowManager(std_scr)
+        window_manager = WindowManager(std_scr, False)
     except WindowToSmall:
         print("Sadly your Window is to small and cannot be resized, "
               "pleas do so yourself, and then restart the program")
         sys.exit(1)
     game_manager = KniffelController(window_manager)
     game_manager.start(False)
+
 
 if __name__ == "__main__":
     wrapper(main)
