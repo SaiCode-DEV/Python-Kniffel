@@ -172,7 +172,7 @@ class GameController:
         self.display_message(common.GAME_OVER)
         self.game_window.display_controls(
             game_state, common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW +
-            ResultCard.get_control_string())
+                        ResultCard.get_control_string())
         self.game_window.show_result_card(game_state)
 
     def __get_control_str(self) -> str:
@@ -245,14 +245,17 @@ class GameController:
             rolled = self.dice_controller.get_dice_values()
             available = self._get_available_options_for_bot()
             left_rolls = common.MAX_ROLL_COUNT - self.dice_controller.roll_count
-            roll_again, choice = bot.bot_controller(
-                rolled, available, left_rolls)
-            if not roll_again:
-                break
-            iteration = 0
-            for lock in choice:
-                self.dice_controller.lock_dice(iteration, lock)
-            iteration += 1
+            try:
+                roll_again, choice = bot.bot_controller(
+                    rolled, available, left_rolls)
+                if not roll_again:
+                    break
+                iteration = 0
+                for lock in choice:
+                    self.dice_controller.lock_dice(iteration, lock)
+                    iteration += 1
+            except ValueError:
+                choice = available[0]
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
         self.__add_bot_entry(choice)
