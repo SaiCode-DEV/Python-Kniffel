@@ -23,6 +23,7 @@ class CardController:
     The CardController is supposed to be used as an abstraction to a game card.
     The game card is rendered to the passed Game-Card
     """
+
     def __init__(self, game_card: GameCard,
                  result_card: ResultCard,
                  game_controller: GameController):
@@ -58,18 +59,23 @@ class CardController:
         """
         self.__combinations = self.game_controller.get_game_state().points
         if key == curses.KEY_DOWN:
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
+            self.__combinations[self.__selected_player][self.
+                                                        __selected_combination].selected = False
             self.__selected_combination = \
                 (self.__selected_combination + 1) % common.COMBINATIONS_COUNT
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
+            self.__combinations[self.__selected_player][self.
+                                                        __selected_combination].selected = True
         if key == curses.KEY_UP:
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = False
+            self.__combinations[self.__selected_player][self.
+                                                        __selected_combination].selected = False
             self.__selected_combination -= 1
             if self.__selected_combination < 0:
                 self.__selected_combination = common.COMBINATIONS_COUNT - 1
-            self.__combinations[self.__selected_player][self.__selected_combination].selected = True
+            self.__combinations[self.__selected_player][self.
+                                                        __selected_combination].selected = True
         if key in (curses.KEY_ENTER, 10, 13, key_codes.VK_NUMPAD_ENTER):
-            self.game_controller.add_player_entry(Combinations(self.__selected_combination))
+            self.game_controller.add_player_entry(
+                Combinations(self.__selected_combination))
         self.game_card.render(self.__combinations)
 
     def set_selected_player(self, player: int):

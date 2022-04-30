@@ -30,6 +30,9 @@ class StartAnimationTest(WindowTest):
                 raise AssertionError("Expected and actual differ in length")
             iteration = 0
             for line in loading:
-                self.assertEqual(line.rstrip(), actual[iteration].rstrip(), f"did either not advance animation or did not render correctly error in line {iteration + 1}")
+                self.assertEqual(
+                    line.rstrip(),
+                    actual[iteration].rstrip(),
+                    f"did either not advance animation or did not render correctly error in line {iteration + 1}")
                 iteration += 1
             self.start_animation.step_animation()

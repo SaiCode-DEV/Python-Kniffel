@@ -118,7 +118,7 @@ def reroll_controller(dice_rolled, available_combinations):
     for dice in dices:
         output_points.append(get_best_choice(dice, available_combinations))
 
-    if(len(output_points) == 0):
+    if len(output_points) == 0:
         return [True, True, True, True, True]
     # Sort out all the empty combinations
     output_points, dices = zip(

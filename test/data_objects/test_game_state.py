@@ -25,4 +25,6 @@ class GameStateTest(TestCase):
         with open(path.join(JSON_PATH, "test.json"), "r", encoding="utf-8") as file:
             data = json.load(file)
             new_game_state = GameState.from_json(data)
-            self.assertEqual(game_state, new_game_state, "failed to write or read game state")
+            self.assertEqual(
+                game_state, new_game_state,
+                "failed to write or read game state")

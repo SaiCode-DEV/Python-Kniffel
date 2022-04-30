@@ -17,13 +17,15 @@ class DiceControllerTest(TestCase):
     def setUp(self):
         self.mock_dice_window = MockDiceWindow()
         self.mock_game_controller = MockGameController()
-        self.dice_controller = DiceController(self.mock_dice_window, self.mock_game_controller)
+        self.dice_controller = DiceController(
+            self.mock_dice_window, self.mock_game_controller)
         common.ANIMATION_DELAY_ROLL = 0
 
     def test_handle_arrow_down(self):
         self.dice_controller.handle_input(curses.KEY_DOWN)
-        self.assertEqual(1, self.dice_controller.selected,
-                         "After pressing arrow down, second dice should be selected")
+        self.assertEqual(
+            1, self.dice_controller.selected,
+            "After pressing arrow down, second dice should be selected")
 
     def test_handle_arrow_up(self):
         self.dice_controller.handle_input(curses.KEY_UP)
@@ -81,8 +83,11 @@ class DiceControllerTest(TestCase):
                               "no error message should be displayed")
         old_dice = self.dice_controller.get_dice_values()
         self.dice_controller.handle_input(key_codes.VK_SPACE)
-        self.assertEqual(common.ERROR_NO_MORE_ROLLS, self.mock_game_controller.message,
-                         "Error message should be displayed")
+        self.assertEqual(
+            common.ERROR_NO_MORE_ROLLS,
+            self.mock_game_controller.message,
+            "Error message should be displayed")
         new_dice = self.dice_controller.get_dice_values()
-        self.assertListEqual(old_dice, new_dice,
-                             "Dice should not be rolled if roll count is exceeded")
+        self.assertListEqual(
+            old_dice, new_dice,
+            "Dice should not be rolled if roll count is exceeded")

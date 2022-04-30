@@ -31,7 +31,8 @@ class DiceWindow:
         Calculates the minimum Screen space needed for rendering a set of dice
         @return: min_y, min_x
         """
-        return GAP_SIZE * 2 + common.DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE), len(DICE_BORDER[0])
+        return GAP_SIZE * 2 + common.DICE_COUNT * (
+            len(DICE_BORDER) + GAP_SIZE), len(DICE_BORDER[0])
 
     @staticmethod
     def get_control_string() -> str:
@@ -54,7 +55,9 @@ class DiceWindow:
         self.__window.refresh()
 
         max_y, max_x = self.__window.getmaxyx()
-        off_top = (max_y - (common.DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2
+        off_top = (
+            max_y -
+            (common.DICE_COUNT * (len(DICE_BORDER) + GAP_SIZE) - GAP_SIZE)) // 2
         dice_x = (max_x - len(DICE_BORDER[0])) // 2
         iteration = 0
         for single_dice in dice:
@@ -99,7 +102,9 @@ class DiceWindow:
         iteration = 0
         for border in DICE_BORDER:
             if dice.locked:
-                self.__window.attron(curses.color_pair(common.COLOR_DICE_LOCKED))
+                self.__window.attron(
+                    curses.color_pair(
+                        common.COLOR_DICE_LOCKED))
             self.__window.addstr(current_y + iteration, current_x, border)
             self.__window.attroff(common.SELECTED_OPTION)
             self.__window.attroff(curses.color_pair(common.COLOR_DICE_LOCKED))

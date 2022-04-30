@@ -26,11 +26,13 @@ def validate_throw(throw: List[int]):
     @raise InvalidThrow if the throw does not fit requirements
     """
     if len(throw) != 5:
-        raise InvalidThrow(f"A throw has to consist of 5 Dice not: {len(throw)}")
+        raise InvalidThrow(
+            f"A throw has to consist of 5 Dice not: {len(throw)}")
     for dice in throw:
         if dice < 1 or dice > 6:
-            raise InvalidThrow("In the passed throw is at "
-                               f"least one number not between 1 and 6 got {throw}")
+            raise InvalidThrow(
+                "In the passed throw is at "
+                f"least one number not between 1 and 6 got {throw}")
 
 
 def contains_n_dice(count: int, throw: List[int]) -> bool:

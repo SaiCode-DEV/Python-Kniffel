@@ -17,7 +17,10 @@ class StartMenuController:
     Start menu controller handles the inputs on the start menu window
     """
 
-    def __init__(self, kniffel_controller: KniffelController, start_window: StartWindow):
+    def __init__(
+            self,
+            kniffel_controller: KniffelController,
+            start_window: StartWindow):
         self.kniffel_controller = kniffel_controller
         self.start_window = start_window
 

@@ -4,13 +4,13 @@ from itertools import chain, combinations, product
 from unittest import TestCase
 import unittest
 import threading
-import sys
 
 from kniffel.bot.bot import get_best_choice, bot_controller
 from kniffel.data_objects.combinations import Combinations
 
-# Only swich DEEP_Test to True if you want to test the bot with a lot of combinations. This will take a while.
-DEEP_TEST = False 
+# Only swich DEEP_Test to True if you want to test the bot with a lot of
+# combinations. This will take a while.
+DEEP_TEST = False
 
 available_combinations = [
     Combinations.ONES,
@@ -29,8 +29,21 @@ available_combinations = [
 ]
 
 
+def run_thread(dices, available, rerolls=0):
+    """This function is used to run the bot in a thread. By multithreading the test is A LOT faster."""
+    if not DEEP_TEST:
+        dices = dices[0:1]
+    for dice in dices:
+        try:
+            bot_controller(dice, available, rerolls)
+        except Exception as e:
+            print(dice, available, end="\n")
+            raise e
+
+
 class kniffel_bot_test(TestCase):
     """Test the kniffel bot. This test may take up to 10 sec to run."""
+
     def test_all_kniffel(self):
         dices = [
             [1, 1, 1, 1, 1],
@@ -79,16 +92,8 @@ class kniffel_bot_test(TestCase):
         self.assertEqual(x[1], Combinations.LARGE_STRAIGHT)
 
     def test_the_universe(self):
-
-        def run_thread(dices, available, rerolls=0):
-            if not DEEP_TEST:
-                dices = dices[0:1]
-            for dice in dices:
-                try:
-                    bot_controller(dice, available, rerolls)
-                except Exception as e:
-                    print(dice, available, end="\n")
-                    raise e
+        """Test the bot with all combinations. It iterates over all combinations of possible yahtzees and start a tread for each combination."""
+        _=self
         cubes = list(product(range(1, 7), repeat=5))
         cubes = sorted(set(tuple(sorted(cube)) for cube in cubes))
         cubes = sorted(list(cube) for cube in cubes)

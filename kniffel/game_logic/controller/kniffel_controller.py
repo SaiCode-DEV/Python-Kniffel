@@ -30,7 +30,8 @@ class KniffelController:
         self.window_manager = window_manager
         self.game_controller = GameController(self, window_manager.game_window)
         self.game_controller.load_from_file()
-        self.start_menu_controller = StartMenuController(self, window_manager.start_window)
+        self.start_menu_controller = StartMenuController(
+            self, window_manager.start_window)
         self.__running = False
 
         self.active_window = EnumWindowSelected.START_MENU
@@ -47,7 +48,8 @@ class KniffelController:
         while self.__running:
             if self.active_window is EnumWindowSelected.START_MENU:
                 self.start_menu_controller.step_animation()
-                self.window_manager.render(self.game_controller.get_game_state())
+                self.window_manager.render(
+                    self.game_controller.get_game_state())
                 self.window_manager.set_no_input_delay(True)
                 sleep(common.ANIMATION_DELAY_START_ANIMATION)
             else:
@@ -76,14 +78,16 @@ class KniffelController:
         """
         Show the start menu
         """
-        self.window_manager.show_start_menu(self.game_controller.get_game_state())
+        self.window_manager.show_start_menu(
+            self.game_controller.get_game_state())
         self.active_window = EnumWindowSelected.START_MENU
 
     def continue_game(self):
         """
         resumes the game where it was left off
         """
-        self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.window_manager.show_game_window(
+            self.game_controller.get_game_state())
         self.game_controller.continue_game()
         self.active_window = EnumWindowSelected.GAME_WINDOW
 
@@ -91,7 +95,8 @@ class KniffelController:
         """
         Show the Game Window and start the Game
         """
-        self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.window_manager.show_game_window(
+            self.game_controller.get_game_state())
         self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_HUMAN)
         self.active_window = EnumWindowSelected.GAME_WINDOW
 
@@ -99,7 +104,8 @@ class KniffelController:
         """
         Show the Game Window and starts a game against a bot
         """
-        self.window_manager.show_game_window(self.game_controller.get_game_state())
+        self.window_manager.show_game_window(
+            self.game_controller.get_game_state())
         self.game_controller.start_new_game(EnumGameKind.GAME_AGAINST_BOT)
         self.active_window = EnumWindowSelected.GAME_WINDOW
 

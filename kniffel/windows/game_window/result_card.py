@@ -14,6 +14,7 @@ class ResultCard:
     """
     The ResultCard takes in a window it will render a result card
     """
+
     def __init__(self, window: curses.window):
         self.__window = window
 
@@ -49,8 +50,10 @@ class ResultCard:
         # Print result card
         count = 0
         for line in common.RESULT_PAD:
-            self.__window.addstr(count + y_off + len(common.NAME_PAD), x_off, line,
-                                 curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            self.__window.addstr(
+                count + y_off + len(common.NAME_PAD),
+                x_off, line, curses.color_pair(
+                    common.COLOR_PAIR_BLACK_WHITE))
             count += 1
 
         count = 0
@@ -85,6 +88,7 @@ class ResultCard:
             index += 1
 
         count: int = 0
+        color=curses.color_pair(common.COLOR_PAIR_BLACK_WHITE)
         for result_card_line in common.RESULT_POINTS_PAD:
             if count % 2 == 0:
                 index = count // 2
@@ -92,17 +96,23 @@ class ResultCard:
 
                 str_to_add = result_card_line.format(point).center(5)
 
-                self.__window.addstr(y_off + count,
-                                     x_off,
-                                     str_to_add.center(5),
-                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(
+                    y_off + count,
+                    x_off,
+                    str_to_add.center(5),
+                    color)
             else:
                 str_to_add = result_card_line
-                self.__window.addstr(y_off + count, x_off, str_to_add,
-                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(
+                    y_off + count,
+                    x_off,
+                    str_to_add,
+                    color
+                    )
 
             count += 1
 
-            self.__window.addstr("!", curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            self.__window.addstr(
+                "!",color)
 
             self.__window.refresh()

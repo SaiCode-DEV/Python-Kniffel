@@ -44,7 +44,8 @@ def get_calc_fn(combinations: Combinations) -> Callable[[List[int]], int]:
     return get_special_combo_calc_fn(combinations)
 
 
-def get_number_calc_fn(combinations: Combinations) -> Callable[[List[int]], int]:
+def get_number_calc_fn(
+        combinations: Combinations) -> Callable[[List[int]], int]:
     """
     returns a calculation function if the combination is a combination from one to six
     """
@@ -64,7 +65,8 @@ def get_number_calc_fn(combinations: Combinations) -> Callable[[List[int]], int]
     return calc_fn
 
 
-def get_special_combo_calc_fn(combinations: Combinations) -> Callable[[List[int]], int]:
+def get_special_combo_calc_fn(
+        combinations: Combinations) -> Callable[[List[int]], int]:
     """
     returns a calculation function if the combination is a special combination
     """
