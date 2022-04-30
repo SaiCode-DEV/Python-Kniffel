@@ -5,6 +5,7 @@ Module containing superclass for all tests with a curses window
 # pylint: disable=protected-access
 
 import curses
+from time import sleep
 from unittest import TestCase
 
 from kniffel import common
@@ -50,6 +51,7 @@ class WindowTest(TestCase):
         collects the currently displayed characters on the screen
         @return:
         """
+        sleep(0.0001)  # give curses minimal time to refresh state
         max_y, max_x = self.get_max_yx()
         lines = []
         for current_y in range(max_y):

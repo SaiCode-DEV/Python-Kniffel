@@ -1,0 +1,28 @@
+                                                   _
+                                                  | |
+                                                  | '
+                                                  | .
+                                                  |_|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              (C) Spiel fortführen
+
+                                              (N) Neues Spiel starten
+
+                                              (P) Neues Spiel gegen Computer starten
+
+                                              (Q) Spiel beenden
