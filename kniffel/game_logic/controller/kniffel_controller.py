@@ -55,6 +55,7 @@ class KniffelController:
             character = self.window_manager.get_ch()
             if character == -1:  # -1 is returned if there was no input
                 continue
+            self.handle_input(character)
             if test:
                 break
         WindowManager.close()
