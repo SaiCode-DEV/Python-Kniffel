@@ -27,7 +27,8 @@ class DiceController:
     The dice-set is rendered to the passed DiceWindow
     """
 
-    def __init__(self, dice_window: DiceWindow, game_controller: GameController):
+    def __init__(self, dice_window: DiceWindow,
+                 game_controller: GameController):
         self.game_controller = game_controller
         self.dice_window = dice_window
         self.__dice = []
@@ -78,7 +79,8 @@ class DiceController:
             self.__dice[self.__selected].selected = True
         if character == key_codes.VK_SPACE and not self.__is_all_locked():
             if not self.__is_roll_allowed():
-                self.game_controller.display_message(common.ERROR_NO_MORE_ROLLS)
+                self.game_controller.display_message(
+                    common.ERROR_NO_MORE_ROLLS)
                 return
             self.roll(common.ROLL_COUNT_ANIMATION)
             return

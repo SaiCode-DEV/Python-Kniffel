@@ -18,7 +18,7 @@ class WindowManagerTest(WindowTest):
 
     def setUp(self):
         super().setUp()
-        self.window_manager = WindowManager(self.window,True)
+        self.window_manager = WindowManager(self.window, True)
 
     def get_max_yx(self):
         game_y, game_x = GameWindow.get_required_size()
@@ -31,8 +31,13 @@ class WindowManagerTest(WindowTest):
         game_state.dice = state_generator.get_dice_with_value(1)
         self.window_manager.show_start_menu(game_state)
         actual = self.get_screen_value()
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(path.join(EXPECTED_PATH, "start_window.txt"), actual)
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
+        self.assert_input_equals_file(
+            path.join(
+                EXPECTED_PATH,
+                "start_window.txt"),
+            actual)
 
     def test_render_game(self):
         game_state = GameState()
@@ -40,5 +45,10 @@ class WindowManagerTest(WindowTest):
         game_state.dice = state_generator.get_dice_with_value(1)
         self.window_manager.show_game_window(game_state)
         actual = self.get_screen_value()
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(path.join(EXPECTED_PATH, "game_window.txt"), actual)
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
+        self.assert_input_equals_file(
+            path.join(
+                EXPECTED_PATH,
+                "game_window.txt"),
+            actual)

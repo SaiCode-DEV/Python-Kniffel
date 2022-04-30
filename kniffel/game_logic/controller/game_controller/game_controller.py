@@ -46,7 +46,10 @@ class GameController:
     """
     game_kind = EnumGameKind.GAME_AGAINST_HUMAN
 
-    def __init__(self, kniffel_controller: KniffelController, game_window: GameWindow):
+    def __init__(
+            self,
+            kniffel_controller: KniffelController,
+            game_window: GameWindow):
         """
         Initializes the Game Controller and all needed controllers for the controller
         to work properly
@@ -56,9 +59,10 @@ class GameController:
         self.selected = EnumWindowSelected.DICE_WINDOW
         self.kniffel_controller = kniffel_controller
         self.game_window = game_window
-        self.dice_controller: DiceController = DiceController(game_window.dice_window, self)
-        self.card_controller: CardController = CardController(game_window.game_card,
-                                                              game_window.result_card, self)
+        self.dice_controller: DiceController = DiceController(
+            game_window.dice_window, self)
+        self.card_controller: CardController = CardController(
+            game_window.game_card, game_window.result_card, self)
 
         self.__active_player: int = 0
         self.combinations: List[List[Point]] = []
@@ -122,7 +126,8 @@ class GameController:
         if character in (key_codes.VK_UC_Q, key_codes.VK_LC_Q):
             self.kniffel_controller.show_start_menu()
 
-        # if the bot is currently playing or game is done ignore user input except quit
+        # if the bot is currently playing or game is done ignore user input
+        # except quit
         if self.__is_game_over():
             return
 
@@ -165,7 +170,9 @@ class GameController:
     def __show_result(self):
         game_state = self.get_game_state()
         self.display_message(common.GAME_OVER)
-        self.game_window.display_controls(game_state, common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW + ResultCard.get_control_string())
+        self.game_window.display_controls(
+            game_state, common.LABEL_CONTROL_DESCRIPTION_GAME_WINDOW +
+            ResultCard.get_control_string())
         self.game_window.show_result_card(game_state)
 
     def __get_control_str(self) -> str:
@@ -238,7 +245,8 @@ class GameController:
             rolled = self.dice_controller.get_dice_values()
             available = self._get_available_options_for_bot()
             left_rolls = common.MAX_ROLL_COUNT - self.dice_controller.roll_count
-            roll_again, choice = bot.bot_controller(rolled, available, left_rolls)
+            roll_again, choice = bot.bot_controller(
+                rolled, available, left_rolls)
             if not roll_again:
                 break
             iteration = 0
@@ -329,7 +337,9 @@ class GameController:
         """
         self.__active_player = number
         self.card_controller.set_selected_player(self.__active_player)
-        self.display_message(common.LABEL_PLAYER_TURN.format(self.__active_player + 1))
+        self.display_message(
+            common.LABEL_PLAYER_TURN.format(
+                self.__active_player + 1))
 
     # ===========================================================================================================
     # State Management
@@ -342,7 +352,11 @@ class GameController:
         if not path.isdir(common.DIR_PERSISTENCE):
             os.mkdir(common.DIR_PERSISTENCE)
         with open(common.FILE_GAME_STATE, "w", encoding="utf-8") as file:
-            json.dump(obj=self.get_game_state(), fp=file, cls=GameStateEncoder, indent=4)
+            json.dump(
+                obj=self.get_game_state(),
+                fp=file,
+                cls=GameStateEncoder,
+                indent=4)
 
     def load_from_file(self):
         """

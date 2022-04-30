@@ -22,31 +22,39 @@ class TestKniffelController(TestCase):
     def test_handle_input_n(self):
         self.kniffel_controller.show_start_menu()
         self.kniffel_controller.handle_input(key_codes.VK_LC_N)
-        self.assertEqual(EnumWindowSelected.GAME_WINDOW.value, self.kniffel_controller.active_window.value,
-                         "New Game should be started.")
+        self.assertEqual(
+            EnumWindowSelected.GAME_WINDOW.value,
+            self.kniffel_controller.active_window.value,
+            "New Game should be started.")
 
     def test_handle_input_C(self):
         self.kniffel_controller.show_start_menu()
         self.kniffel_controller.handle_input(key_codes.VK_LC_C)
-        self.assertEqual(EnumWindowSelected.GAME_WINDOW.value, self.kniffel_controller.active_window.value,
-                         "Game should be continued.")
+        self.assertEqual(
+            EnumWindowSelected.GAME_WINDOW.value,
+            self.kniffel_controller.active_window.value,
+            "Game should be continued.")
 
     def test_handle_input_p(self):
         self.kniffel_controller.show_start_menu()
         self.kniffel_controller.handle_input(key_codes.VK_LC_P)
-        self.assertEqual(EnumWindowSelected.GAME_WINDOW.value, self.kniffel_controller.active_window.value,
-                         "Bot Game should be started.")
+        self.assertEqual(
+            EnumWindowSelected.GAME_WINDOW.value,
+            self.kniffel_controller.active_window.value,
+            "Bot Game should be started.")
 
     def test_handle_input_q(self):
         self.kniffel_controller.start_classic_game()
         self.kniffel_controller.handle_input(key_codes.VK_LC_Q)
-        self.assertEqual(EnumWindowSelected.START_MENU.value, self.kniffel_controller.active_window.value,
-                         "Game should be quit.")
+        self.assertEqual(
+            EnumWindowSelected.START_MENU.value,
+            self.kniffel_controller.active_window.value,
+            "Game should be quit.")
 
     def test_start(self):
         self.kniffel_controller.start(True)
         self.assertTrue(self.window_manager.start_window.step_animation_called,
-                                "Animation should be executed")
+                        "Animation should be executed")
 
     def tearDown(self):
         del self.window_manager

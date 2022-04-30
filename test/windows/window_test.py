@@ -24,7 +24,8 @@ class WindowTest(TestCase):
 
         common.init_colors()
         curses.curs_set(0)  # hide cursor
-        self.std_scr.keypad(True)  # to be able to compare input wit curses constants
+        # to be able to compare input wit curses constants
+        self.std_scr.keypad(True)
         curses.cbreak()  # no input buffering
         curses.noecho()
 
@@ -61,7 +62,8 @@ class WindowTest(TestCase):
         for current_y in range(max_y):
             chars = []
             for current_x in range(max_x):
-                chars.append(chr(self.window.inch(current_y, current_x) & 0xFF))
+                chars.append(chr(self.window.inch(
+                    current_y, current_x) & 0xFF))
             line = "".join(chars)
             lines.append(line)
         return lines
@@ -71,6 +73,10 @@ class WindowTest(TestCase):
             iteration = 0
             for line in expected:
                 if len(actual) - 1 < iteration:
-                    raise AssertionError("empty_points_ones_dice length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    raise AssertionError(
+                        "empty_points_ones_dice length of expected does not match actual")
+                self.assertEqual(
+                    line.strip(),
+                    actual[iteration].strip(),
+                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
                 iteration += 1

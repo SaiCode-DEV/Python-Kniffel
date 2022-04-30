@@ -26,7 +26,9 @@ def get_screens(window: curses.window) -> Tuple[curses.window, curses.window]:
     [logo_min_y, _] = StartAnimation.get_required_size()
     logo_y = int(max_y * (logo_min_y / (logo_min_y + len(OPTIONS) * 2)))
     options_y = max_y - logo_y
-    return window.subwin(logo_y, max_x, 0, 0), window.subwin(options_y, max_x, logo_y, 0)
+    return window.subwin(
+        logo_y, max_x, 0, 0), window.subwin(
+        options_y, max_x, logo_y, 0)
 
 
 class StartWindow:

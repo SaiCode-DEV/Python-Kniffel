@@ -42,7 +42,8 @@ class WindowManager:
     def __init__(self, std_scr: curses.window, test: bool):
         self.std_scr = std_scr
         curses.curs_set(0)  # hide cursor
-        std_scr.keypad(True)  # to be able to compare input wit curses constants
+        # to be able to compare input wit curses constants
+        std_scr.keypad(True)
         curses.cbreak()  # no input buffering
         curses.noecho()
         if not test:

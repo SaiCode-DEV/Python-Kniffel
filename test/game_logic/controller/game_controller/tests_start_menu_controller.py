@@ -21,17 +21,20 @@ class TestStartMenuController(TestCase):
     def setUp(self) -> None:
         self.start_window = MockStartWindow()
         self.kniffel_controller = MockKniffelController()
-        self.start_controller = StartMenuController(self.kniffel_controller, self.start_window)
+        self.start_controller = StartMenuController(
+            self.kniffel_controller, self.start_window)
 
     def test_handle_input_N(self):
         self.start_controller.handle_input(key_codes.VK_UC_N)
-        self.assertTrue(self.kniffel_controller.start_classic_game_called,
-                        "When N is pressed, new classic game should be started")
+        self.assertTrue(
+            self.kniffel_controller.start_classic_game_called,
+            "When N is pressed, new classic game should be started")
 
     def test_handle_input_n(self):
         self.start_controller.handle_input(key_codes.VK_LC_N)
-        self.assertTrue(self.kniffel_controller.start_classic_game_called,
-                        "When n is pressed, new classic game should be started")
+        self.assertTrue(
+            self.kniffel_controller.start_classic_game_called,
+            "When n is pressed, new classic game should be started")
 
     def test_handle_input_C(self):
         self.start_controller.handle_input(key_codes.VK_UC_C)

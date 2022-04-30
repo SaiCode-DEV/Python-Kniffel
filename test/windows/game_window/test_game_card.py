@@ -11,7 +11,8 @@ from kniffel.windows.game_window.game_card import GameCard
 from test.windows.window_test import WindowTest
 from test.windows import game_window
 
-EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "game_window_outputs"
+EXPECTED_PATH = game_window.__file__.replace(
+    "__init__.py", "") + "game_window_outputs"
 
 
 def get_players_combinations():
@@ -44,13 +45,17 @@ class TestGameCard(WindowTest):
         self.game_card.render(get_players_combinations())
         actual = self.get_screen_value()
 
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
 
         with open(path.join(EXPECTED_PATH, "empty_game_card.txt"), "r", encoding="utf-8") as expected:
             iteration = 0
             for line in expected:
                 if len(actual) - 1 < iteration:
-                    raise AssertionError("game card length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(),
-                                 f"empty_game_card line rendered incorrectly in line {iteration + 1}")
+                    raise AssertionError(
+                        "game card length of expected does not match actual")
+                self.assertEqual(
+                    line.strip(),
+                    actual[iteration].strip(),
+                    f"empty_game_card line rendered incorrectly in line {iteration + 1}")
                 iteration += 1

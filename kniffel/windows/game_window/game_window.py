@@ -75,7 +75,8 @@ class GameWindow:
         """
         return self.__result_card
 
-    def __get_sub_windows(self) -> Tuple[curses.window, curses.window, curses.window]:
+    def __get_sub_windows(
+            self) -> Tuple[curses.window, curses.window, curses.window]:
         """
         Creates appropriate sub windows for the card and dice and returns them
         @return: card_window,result_window,dice_window
@@ -90,7 +91,8 @@ class GameWindow:
         dice_window_x = max_x - card_window_x
         card_window = self.window.subwin(max_y - 2, card_window_x, 1, 0)
         result_window = self.window.subwin(max_y - 2, max_x, 1, 0)
-        dice_window = self.window.subwin(max_y - 2, dice_window_x, 1, card_window_x)
+        dice_window = self.window.subwin(
+            max_y - 2, dice_window_x, 1, card_window_x)
         return card_window, result_window, dice_window
 
     def show_result_card(self, game_state: GameState):
@@ -118,7 +120,11 @@ class GameWindow:
 
         max_y, _ = self.window.getmaxyx()
         self.window.addstr(0, self.__get_str_off(self.message), self.message)
-        self.window.addstr(max_y - 1, self.__get_str_off(self.control_str), self.control_str)
+        self.window.addstr(
+            max_y - 1,
+            self.__get_str_off(
+                self.control_str),
+            self.control_str)
 
         self.__current_card.render(game_state.points)
         if not isinstance(self.__current_card, ResultCard):

@@ -9,8 +9,9 @@ import sys
 from kniffel.bot.bot import get_best_choice, bot_controller
 from kniffel.data_objects.combinations import Combinations
 
-# Only swich DEEP_Test to True if you want to test the bot with a lot of combinations. This will take a while.
-DEEP_TEST = False 
+# Only swich DEEP_Test to True if you want to test the bot with a lot of
+# combinations. This will take a while.
+DEEP_TEST = False
 
 available_combinations = [
     Combinations.ONES,
@@ -31,6 +32,7 @@ available_combinations = [
 
 class kniffel_bot_test(TestCase):
     """Test the kniffel bot. This test may take up to 10 sec to run."""
+
     def test_all_kniffel(self):
         dices = [
             [1, 1, 1, 1, 1],

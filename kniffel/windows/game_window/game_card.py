@@ -14,6 +14,7 @@ class GameCard:
     """
     GameCard class takes in a window it will render a game card
     """
+
     def __init__(self, window: curses.window):
         self.__show_selected = False
         self.__window = window
@@ -50,10 +51,10 @@ class GameCard:
         # Print game pad
         line_count = 0
         for line in common.GAME_PAD:
-            self.__window.addstr(line_count + y_off + len(common.NAME_PAD),
-                                 x_off,
-                                 line,
-                                 curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            self.__window.addstr(
+                line_count + y_off + len(common.NAME_PAD),
+                x_off, line, curses.color_pair(
+                    common.COLOR_PAIR_BLACK_WHITE))
             line_count += 1
 
         iteration = 0
@@ -79,9 +80,13 @@ class GameCard:
                 point = column[index]
 
                 if self.__show_selected and point.selected:
-                    self.__window.attron(curses.color_pair(common.COLOR_PAIR_BLACK_CYAN))
+                    self.__window.attron(
+                        curses.color_pair(
+                            common.COLOR_PAIR_BLACK_CYAN))
                 else:
-                    self.__window.attron(curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                    self.__window.attron(
+                        curses.color_pair(
+                            common.COLOR_PAIR_BLACK_WHITE))
 
                 if point.value is None:
                     str_to_add = ""
@@ -90,18 +95,27 @@ class GameCard:
                 else:
                     str_to_add = points_card_line.format(point.value)
 
-                self.__window.addstr(y_off + count, x_off, str_to_add.center(5))
-                self.__window.attroff(curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
-                self.__window.attroff(curses.color_pair(common.COLOR_PAIR_BLACK_CYAN))
+                self.__window.addstr(
+                    y_off + count, x_off, str_to_add.center(5))
+                self.__window.attroff(
+                    curses.color_pair(
+                        common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.attroff(
+                    curses.color_pair(
+                        common.COLOR_PAIR_BLACK_CYAN))
             else:
                 str_to_add = points_card_line
-                self.__window.addstr(y_off + count,
-                                     x_off,
-                                     str_to_add,
-                                     curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+                self.__window.addstr(
+                    y_off + count,
+                    x_off,
+                    str_to_add,
+                    curses.color_pair(
+                        common.COLOR_PAIR_BLACK_WHITE))
 
             count += 1
-            self.__window.addstr("!", curses.color_pair(common.COLOR_PAIR_BLACK_WHITE))
+            self.__window.addstr(
+                "!", curses.color_pair(
+                    common.COLOR_PAIR_BLACK_WHITE))
             self.__window.refresh()
 
     def show_selected(self, show):

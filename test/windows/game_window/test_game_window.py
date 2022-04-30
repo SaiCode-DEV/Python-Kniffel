@@ -10,7 +10,8 @@ from kniffel.windows.game_window.game_window import GameWindow
 from test.windows.window_test import WindowTest
 from test.windows import game_window
 
-EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "game_window_outputs"
+EXPECTED_PATH = game_window.__file__.replace(
+    "__init__.py", "") + "game_window_outputs"
 
 
 class GameWindowTest(WindowTest):
@@ -36,8 +37,13 @@ class GameWindowTest(WindowTest):
         self.game_window.show_game_card(game_state)
         actual = self.get_screen_value()
 
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(path.join(EXPECTED_PATH, "empty_points_ones_dice.txt"), actual)
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
+        self.assert_input_equals_file(
+            path.join(
+                EXPECTED_PATH,
+                "empty_points_ones_dice.txt"),
+            actual)
 
     def test_result_card_render(self):
         game_state = GameState()
@@ -53,14 +59,19 @@ class GameWindowTest(WindowTest):
         self.game_window.show_result_card(game_state)
         actual = self.get_screen_value()
 
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
 
         with open(path.join(EXPECTED_PATH, "result_card_render.txt"), "r", encoding="utf-8") as expected:
             iteration = 0
             for line in expected:
                 if len(actual) - 1 < iteration:
-                    raise AssertionError("test_result_card_render length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"test_result_card_render line rendered incorrectly in line {iteration + 1}")
+                    raise AssertionError(
+                        "test_result_card_render length of expected does not match actual")
+                self.assertEqual(
+                    line.strip(),
+                    actual[iteration].strip(),
+                    f"test_result_card_render line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_display_message(self):
@@ -69,15 +80,21 @@ class GameWindowTest(WindowTest):
         game_state.points = state_generator.get_empty_combinations()
         self.game_window.display_message(game_state, "This is a test")
         self.game_window.display_controls(game_state, "This is another test")
-        self.game_window.show_game_card(game_state)  # has to be present after re-render
+        # has to be present after re-render
+        self.game_window.show_game_card(game_state)
         actual = self.get_screen_value()
 
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
 
         with open(path.join(EXPECTED_PATH, "with_test_message.txt"), "r", encoding="utf-8") as expected:
             iteration = 0
             for line in expected:
                 if len(actual) - 1 < iteration:
-                    raise AssertionError("with_test_message length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"with_test_message line rendered incorrectly in line {iteration + 1}")
+                    raise AssertionError(
+                        "with_test_message length of expected does not match actual")
+                self.assertEqual(
+                    line.strip(),
+                    actual[iteration].strip(),
+                    f"with_test_message line rendered incorrectly in line {iteration + 1}")
                 iteration += 1

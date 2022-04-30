@@ -25,6 +25,11 @@ class GameWindowTest(WindowTest):
     def test_start_menu_render(self):
         self.start_window.render(None)
         actual = self.get_screen_value()
-        actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
 
-        self.assert_input_equals_file(path.join(EXPECTED_PATH, "expected_start_menu.txt"), actual)
+        self.assert_input_equals_file(
+            path.join(
+                EXPECTED_PATH,
+                "expected_start_menu.txt"),
+            actual)
