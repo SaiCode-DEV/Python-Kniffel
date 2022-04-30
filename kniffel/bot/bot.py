@@ -111,10 +111,15 @@ def reroll_controller(dice_rolled, available_combinations):
     output_points = []
     for dice in dices:
         output_points.append(get_best_choice(dice, available_combinations))
-    #Sort out all the empty combinations
-    output_points, dices = zip(*[(i, j) for i, j in zip(output_points, dices) if i != {}])
-    #Sort the combinations by the highest value
-    output_points, dices = zip(*sorted(zip(output_points, dices),key=lambda x: x[0].get(next(iter(x[0])), 0), reverse=True))
+
+    if(len(output_points) == 0):
+        return [True, True, True, True, True]
+    # Sort out all the empty combinations
+    output_points, dices = zip(
+        *[(i, j) for i, j in zip(output_points, dices) if i != {}])
+    # Sort the combinations by the highest value
+    output_points, dices = zip(*sorted(zip(output_points, dices),
+                               key=lambda x: x[0].get(next(iter(x[0])), 0), reverse=True))
 
     max_points = max([i.get(next(iter(i)), 0) for i in output_points])
     different = []
@@ -146,9 +151,11 @@ def bot_controller(dice: list[int],
     Returns:
         str: The option the bot chose.
     """
+    # if there is only one option left, just choose it
+    if len(available_combinations) == 1:
+        return False, next(iter(available_combinations))
     # sort the dices by value
     dice_sorted = sorted(dice, reverse=True)
-    # print(dice_sorted)
     best_now = get_best_choice(dice_sorted, available_combinations)
     # print(best_now)
     if best_now.get(Combinations.KNIFFEL) == 50:
@@ -163,16 +170,24 @@ def bot_controller(dice: list[int],
     if best_now.get(Combinations.FULL_HOUSE) == 25:
         #print("full house is the best choice")
         return False, Combinations.FULL_HOUSE
-    if best_now.get(Combinations.FOUR_OF_KIND) if best_now.get(Combinations.FOUR_OF_KIND) is not None else 0 > 5:
+    if best_now.get(Combinations.FOUR_OF_KIND) if best_now.get(
+            Combinations.FOUR_OF_KIND) is not None else 0 > 5:
         #print("four of a kind is the best choice")
         return False, Combinations.FOUR_OF_KIND
-    if best_now.get(Combinations.THREE_OF_KIND) if best_now.get(Combinations.THREE_OF_KIND) is not None else 0 > 6:
+    if best_now.get(Combinations.THREE_OF_KIND) if best_now.get(
+            Combinations.THREE_OF_KIND) is not None else 0 > 6:
         #print("three of a kind is the best choice")
         return False, Combinations.THREE_OF_KIND
-    #else: (There is no good special combination)
+    # else: (There is no good special combination)
     if rerolls_left > 0:
         # choose the cubes to reroll
-        return True, reroll_controller(dice_sorted, available_combinations)
-    #else: (no rerolls left, choose the best left over)
+        choice = reroll_controller(dice_sorted, available_combinations)
+        if (choice == [False, False, False, False, False]).all():
+            # Could not find a useful combination, reroll all
+            return True, [True, True, True, True, True]
+        return True, choice
+    # else: (no rerolls left, choose the best left over)
+    if not best_now:
+        return False, available_combinations[0]
     best = next(iter(best_now))
     return False, best

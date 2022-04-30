@@ -1,9 +1,13 @@
 # pylint: disable=C
+from itertools import chain, combinations, product
 from unittest import TestCase
 import unittest
+import threading
+import sys
 
 from kniffel.bot.bot import get_best_choice, bot_controller
 from kniffel.data_objects.combinations import Combinations
+
 available_combinations = [
     Combinations.ONES,
     Combinations.TWOS,
@@ -79,7 +83,41 @@ class kniffel_bot_test(TestCase):
         ]
         x = bot_controller([5, 4, 3, 3, 1], available, 1)
         self.assertTrue(x[0])
-        self.assertEqual(list(x[1]), [False, False, False, False, False])
+        self.assertEqual(list(x[1]), [True, True, True, True, True])
+
+    def test_bot_combination_5(self):
+        available = [
+            Combinations.LARGE_STRAIGHT,
+            Combinations.KNIFFEL
+        ]
+        x = bot_controller([5, 4, 3, 3, 1], available, 0)
+        self.assertFalse(x[0])
+        self.assertEqual(x[1], Combinations.LARGE_STRAIGHT)
+
+    def test_the_universe(self):
+        print("\n")
+
+        def run_thread(dices, available, rerolls=0):
+            for dice in dices:
+                try:
+                    bot_controller(dice, available, rerolls)
+                except Exception as e:
+                    print(dice, available, end="\n")
+                    raise e
+        cubes = list(product(range(1, 7), repeat=5))
+        cubes = sorted(set(tuple(sorted(cube)) for cube in cubes))
+        cubes = sorted(list(cube) for cube in cubes)
+        possible_combinations = chain(
+            *map(
+                lambda x: combinations(
+                    available_combinations, x), range(
+                    0, len(available_combinations) + 1)))
+        for i, subset in enumerate(possible_combinations):
+            if subset != () and i < 2:
+                threading.Thread(target=run_thread,
+                                 args=(cubes, subset)).start()
+                if i % 100 == 0:
+                    print(f"Try out all combinations: {round(i/8192*100):>3}%")
 
 
 if __name__ == "__main__":
