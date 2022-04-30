@@ -256,6 +256,7 @@ class GameController:
                     iteration += 1
             except ValueError:
                 choice = available[0]
+                break
             time.sleep(common.BOT_DECISION_DELAY)
         # don't call add entry leads to recursive call
         self.__add_bot_entry(choice)
