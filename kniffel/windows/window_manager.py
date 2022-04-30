@@ -39,13 +39,14 @@ class WindowManager:
     The WindowManager is supposed to be used for managing whole pages.
     """
 
-    def __init__(self, std_scr: curses.window):
+    def __init__(self, std_scr: curses.window, test: bool):
         self.std_scr = std_scr
         curses.curs_set(0)  # hide cursor
         std_scr.keypad(True)  # to be able to compare input wit curses constants
         curses.cbreak()  # no input buffering
         curses.noecho()
-        resize_term(std_scr)
+        if not test:
+            resize_term(std_scr)
 
         self.__start_window = StartWindow(self.std_scr)
         self.__game_window = GameWindow(self.std_scr)
@@ -90,7 +91,6 @@ class WindowManager:
         self.std_scr.refresh()
         if self.active_window is not None:
             self.active_window.render(game_state)
-        self.std_scr.refresh()
 
     def get_ch(self) -> chr:
         """
