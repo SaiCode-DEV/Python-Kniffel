@@ -39,6 +39,10 @@ class WindowTest(TestCase):
         curses.resize_term(max_y, max_x)
         self.window = self.std_scr.subwin(max_y, max_x, 0, 0)
 
+    def tearDown(self):
+        _=self
+        curses.endwin()
+
     def get_max_yx(self):
         """
         Method is ment to be overwritten by subclasses
