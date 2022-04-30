@@ -1,3 +1,6 @@
+# pylint: disable=C
+# pylint: disable=protected-access
+
 class MockStartWindow:
     def __init__(self):
         self.render_called = False

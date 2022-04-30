@@ -1,3 +1,6 @@
+# pylint: disable=C
+# pylint: disable=protected-access
+
 from test.windows.window_test import WindowTest
 from kniffel.windows.start_window import StartWindow
 from test import windows
@@ -23,10 +26,5 @@ class GameWindowTest(WindowTest):
         self.start_window.render(None)
         actual = self.get_screen_value()
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
-        with open(path.join(EXPECTED_PATH, "expected_start_menu.txt"), "r", encoding="utf-8") as expected:
-            iteration = 0
-            for line in expected:
-                if len(actual) - 1 < iteration:
-                    raise AssertionError("empty_points_ones_dice length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
-                iteration += 1
+
+        self.assert_input_equals_file(path.join(EXPECTED_PATH, "expected_start_menu.txt"), actual)

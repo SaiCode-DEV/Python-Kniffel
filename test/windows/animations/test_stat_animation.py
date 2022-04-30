@@ -1,7 +1,8 @@
 # pylint: disable=C
-
+# pylint: disable=protected-access
+from kniffel import common
 from test.windows.window_test import WindowTest
-from kniffel.windows.animations.start_animation import *
+from kniffel.windows.animations.start_animation import StartAnimation
 
 
 class StartAnimationTest(WindowTest):

@@ -1,4 +1,6 @@
-# pylint disable=C
+# pylint: disable=C
+# pylint: disable=protected-access
+
 from kniffel.data_objects.game_state import GameState
 from test.mock.mock_dice_window import MockDiceWindow
 from test.mock.mock_game_card import MockGameCard
@@ -11,7 +13,6 @@ class MockGameWindow:
         self.message = None
         self.control_str = None
 
-        self.show_result_card_called = False
         self.show_game_card_called = False
 
         self.dice_window = MockDiceWindow()
@@ -20,7 +21,6 @@ class MockGameWindow:
 
     def show_result_card(self, game_state: GameState):
         self.game_state = game_state
-        self.show_result_card_called = True
 
     def show_game_card(self, game_state: GameState):
         self.game_state = game_state

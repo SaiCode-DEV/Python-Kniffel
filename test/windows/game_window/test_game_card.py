@@ -1,12 +1,18 @@
 # pylint: disable=C
-from os import path
+# pylint: disable=protected-access
 
-from kniffel.windows.game_window.game_card import *
+from os import path
+from typing import List
+
+from kniffel import common
+from kniffel.data_objects.point import Point
+from kniffel.windows.game_window.game_card import GameCard
 
 from test.windows.window_test import WindowTest
 from test.windows import game_window
 
 EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "game_window_outputs"
+
 
 def get_players_combinations():
     players_combinations: List[List[Point]] = []
@@ -31,7 +37,7 @@ class TestGameCard(WindowTest):
         del self.window
 
     def get_max_yx(self):
-        y,x = GameCard.get_required_size()
+        y, x = GameCard.get_required_size()
         return [y + 7, x]
 
     def test_empty_game_card(self):

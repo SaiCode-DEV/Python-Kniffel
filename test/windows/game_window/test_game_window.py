@@ -1,34 +1,16 @@
 # pylint: disable=C
+# pylint: disable=protected-access
+
 from os import path
 
-from kniffel import common
-from kniffel.data_objects.point import Point
-from kniffel.data_objects.dice import Dice
-from kniffel.windows.game_window.game_window import *
+from kniffel.data_objects.game_state import GameState
+from test import state_generator
+from kniffel.windows.game_window.game_window import GameWindow
 
 from test.windows.window_test import WindowTest
 from test.windows import game_window
 
 EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "game_window_outputs"
-
-
-def get_dice_with_value(value):
-    dice = []
-    for _ in range(5):
-        die = Dice()
-        die.value = value
-        dice.append(die)
-    return dice
-
-
-def get_empty_combinations():
-    combinations = []
-    for _ in range(common.PLAYER_COUNT):
-        column = []
-        for _ in range(common.COMBINATIONS_COUNT):
-            column.append(Point())
-        combinations.append(column)
-    return combinations
 
 
 class GameWindowTest(WindowTest):
@@ -49,25 +31,18 @@ class GameWindowTest(WindowTest):
 
     def test_game_card_render(self):
         game_state = GameState()
-        game_state.dice = get_dice_with_value(1)
-        game_state.points = get_empty_combinations()
+        game_state.dice = state_generator.get_dice_with_value(1)
+        game_state.points = state_generator.get_empty_combinations()
         self.game_window.show_game_card(game_state)
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
-
-        with open(path.join(EXPECTED_PATH, "empty_points_ones_dice.txt"), "r", encoding="utf-8") as expected:
-            iteration = 0
-            for line in expected:
-                if len(actual) - 1 < iteration:
-                    raise AssertionError("empty_points_ones_dice length of expected does not match actual")
-                self.assertEqual(line.strip(), actual[iteration].strip(), f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
-                iteration += 1
+        self.assert_input_equals_file(path.join(EXPECTED_PATH, "empty_points_ones_dice.txt"), actual)
 
     def test_result_card_render(self):
         game_state = GameState()
-        game_state.dice = get_dice_with_value(1)
-        game_state.points = get_empty_combinations()
+        game_state.dice = state_generator.get_dice_with_value(1)
+        game_state.points = state_generator.get_empty_combinations()
         player = 0
         for column in game_state.points:
             combination = 0
@@ -90,8 +65,8 @@ class GameWindowTest(WindowTest):
 
     def test_display_message(self):
         game_state = GameState()
-        game_state.dice = get_dice_with_value(2)
-        game_state.points = get_empty_combinations()
+        game_state.dice = state_generator.get_dice_with_value(2)
+        game_state.points = state_generator.get_empty_combinations()
         self.game_window.display_message(game_state, "This is a test")
         self.game_window.display_controls(game_state, "This is another test")
         self.game_window.show_game_card(game_state)  # has to be present after re-render

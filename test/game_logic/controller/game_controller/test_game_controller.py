@@ -1,9 +1,16 @@
-# pylint disable=C
+# pylint: disable=C
+# pylint: disable=protected-access
+
 from copy import deepcopy
+from os import path
 from unittest import TestCase
 
+from kniffel.data_objects.combinations import Combinations
+from kniffel.data_objects.game_kind import EnumGameKind
+from kniffel.data_objects.game_state import GameState
+from kniffel import common
 from kniffel import key_codes
-from kniffel.game_logic.controller.game_controller.game_controller import *
+from kniffel.game_logic.controller.game_controller.game_controller import GameController
 from test import state_generator
 from test.game_logic.controller import game_controller
 from test.mock.mock_game_window import MockGameWindow
@@ -68,7 +75,7 @@ class GameControllerTest(TestCase):
             self.assertListEqual(values_expected, values_actual,
                                  "Game-Controller did not reset game-state after new game started")
 
-        equal_dice = set([d.value for d in game_state.dice]).intersection(self.game_controller.dice_controller.get_dice_values())
+        equal_dice = {d.value for d in game_state.dice}.intersection(self.game_controller.dice_controller.get_dice_values())
         self.assertNotEqual(5, equal_dice, "game controller should have re-rolled dice after game start")
         self.assertEqual(0, self.game_controller.active_player, "game controller should have reset active player")
 
@@ -97,7 +104,7 @@ class GameControllerTest(TestCase):
         for point in game_state.points[1]:
             if point.value is not None:
                 bot_played = True
-        #self.assertTrue(bot_played, "bot should have made a turn")
+        self.assertTrue(bot_played, "bot should have made a turn")
 
     def test_available_bot_options(self):
         combos = state_generator.get_empty_combinations()

@@ -1,6 +1,8 @@
 # pylint: disable=C
+# pylint: disable=protected-access
+import curses
 
-from kniffel.game_logic.controller.game_controller.card_controller import *
+from kniffel.game_logic.controller.game_controller.card_controller import CardController
 
 from unittest import TestCase
 

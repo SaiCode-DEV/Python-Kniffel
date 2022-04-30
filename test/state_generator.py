@@ -1,4 +1,10 @@
+"""
+the module state_generator is a test helper module for generating state
+"""
+
 # pylint: disable=C
+# pylint: disable=protected-access
+
 import random
 
 from kniffel.data_objects.dice import Dice
@@ -7,6 +13,9 @@ from kniffel import common
 
 
 def get_random_dice():
+    """
+    @return: a random list of dice
+    """
     dice = []
     iteration = 0
     for _ in range(5):
@@ -20,6 +29,9 @@ def get_random_dice():
 
 
 def get_dice_with_value(value: int):
+    """
+    Returns a list of dice with the value passed
+    """
     dice = []
     for _ in range(5):
         die = Dice()
@@ -29,6 +41,9 @@ def get_dice_with_value(value: int):
 
 
 def get_random_combinations():
+    """
+    returns a randomly initialized combinations list
+    """
     combinations = []
     player_nr = 0
     for _ in range(common.PLAYER_COUNT):
@@ -46,6 +61,9 @@ def get_random_combinations():
 
 
 def get_empty_combinations():
+    """
+    returns a empty combinations array
+    """
     combinations = []
     for _ in range(common.PLAYER_COUNT):
         column = []

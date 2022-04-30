@@ -3,9 +3,9 @@
 
 from unittest import TestCase
 from kniffel import key_codes
-from kniffel.game_logic.controller.kniffel_controller import *
+from kniffel.game_logic.controller.kniffel_controller import KniffelController, EnumWindowSelected
 
-from test.mock.mock_window_manager import *
+from test.mock.mock_window_manager import MockWindowManager
 
 
 class TestKniffelController(TestCase):

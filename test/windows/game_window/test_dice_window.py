@@ -1,27 +1,22 @@
 # pylint: disable=C
-from os import path
-from kniffel.windows.game_window.dice_window import *
+# pylint: disable=protected-access
 
+from os import path
+
+from kniffel.windows.game_window.dice_window import DiceWindow
+
+from test import state_generator
 from test.windows.window_test import WindowTest
 from test.windows import game_window
 
 EXPECTED_PATH = game_window.__file__.replace("__init__.py", "") + "dice_outputs"
 
 
-def get_all_dice(value):
-    dice = []
-    for _ in range(5):
-        die = Dice()
-        die.value = value
-        dice.append(die)
-    return dice
-
-
 class DiceWindowTest(WindowTest):
 
     def __init__(self, method_name='runTest'):
         super().__init__(method_name)
-        self.dice_window: DiceWindow = None
+        self.dice_window: DiceWindow
 
     def setUp(self):
         super().setUp()
@@ -34,7 +29,7 @@ class DiceWindowTest(WindowTest):
         return DiceWindow.get_required_size()
 
     def test_all_ones(self):
-        self.dice_window.render(get_all_dice(1))
+        self.dice_window.render(state_generator.get_dice_with_value(1))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
@@ -48,7 +43,7 @@ class DiceWindowTest(WindowTest):
                 iteration += 1
 
     def test_all_twos(self):
-        self.dice_window.render(get_all_dice(2))
+        self.dice_window.render(state_generator.get_dice_with_value(2))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
@@ -62,7 +57,7 @@ class DiceWindowTest(WindowTest):
                 iteration += 1
 
     def test_all_threes(self):
-        self.dice_window.render(get_all_dice(3))
+        self.dice_window.render(state_generator.get_dice_with_value(3))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
@@ -76,7 +71,7 @@ class DiceWindowTest(WindowTest):
                 iteration += 1
 
     def test_all_fours(self):
-        self.dice_window.render(get_all_dice(4))
+        self.dice_window.render(state_generator.get_dice_with_value(4))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
@@ -90,7 +85,7 @@ class DiceWindowTest(WindowTest):
                 iteration += 1
 
     def test_all_fives(self):
-        self.dice_window.render(get_all_dice(5))
+        self.dice_window.render(state_generator.get_dice_with_value(5))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace
@@ -104,7 +99,7 @@ class DiceWindowTest(WindowTest):
                 iteration += 1
 
     def test_all_sixes(self):
-        self.dice_window.render(get_all_dice(6))
+        self.dice_window.render(state_generator.get_dice_with_value(6))
         actual = self.get_screen_value()
 
         actual = "\n".join(actual).strip().split("\n")  # remove top and bottom whitespace

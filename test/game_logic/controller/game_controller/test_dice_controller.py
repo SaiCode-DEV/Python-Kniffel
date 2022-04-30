@@ -1,9 +1,11 @@
 # pylint: disable=C
+# pylint: disable=protected-access
+
 import curses
 
 from kniffel import common
 from kniffel import key_codes
-from kniffel.game_logic.controller.game_controller.dice_controller import *
+from kniffel.game_logic.controller.game_controller.dice_controller import DiceController
 
 from unittest import TestCase
 

@@ -4,8 +4,9 @@ import os
 from os import path
 from unittest import TestCase
 
+from kniffel.data_objects.game_kind import EnumGameKind
 from test import data_objects, state_generator
-from kniffel.data_objects.game_state import *
+from kniffel.data_objects.game_state import GameState, GameStateEncoder
 
 JSON_PATH = data_objects.__file__.replace("__init__.py", "") + "json-temp"
 

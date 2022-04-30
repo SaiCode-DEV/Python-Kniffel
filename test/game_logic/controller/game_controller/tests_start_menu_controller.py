@@ -1,8 +1,11 @@
-#pylint disable = C
+# pylint: disable=C
+# pylint: disable=protected-access
+
 
 from unittest import TestCase
 
-from game_logic.controller.start_menu_controller import *
+from kniffel import key_codes
+from kniffel.game_logic.controller.start_menu_controller import StartMenuController
 from test.mock.mock_start_window import MockStartWindow
 from test.mock.mock_kniffel_controller import MockKniffelController
 

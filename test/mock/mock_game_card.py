@@ -1,4 +1,6 @@
-# pylint disable=C
+# pylint: disable=C
+# pylint: disable=protected-access
+
 from typing import List
 
 from kniffel.data_objects.point import Point

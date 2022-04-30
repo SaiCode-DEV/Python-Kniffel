@@ -1,4 +1,5 @@
-# pylint disable=C
+# pylint: disable=C
+# pylint: disable=protected-access
 
 class MockKniffelController:
 

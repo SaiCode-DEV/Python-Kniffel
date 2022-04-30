@@ -1,7 +1,6 @@
 # pylint: disable=C
 from unittest import TestCase
 import unittest
-from numpy import array
 
 from kniffel.bot.bot import get_best_choice,bot_controller
 from kniffel.data_objects.combinations import Combinations
@@ -56,22 +55,22 @@ class kniffel_bot_test(TestCase):
             # subdivide 10 from chance
             self.assertGreater(new_value.get(next(iter(new_value))), 0)
             self.assertLessEqual(new_value.get(next(iter(new_value))), 50)
-            
-            
+
+
     def test_bot_combination_1(self):
         x = bot_controller([1, 2, 5, 3, 5], available_combinations, 1)
         self.assertTrue(x[0])
         self.assertEqual(list(x[1]),[True, True, False, False, False])
-    
+
     def test_bot_combination_2(self):
         x = bot_controller([1, 2, 5, 3, 5], available_combinations, 1)
         self.assertTrue(x[0])
         self.assertEqual(list(x[1]),[True, True, False, False, False])
-    
+
     def test_bot_combination_3(self):
         x = bot_controller([1, 2, 5, 3, 5], available_combinations, 1)
         self.assertTrue(x[0])
         self.assertEqual(list(x[1]),[True, True, False, False, False])
-            
+
 if __name__ == "__main__":
     unittest.main()

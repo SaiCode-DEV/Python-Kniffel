@@ -1,3 +1,6 @@
+# pylint: disable=C
+# pylint: disable=protected-access
+
 from typing import List
 
 from kniffel.data_objects import combinations
@@ -37,9 +40,6 @@ class MockGameController:
 
     def display_message(self, message: str):
         self.message = message
-
-    def get_game_state(self):
-        return self.game_state
 
     def add_entry(self, combination: Combinations):
         self.combination = combination
