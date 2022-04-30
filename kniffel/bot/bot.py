@@ -111,8 +111,11 @@ def reroll_controller(dice_rolled, available_combinations):
     output_points = []
     for dice in dices:
         output_points.append(get_best_choice(dice, available_combinations))
-    output_points, dices = zip(*sorted(zip(output_points, dices),
-                                       key=lambda x: x[0].get(next(iter(x[0])), 0), reverse=True))
+    #Sort out all the empty combinations
+    output_points, dices = zip(*[(i, j) for i, j in zip(output_points, dices) if i != {}])
+    #Sort the combinations by the highest value
+    output_points, dices = zip(*sorted(zip(output_points, dices),key=lambda x: x[0].get(next(iter(x[0])), 0), reverse=True))
+
     max_points = max([i.get(next(iter(i)), 0) for i in output_points])
     different = []
     for option, dice in zip(output_points, dices):
