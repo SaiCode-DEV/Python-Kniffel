@@ -2,7 +2,8 @@
 [![Pylint](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml/badge.svg)](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml)
 [![Dependency Review](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/dependency-review.yml)
 
-https://i.imgur.com/66kArB7.png
+![image](https://user-images.githubusercontent.com/99813121/166121459-89470b1b-7a9b-4438-ad6d-4fdfae450076.png)
+
 
 ## Running the game on Linux
 Sadly the terminal cant be resized on linux programatically. Which is why the terminal has to be big enough to \
