@@ -2,6 +2,8 @@
 [![Pylint](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml/badge.svg)](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/pylint.yml)
 [![Dependency Review](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/Tobias-Jung-DHBW/Python-Kniffel/actions/workflows/dependency-review.yml)
 
+https://i.imgur.com/66kArB7.png
+
 ## Running the game on Linux
 Sadly the terminal cant be resized on linux programatically. Which is why the terminal has to be big enough to \
 fit the entire game otherwise the error addstr will be raised.
