@@ -5,7 +5,7 @@ from os import path
 from kniffel.data_objects.game_state import GameState
 from test.windows.window_test import WindowTest
 from test import windows, state_generator
-from kniffel.windows.window_manager import WindowManager
+from kniffel.windows.window_manager import WindowManager, WindowToSmall, check_size
 from kniffel.windows.game_window.game_window import GameWindow
 
 EXPECTED_PATH = windows.__file__.replace("__init__.py", "") + "window_manager"
@@ -44,3 +44,10 @@ class WindowManagerTest(WindowTest):
             path.join(
                 EXPECTED_PATH,
                 "game_window.txt"))
+
+    def test_size_check(self):
+        max_y, max_x = self.get_max_yx()
+        fail_fn = lambda: check_size(self.window, max_y + 1, max_x)
+        self.assertRaises(WindowToSmall, fail_fn)
+        fail_fn = lambda: check_size(self.window, max_y, max_x + 1)
+        self.assertRaises(WindowToSmall, fail_fn)

@@ -15,6 +15,17 @@ class WindowToSmall(Exception):
     """
 
 
+def check_size(std_scr: curses.window, wind_y, wind_x):
+    """
+    used to check if the screen has given size
+    @raise WindowToSmall if window does not have required size and cannot be resized
+    """
+    try:
+        std_scr.addstr(wind_y - 1, wind_x - 2, "x")
+    except Exception as write_error:
+        raise WindowToSmall("Pleas resize your Window") from write_error
+
+
 def resize_term(std_scr: curses.window):
     """
     Tries to resize the Terminal to the required size if it fails to do so and the window
@@ -28,10 +39,7 @@ def resize_term(std_scr: curses.window):
     wind_y = max(game_y, start_y)
     curses.resize_term(10000, 10000)
     curses.resize_term(wind_y, wind_x)
-    try:
-        std_scr.addstr(wind_y - 1, wind_x - 2, "x")
-    except Exception as write_error:
-        raise WindowToSmall("Pleas resize your Window") from write_error
+    check_size(std_scr, wind_y, wind_x)
 
 
 class WindowManager:
