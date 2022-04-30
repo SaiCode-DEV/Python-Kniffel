@@ -35,7 +35,6 @@ class GameWindowTest(WindowTest):
         game_state.dice = state_generator.get_dice_with_value(1)
         game_state.points = state_generator.get_empty_combinations()
         self.game_window.show_game_card(game_state)
-        actual = self.get_screen_value()
         self.assert_window_equals_file(
             path.join(
                 EXPECTED_PATH,
