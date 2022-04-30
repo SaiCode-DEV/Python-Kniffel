@@ -4,15 +4,15 @@ from kniffel.game_logic.controller.game_controller.card_controller import *
 
 from unittest import TestCase
 
-from test.mock.mock_game_card import MockaGameCard
-from test.mock.mock_result_card import MockaResultCard
+from test.mock.mock_game_card import MockGameCard
+from test.mock.mock_result_card import MockResultCard
 from test.mock.mock_game_controller import MockGameController
 
 
 class GameCardControllerTest(TestCase):
     def setUp(self):
-        self.mock_game_card = MockaGameCard()
-        self.mock_result_card = MockaResultCard()
+        self.mock_game_card = MockGameCard()
+        self.mock_result_card = MockResultCard()
         self.mock_game_controller = MockGameController()
         self.card_controller = CardController(self.mock_game_card,
                                               self.mock_result_card,

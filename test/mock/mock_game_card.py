@@ -4,7 +4,7 @@ from typing import List
 from kniffel.data_objects.point import Point
 
 
-class MockaGameCard:
+class MockGameCard:
     def __init__(self):
         self.combinations = []
         self.show = False

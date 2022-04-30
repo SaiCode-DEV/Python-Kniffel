@@ -14,7 +14,6 @@ class TestKniffelController(TestCase):
         self.window_manager = None
         self.game_controller = None
         self.exit_called = False
-        game_state = GameState
 
     def setUp(self) -> None:
         self.window_manager = MockWindowManager()
