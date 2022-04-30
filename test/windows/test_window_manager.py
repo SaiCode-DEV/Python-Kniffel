@@ -2,11 +2,11 @@
 # pylint: disable=protected-access
 from os import path
 
-from data_objects.game_state import GameState
+from kniffel.data_objects.game_state import GameState
 from test.windows.window_test import WindowTest
 from test import windows, state_generator
 from kniffel.windows.window_manager import WindowManager
-from windows.game_window.game_window import GameWindow
+from kniffel.windows.game_window.game_window import GameWindow
 
 EXPECTED_PATH = windows.__file__.replace("__init__.py", "") + "window_manager"
 

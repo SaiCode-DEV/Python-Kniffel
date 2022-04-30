@@ -1,16 +1,14 @@
 # pylint: disable=C
 # pylint: disable=protected-access
 
-from typing import List
-
 from kniffel.data_objects import combinations
 from kniffel.data_objects.dice import Dice
 from kniffel.game_logic.value_calculator import InvalidThrow
 from kniffel import common
-from kniffel.data_objects.point import Point
 from kniffel.game_logic.controller.game_controller.game_controller import GameController
 from kniffel.data_objects.game_state import GameState
 from kniffel.data_objects.combinations import Combinations
+from test import state_generator
 
 
 class MockGameController:
@@ -20,19 +18,7 @@ class MockGameController:
         self.game_state = None
         self.message = None
         self.character = None
-        self.combinations = None
-        self.__reset_combinations()
-
-    def __reset_combinations(self):
-        """
-        resets the all combinations to be empty again
-        """
-        self.combinations: List[List[Point]] = []
-        for _ in range(common.PLAYER_COUNT):
-            column = []
-            for _ in range(common.COMBINATIONS_COUNT):
-                column.append(Point())
-            self.combinations.append(column)
+        self.combinations = state_generator.get_empty_combinations()
         self.combinations[0][0].selected = True
 
     def handle_input(self, character: chr):

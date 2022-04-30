@@ -86,11 +86,8 @@ class WindowManager:
         renders the currently active window to the screen
         @param game_state: GameState, the current state of the game
         """
-        self.std_scr.clear()
-        self.std_scr.refresh()
         if self.active_window is not None:
             self.active_window.render(game_state)
-        self.std_scr.refresh()
 
     def get_ch(self) -> chr:
         """

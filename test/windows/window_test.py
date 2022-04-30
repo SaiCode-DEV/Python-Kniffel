@@ -5,7 +5,7 @@ Module containing superclass for all tests with a curses window
 # pylint: disable=protected-access
 
 import curses
-from time import sleep
+import os
 from unittest import TestCase
 
 from kniffel import common
@@ -40,8 +40,9 @@ class WindowTest(TestCase):
         self.window = self.std_scr.subwin(max_y, max_x, 0, 0)
 
     def tearDown(self):
-        _=self
-        curses.endwin()
+        _ = self
+        if os.name != 'nt':
+            curses.endwin()
 
     def get_max_yx(self):
         """
@@ -55,7 +56,6 @@ class WindowTest(TestCase):
         collects the currently displayed characters on the screen
         @return:
         """
-        sleep(0.0001)  # give curses minimal time to refresh state
         max_y, max_x = self.get_max_yx()
         lines = []
         for current_y in range(max_y):

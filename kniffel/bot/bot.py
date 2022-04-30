@@ -173,27 +173,3 @@ def bot_controller(dice: list[int],
     #else: (no rerolls left, choose the best left over)
     best = next(iter(best_now))
     return False, best
-
-
-if __name__ == "__main__":
-    # [1, 2, 5, 3, 5]
-    # random cubes
-    available = [
-        Combinations.ONES,
-        Combinations.TWOS,
-        Combinations.THREES,
-        Combinations.FOURS,
-        Combinations.FIVES,
-        Combinations.SIXES,
-        Combinations.THREE_OF_KIND,
-        Combinations.FOUR_OF_KIND,
-        Combinations.FULL_HOUSE,
-        Combinations.SMALL_STRAIGHT,
-        Combinations.LARGE_STRAIGHT,
-        Combinations.KNIFFEL,
-        Combinations.CHANCE
-
-    ]
-    REROLLS = 1
-    choice = bot_controller([1, 2, 5, 3, 5], available, REROLLS)
-    print(choice)
