@@ -28,16 +28,19 @@ available_combinations = [
     Combinations.CHANCE
 ]
 
+
 def run_thread(dices, available, rerolls=0):
     """This function is used to run the bot in a thread. By multithreading the test is A LOT faster."""
     if not DEEP_TEST:
         dices = dices[0:1]
     for dice in dices:
-        try: 
+        try:
             bot_controller(dice, available, rerolls)
         except Exception as e:
             print(dice, available, end="\n")
             raise e
+
+
 class kniffel_bot_test(TestCase):
     """Test the kniffel bot. This test may take up to 10 sec to run."""
 
@@ -90,7 +93,7 @@ class kniffel_bot_test(TestCase):
 
     def test_the_universe(self):
         """Test the bot with all combinations. It iterates over all combinations of possible yahtzees and start a tread for each combination."""
-        
+
         cubes = list(product(range(1, 7), repeat=5))
         cubes = sorted(set(tuple(sorted(cube)) for cube in cubes))
         cubes = sorted(list(cube) for cube in cubes)
@@ -105,7 +108,6 @@ class kniffel_bot_test(TestCase):
                                  args=(cubes, subset)).start()
                 if i % 100 == 0 and DEEP_TEST:
                     print(f"Try out all combinations: {round(i/8192*100):>3}%")
-
 
 
 if __name__ == "__main__":
