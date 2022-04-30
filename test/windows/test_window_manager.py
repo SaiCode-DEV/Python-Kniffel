@@ -1,7 +1,6 @@
 # pylint: disable=C
 # pylint: disable=protected-access
 from os import path
-from time import sleep
 
 from kniffel.data_objects.game_state import GameState
 from test.windows.window_test import WindowTest
