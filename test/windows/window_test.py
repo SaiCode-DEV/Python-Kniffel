@@ -2,7 +2,8 @@
 Module containing superclass for all tests with a curses window
 """
 # pylint: disable=C
-# pylint: disable=protected-access,R0801
+# pylint: disable=protected-access
+# pylint: disable=R0801
 
 import curses
 import os
