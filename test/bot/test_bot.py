@@ -10,7 +10,7 @@ from kniffel.data_objects.combinations import Combinations
 
 # Only swich DEEP_Test to True if you want to test the bot with a lot of
 # combinations. This will take a while.
-DEEP_TEST = True
+DEEP_TEST = False
 
 available_combinations = [
     Combinations.ONES,

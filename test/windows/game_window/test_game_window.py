@@ -36,14 +36,10 @@ class GameWindowTest(WindowTest):
         game_state.points = state_generator.get_empty_combinations()
         self.game_window.show_game_card(game_state)
         actual = self.get_screen_value()
-
-        actual = "\n".join(actual).strip().split(
-            "\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(
+        self.assert_window_equals_file(
             path.join(
                 EXPECTED_PATH,
-                "empty_points_ones_dice.txt"),
-            actual)
+                "empty_points_ones_dice.txt"))
 
     def test_result_card_render(self):
         game_state = GameState()

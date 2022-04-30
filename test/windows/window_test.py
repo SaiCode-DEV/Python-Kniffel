@@ -68,7 +68,10 @@ class WindowTest(TestCase):
             lines.append(line)
         return lines
 
-    def assert_input_equals_file(self, file, actual):
+    def assert_window_equals_file(self, file):
+        actual = self.get_screen_value()
+        actual = "\n".join(actual).strip().split(
+            "\n")  # remove top and bottom whitespace
         with open(file, "r", encoding="utf-8") as expected:
             iteration = 0
             for line in expected:

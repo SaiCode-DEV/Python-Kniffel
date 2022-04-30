@@ -30,25 +30,17 @@ class WindowManagerTest(WindowTest):
         game_state.points = state_generator.get_empty_combinations()
         game_state.dice = state_generator.get_dice_with_value(1)
         self.window_manager.show_start_menu(game_state)
-        actual = self.get_screen_value()
-        actual = "\n".join(actual).strip().split(
-            "\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(
+        self.assert_window_equals_file(
             path.join(
                 EXPECTED_PATH,
-                "start_window.txt"),
-            actual)
+                "start_window.txt"))
 
     def test_render_game(self):
         game_state = GameState()
         game_state.points = state_generator.get_empty_combinations()
         game_state.dice = state_generator.get_dice_with_value(1)
         self.window_manager.show_game_window(game_state)
-        actual = self.get_screen_value()
-        actual = "\n".join(actual).strip().split(
-            "\n")  # remove top and bottom whitespace
-        self.assert_input_equals_file(
+        self.assert_window_equals_file(
             path.join(
                 EXPECTED_PATH,
-                "game_window.txt"),
-            actual)
+                "game_window.txt"))
