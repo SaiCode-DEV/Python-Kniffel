@@ -1,4 +1,5 @@
 # pylint: disable=C
+
 from itertools import chain, combinations, product
 from unittest import TestCase
 import unittest
@@ -7,6 +8,9 @@ import sys
 
 from kniffel.bot.bot import get_best_choice, bot_controller
 from kniffel.data_objects.combinations import Combinations
+
+# Only swich DEEP_Test to True if you want to test the bot with a lot of combinations. This will take a while.
+DEEP_TEST = False 
 
 available_combinations = [
     Combinations.ONES,
@@ -26,6 +30,7 @@ available_combinations = [
 
 
 class kniffel_bot_test(TestCase):
+    """Test the kniffel bot. This test may take up to 10 sec to run."""
     def test_all_kniffel(self):
         dices = [
             [1, 1, 1, 1, 1],
@@ -39,27 +44,6 @@ class kniffel_bot_test(TestCase):
             new_value = get_best_choice(dice, [Combinations.KNIFFEL])
             self.assertEqual(new_value.get(next(iter(new_value))), 50)
             self.assertEqual(next(iter(new_value)), Combinations.KNIFFEL)
-
-    def test_all_combinations(self):
-        """Yesss
-        """
-
-        dices = []
-        for dice1 in range(6):
-            for dice2 in range(6):
-                for dice3 in range(6):
-                    for dice4 in range(6):
-                        for dice5 in range(6):
-                            # create a new list with the new dice values
-                            dices.append(
-                                sorted([dice1 + 1, dice2 + 1, dice3 + 1, dice4 + 1, dice5 + 1]))
-        dices = list(set({tuple(i) for i in dices}))
-        dices = sorted([list(i) for i in dices])
-        for dice in dices:
-            new_value = get_best_choice(dice, available_combinations)
-            # subdivide 10 from chance
-            self.assertGreater(new_value.get(next(iter(new_value))), 0)
-            self.assertLessEqual(new_value.get(next(iter(new_value))), 50)
 
     def test_bot_combination_1(self):
         x = bot_controller([1, 2, 5, 3, 5], available_combinations, 1)
@@ -95,9 +79,10 @@ class kniffel_bot_test(TestCase):
         self.assertEqual(x[1], Combinations.LARGE_STRAIGHT)
 
     def test_the_universe(self):
-        print("\n")
 
         def run_thread(dices, available, rerolls=0):
+            if not DEEP_TEST:
+                dices = dices[0:1]
             for dice in dices:
                 try:
                     bot_controller(dice, available, rerolls)
@@ -113,10 +98,10 @@ class kniffel_bot_test(TestCase):
                     available_combinations, x), range(
                     0, len(available_combinations) + 1)))
         for i, subset in enumerate(possible_combinations):
-            if subset != () and i < 2:
+            if subset != ():
                 threading.Thread(target=run_thread,
                                  args=(cubes, subset)).start()
-                if i % 100 == 0:
+                if i % 100 == 0 and DEEP_TEST:
                     print(f"Try out all combinations: {round(i/8192*100):>3}%")
 
 

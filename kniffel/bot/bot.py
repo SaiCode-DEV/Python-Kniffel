@@ -98,11 +98,17 @@ def reroll_controller(dice_rolled, available_combinations):
     for dice in range(6):
         dices.append(sorted([dice + 1] + dice_rolled[1:], reverse=True))
         dices.append(
-            sorted(dice_rolled[:1] + [dice + 1] + dice_rolled[2:], reverse=True))
+            sorted(
+                dice_rolled[: 1] + [dice + 1] + dice_rolled[2:],
+                reverse=True))
         dices.append(
-            sorted(dice_rolled[:2] + [dice + 1] + dice_rolled[3:], reverse=True))
+            sorted(
+                dice_rolled[: 2] + [dice + 1] + dice_rolled[3:],
+                reverse=True))
         dices.append(
-            sorted(dice_rolled[:3] + [dice + 1] + dice_rolled[4:], reverse=True))
+            sorted(
+                dice_rolled[: 3] + [dice + 1] + dice_rolled[4:],
+                reverse=True))
         dices.append(sorted(dice_rolled[:4] + [dice + 1], reverse=True))
     #print(f"original: {dice_rolled}\n")
     # print(dices)
@@ -118,8 +124,13 @@ def reroll_controller(dice_rolled, available_combinations):
     output_points, dices = zip(
         *[(i, j) for i, j in zip(output_points, dices) if i != {}])
     # Sort the combinations by the highest value
-    output_points, dices = zip(*sorted(zip(output_points, dices),
-                               key=lambda x: x[0].get(next(iter(x[0])), 0), reverse=True))
+    output_points, dices = zip(*
+                               sorted(
+                                   zip(output_points, dices),
+                                   key=lambda x: x[0].get(
+                                       next(iter(x[0])),
+                                       0),
+                                   reverse=True))
 
     max_points = max([i.get(next(iter(i)), 0) for i in output_points])
     different = []
