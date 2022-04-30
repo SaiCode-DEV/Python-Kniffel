@@ -88,6 +88,7 @@ class ResultCard:
             index += 1
 
         count: int = 0
+        color=curses.color_pair(common.COLOR_PAIR_BLACK_WHITE)
         for result_card_line in common.RESULT_POINTS_PAD:
             if count % 2 == 0:
                 index = count // 2
@@ -99,21 +100,19 @@ class ResultCard:
                     y_off + count,
                     x_off,
                     str_to_add.center(5),
-                    curses.color_pair(
-                        common.COLOR_PAIR_BLACK_WHITE))
+                    color)
             else:
                 str_to_add = result_card_line
                 self.__window.addstr(
                     y_off + count,
                     x_off,
                     str_to_add,
-                    curses.color_pair(
-                        common.COLOR_PAIR_BLACK_WHITE))
+                    color
+                    )
 
             count += 1
 
             self.__window.addstr(
-                "!", curses.color_pair(
-                    common.COLOR_PAIR_BLACK_WHITE))
+                "!",color)
 
             self.__window.refresh()

@@ -3,7 +3,6 @@ Module containing superclass for all tests with a curses window
 """
 # pylint: disable=C
 # pylint: disable=protected-access
-# pylint disable=no-self-use
 
 import curses
 import os
