@@ -93,7 +93,7 @@ class kniffel_bot_test(TestCase):
 
     def test_the_universe(self):
         """Test the bot with all combinations. It iterates over all combinations of possible yahtzees and start a tread for each combination."""
-
+        _=self
         cubes = list(product(range(1, 7), repeat=5))
         cubes = sorted(set(tuple(sorted(cube)) for cube in cubes))
         cubes = sorted(list(cube) for cube in cubes)

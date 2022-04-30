@@ -45,7 +45,7 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"ones line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_twos(self):
@@ -64,7 +64,7 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"twos line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_threes(self):
@@ -83,7 +83,7 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"threes line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_fours(self):
@@ -102,7 +102,7 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"fours line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_fives(self):
@@ -121,7 +121,7 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"fives line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
 
     def test_all_sixes(self):
@@ -140,5 +140,5 @@ class DiceWindowTest(WindowTest):
                 self.assertEqual(
                     line.strip(),
                     actual[iteration].strip(),
-                    f"empty_points_ones_dice line rendered incorrectly in line {iteration + 1}")
+                    f"sixes line rendered incorrectly in line {iteration + 1}")
                 iteration += 1
